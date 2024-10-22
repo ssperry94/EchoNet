@@ -13,11 +13,19 @@ import java.util.ArrayList;
  */
 public class DataHanlder {
     private final static String driver = "org.sqlite.JDBC";
-    private final static String database = "jdbc:sqlite:echodata.db";
+    private static String database;
     private Connection c = null;
     private SqlGenerator sqlgen;
 
     public DataHanlder() throws SQLException, ClassNotFoundException {
+        database = "jdbc:sqlite:echodata.db";
+        Class.forName(driver);
+        c = DriverManager.getConnection(database);
+        sqlgen = new SqlGenerator();
+    }
+
+    public DataHanlder(String testDataBase) throws SQLException, ClassNotFoundException {
+        database = testDataBase;
         Class.forName(driver);
         c = DriverManager.getConnection(database);
         sqlgen = new SqlGenerator();
