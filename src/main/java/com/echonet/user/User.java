@@ -14,21 +14,20 @@ public class User {
     public User() {}
 
     // getter and setter methods for user info
-    public void getFirstName(String firstName){
-        this.firstName = firstName;
+    public String getFirstName(){
+        return username;
     }
 
-    public String setFirstName(String firstName){
+    public void setFirstName(String firstName){
         this.firstName = firstName;
-        return firstName;
     }
    
-    public void setUsername(String username){
-        this.username = username;
-    }
-    
     public String getUsername(){
         return username;
+    }
+    
+    public void setUsername(String username){
+        this.username = username;
     }
 
     public String getBirthday(){
