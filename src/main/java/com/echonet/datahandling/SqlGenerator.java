@@ -20,4 +20,8 @@ class SqlGenerator {
     public String insertStatement(String table) {
         return "INSERT INTO " + table + " VALUES ";
     }
+
+    public String getTableInfoQuery(String tableName) {
+        return "SELECT * FROM " + tableName;
+    }
 }
