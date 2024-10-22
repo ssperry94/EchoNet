@@ -10,7 +10,7 @@ package com.echonet.datahandling;
 
 //TODO: create a table class that will be able to store its column names so that we can easily generate sql
 
-class SqlGenerator {
+public class SqlGenerator {
 
     //public methods 
     public String queryStatement(String table /*User u*/) {
