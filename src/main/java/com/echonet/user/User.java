@@ -6,7 +6,8 @@ public class User {
     private String lastName;
     private String username;
     private String birthday;
-    private String email; 
+    private String email;
+    private int ID; 
     
     //friends list
     
@@ -47,6 +48,12 @@ public class User {
     }
     
  
-    
+    public int getID(){
+        return ID;
+    }
+
+    public void setID(int ID){
+        this.ID = ID;
+    }
     
 }
