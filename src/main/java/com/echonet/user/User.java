@@ -29,7 +29,22 @@ public class User {
     public String getUsername(){
         return username;
     }
-   
+
+    public String getBirthday(){
+        return birthday;
+    }
+
+    public void setBirthday(){
+        this.birthday = birthday;
+    }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(){
+        this.email = email;
+    }
     
  
     
