@@ -34,7 +34,7 @@ public class User {
         return birthday;
     }
 
-    public void setBirthday(){
+    public void setBirthday(String birthday){
         this.birthday = birthday;
     }
 
@@ -42,7 +42,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(){
+    public void setEmail(String email){
         this.email = email;
     }
     
