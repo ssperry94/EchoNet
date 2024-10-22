@@ -45,8 +45,4 @@ public class User {
     public void setEmail(){
         this.email = email;
     }
-    
- 
-    
-    
 }
