@@ -24,6 +24,7 @@ public class DataHanlder {
         sqlgen = new SqlGenerator();
     }
 
+    //for unit testing only
     public DataHanlder(String testDataBase) throws SQLException, ClassNotFoundException {
         database = testDataBase;
         Class.forName(driver);
