@@ -13,13 +13,11 @@ import java.util.ArrayList;
  * Parent class that establishes connection to database. 
  */
 public class DataHanlder {
-    private final static String driver = "org.sqlite.JDBC";
-    private static String database;
-
-    //path to main database
-    private final String defaultDatabasePath = "echodata.db";
-    private Connection c = null;
-    private SqlGenerator sqlgen;
+    private final static String driver = "org.sqlite.JDBC";     //JDBC driver - do not change
+    private static String database;                            //holds the name of the database plus syntax to establish a connection
+    private final String defaultDatabasePath = "echodata.db"; //path to main database
+    private Connection c = null;                              //allows connection to database, creation of statements, etc
+    private SqlGenerator sqlgen;                              //generates sql statements 
 
     public DataHanlder() throws SQLException, ClassNotFoundException {
         
