@@ -9,8 +9,8 @@ import com.echonet.datahandling.DataHanlder;
 
 public class DataHanlderTest {
     DataHanlder handlerToTest; 
-    String testDB = "jdbc:sqlite:echodatatest.db";
-    
+    String testDB = "jdbc:sqlite:src/test/echodatatest.db";
+
     @Test
     public void testMainDataBaseConnection() {
         try {
