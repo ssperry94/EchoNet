@@ -1,5 +1,6 @@
 package com.echonet.datahandling;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,11 +15,15 @@ import java.util.ArrayList;
 public class DataHanlder {
     private final static String driver = "org.sqlite.JDBC";
     private static String database;
+
+    //path to main database
+    private final String defaultDatabasePath = "echodata.db";
     private Connection c = null;
     private SqlGenerator sqlgen;
 
     public DataHanlder() throws SQLException, ClassNotFoundException {
-        database = "jdbc:sqlite:echodata.db";
+        
+        database = "jdbc:sqlite:" + defaultDatabasePath;
         Class.forName(driver);
         c = DriverManager.getConnection(database);
         sqlgen = new SqlGenerator();
@@ -44,6 +49,22 @@ public class DataHanlder {
             columnNames.add(rsmd.getColumnName(i));
         }
         return columnNames;
+    }
+
+    /*
+     * checks to see if the default database exists or not
+     */
+    public boolean isExist() {
+        File echoDataBase = new File (defaultDatabasePath);
+        return echoDataBase.exists();
+    }
+
+    /*
+     * Overload that can verify existance of a different database. 
+     */
+    public boolean isExist(String dataBasePath) {
+        File echoDataBase = new File (dataBasePath);
+        return echoDataBase.exists();
     }
 
 }
