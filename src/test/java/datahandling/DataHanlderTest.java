@@ -6,13 +6,16 @@ import static org.junit.Assert.fail;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.echonet.datahandling.DataHanlder;
+import com.echonet.exceptions.DataBaseNotFoundException;
 
 public class DataHanlderTest {
     String testDB = "jdbc:sqlite:src/test/echodatatest.db";
+    String fakeDB = "jdbc:sqlite:src/test/echodatatestfake.db";
+    String testDBPath = "src/test/echodatatest.db";
+    String fakeDBPath = "src/test/echodatatestfake.db";
 
     @Test
     public void testMainDataBaseConnection() {
@@ -23,6 +26,8 @@ public class DataHanlderTest {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {
             fail("Driver could not be located.");
+        } catch (DataBaseNotFoundException e) {
+            fail("Cannot find database.");
         }
     }
 
@@ -30,12 +35,14 @@ public class DataHanlderTest {
     @Test
     public void testFakeDataBaseConnection() {
         try {
-            DataHanlder handlerToTest = new DataHanlder(testDB);
+            DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
             return;
         } catch (SQLException e) {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {
             fail("Driver could not be located.");
+        } catch (DataBaseNotFoundException e) {
+            fail("Cannot find database.");
         }
     }
 
@@ -49,30 +56,50 @@ public class DataHanlderTest {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {
             fail("Driver could not be located.");
+        } catch (DataBaseNotFoundException e) {
+            fail("Cannot find database.");
         }
     }
 
     @Test
-    public void testExistsMethodWithParams() {
-        try {
-            DataHanlder handlerToTest = new DataHanlder(testDB);
-            assertTrue(handlerToTest.isExist("src/test/echodatatest.db"));
+    public void testCannotFindDataBase() {
+        try 
+        {
+            DataHanlder h = new DataHanlder(fakeDB, fakeDBPath);
+            fail("Did not catch fake database.");
         } catch (SQLException e) {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {
             fail("Driver could not be located.");
+        } catch (DataBaseNotFoundException e) {
+            return;
+        }
+    }
+    @Test
+    public void testExistsMethodWithParams() {
+        try {
+            DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
+            assertTrue(handlerToTest.isExist(testDBPath));
+        } catch (SQLException e) {
+            fail("Database connection could not be found.");
+        } catch (ClassNotFoundException e) {
+            fail("Driver could not be located.");
+        } catch (DataBaseNotFoundException e) {
+            fail("Cannot find database.");
         }
     }
 
     @Test
     public void testExistsWithFail() {
         try {
-            DataHanlder handlerToTest = new DataHanlder(testDB);
-            assertFalse(handlerToTest.isExist("src/test/echodatatestfake.db"));
+            DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
+            assertFalse(handlerToTest.isExist(fakeDBPath));
         } catch (SQLException e) {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {
             fail("Driver could not be located.");
+        } catch (DataBaseNotFoundException e) {
+            fail("Cannot find database.");
         }
     }
 }
