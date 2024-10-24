@@ -13,15 +13,15 @@ package com.echonet.datahandling;
 public class SqlGenerator {
 
     //public methods 
-    public String queryStatement(String table /*User u*/) {
+    public String queryStatement(final String table /*final User u*/) {
         return "SELECT * FROM " + table + " WHERE user_id = " /*+ u.getID()*/;
     }
 
-    public String insertStatement(String table) {
+    public String insertStatement(final String table) {
         return "INSERT INTO " + table + " VALUES ";
     }
 
-    public String getTableInfoQuery(String tableName) {
+    public String getTableInfoQuery(final String tableName) {
         return "SELECT * FROM " + tableName;
     }
 }

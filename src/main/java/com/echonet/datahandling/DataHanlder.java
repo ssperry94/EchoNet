@@ -41,7 +41,7 @@ public class DataHanlder {
      * @return - an arraylist containing the column names of the table
      * @throws SQLException - thrown when executing the query runs into an error
      */
-    public ArrayList<String> getTableColumnNames(String tableName) throws SQLException {
+    public ArrayList<String> getTableColumnNames(final String tableName) throws SQLException {
         ArrayList <String> columnNames = new ArrayList<>();
         String sql = sqlgen.getTableInfoQuery(tableName);
 
@@ -74,7 +74,7 @@ public class DataHanlder {
      * @throws ClassNotFoundException - occurs when the JDBC driver cannot be found 
      * @throws DataBaseNotFoundException - occurs when the database file cannot be found
      */
-    public DataHanlder(String testDataBase, String testDataBasePath) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
+    public DataHanlder(final String testDataBase, final String testDataBasePath) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         if(!this.isExist(testDataBasePath)) {throw new DataBaseNotFoundException();}
         database = testDataBase;
         Class.forName(driver);
@@ -87,7 +87,7 @@ public class DataHanlder {
      * @param dataBasePath - path to the database
      * @return - true if the database can be found on the given path, false if it does not
      */
-    public boolean isExist(String dataBasePath) {
+    public boolean isExist(final String dataBasePath) {
         File echoDataBase = new File (dataBasePath);
         return echoDataBase.exists();
     }
