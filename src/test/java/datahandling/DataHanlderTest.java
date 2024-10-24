@@ -1,11 +1,13 @@
 package datahandling;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import com.echonet.datahandling.DataHanlder;
@@ -94,6 +96,28 @@ public class DataHanlderTest {
         try {
             DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
             assertFalse(handlerToTest.isExist(fakeDBPath));
+        } catch (SQLException e) {
+            fail("Database connection could not be found.");
+        } catch (ClassNotFoundException e) {
+            fail("Driver could not be located.");
+        } catch (DataBaseNotFoundException e) {
+            fail("Cannot find database.");
+        }
+    }
+
+    @Test
+    public void testGetTableColumnNames() {
+        String tableName = "TestTable1";
+        List <String> expectedTableNames = new ArrayList<>();
+        List <String> acutalTableNames = new ArrayList<>();
+        expectedTableNames.add("user_id");
+        expectedTableNames.add("test_col_1");
+        expectedTableNames.add("test_col_2");
+
+        try {
+            DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
+            acutalTableNames = handlerToTest.getTableColumnNames(tableName);
+            assertEquals(expectedTableNames, acutalTableNames);
         } catch (SQLException e) {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {

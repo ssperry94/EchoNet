@@ -49,7 +49,7 @@ public class DataHanlder {
         ResultSet rs = stmt.executeQuery(sql);
         
         ResultSetMetaData rsmd = rs.getMetaData();
-        for(int i = 0; i < rsmd.getColumnCount(); i++) {
+        for(int i = 1; i <= rsmd.getColumnCount(); i++) {
             columnNames.add(rsmd.getColumnName(i));
         }
         return columnNames;
