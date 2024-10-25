@@ -52,6 +52,9 @@ public class DataHanlder {
         for(int i = 1; i <= rsmd.getColumnCount(); i++) {
             columnNames.add(rsmd.getColumnName(i));
         }
+
+        stmt.close();
+        rs.close();
         return columnNames;
     }
 

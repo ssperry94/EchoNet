@@ -9,7 +9,6 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.echonet.datahandling.DataHanlder;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
@@ -18,14 +17,14 @@ public class TableTest {
     String testDB = "jdbc:sqlite:src/test/echodatatest.db";
     String testDBPath = "src/test/echodatatest.db";
     private Table table;
-    private DataHanlder mockHandler;
-    private final String tableName = "TestTable1";
+    // private DataHanlder mockHandler;
+    private final String tableName = "\"TestTable1\"";
     private final List<String> mockColumnNames = Arrays.asList("id", "name", "email");
 
     @Before
     public void setUp() throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         // Set up the mock for DataHanlder
-        mockHandler = new DataHanlder(testDB, testDBPath);
+        // mockHandler = new DataHanlder(testDB, testDBPath);
         table = new Table(tableName);
     }
 
