@@ -17,15 +17,12 @@ public class TableTest {
     String testDB = "jdbc:sqlite:src/test/echodatatest.db";
     String testDBPath = "src/test/echodatatest.db";
     private Table table;
-    // private DataHanlder mockHandler;
     private final String tableName = "\"TestTable1\"";
-    private final List<String> mockColumnNames = Arrays.asList("id", "name", "email");
+    private final List<String> mockColumnNames = Arrays.asList("user_id", "test_col_1", "test_col_2");
 
     @Before
     public void setUp() throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
-        // Set up the mock for DataHanlder
-        // mockHandler = new DataHanlder(testDB, testDBPath);
-        table = new Table(tableName);
+        table = new Table(tableName, true);
     }
 
     @Test
