@@ -14,7 +14,7 @@ import com.echonet.utilities.Config;
 /**
  * Parent class that establishes connection to database. 
  */
-public class DataHanlder {
+public class DataHandler {
     private final static String driver = Config.DATABASE_DRIVER;     //JDBC driver - do not change
     private static String database;                            //holds the name of the database plus syntax to establish a connection
     private Connection c = null;                              //allows connection to database, creation of statements, etc
@@ -26,7 +26,7 @@ public class DataHanlder {
      * @throws ClassNotFoundException - occurs when the JDBC driver cannot be found 
      * @throws DataBaseNotFoundException - occurs when the database file cannot be found
     */
-    public DataHanlder(final String database) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
+    public DataHandler(final String database) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         this.database = database;
         
         if(!this.isExist(this.database)) {throw new DataBaseNotFoundException();}

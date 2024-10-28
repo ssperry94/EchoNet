@@ -12,7 +12,7 @@ import com.echonet.utilities.Config;
 public class Table {
     private String tableName;
     private List <String> columnNames;
-    private DataHanlder handler;
+    private DataHandler handler;
 
     /**
      * Initalizes the table object. Will querey the databse for this table, and return an SQLException if the table isn't found
@@ -23,7 +23,7 @@ public class Table {
      */
     public Table(final String tableName) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         this.tableName = tableName;
-        this.handler = new DataHanlder(Config.DATABASE_INIT);
+        this.handler = new DataHandler(Config.DATABASE_INIT);
         this.columnNames = this.handler.getTableColumnNames(tableName);
     }
 
@@ -57,7 +57,7 @@ public class Table {
         if(!isTest) {throw new RuntimeException("Error, flag for test is not marked 'true'. Please ensure that isTest is true, and that it is being used only in a unit test setting.");}
        
         this.tableName = tableName;
-        this.handler = new DataHanlder(Config.TEST_DATABASE_INIT);
+        this.handler = new DataHandler(Config.TEST_DATABASE_INIT);
         this.columnNames = this.handler.getTableColumnNames(tableName);
     }
 }

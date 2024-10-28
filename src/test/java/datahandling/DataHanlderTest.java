@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
-import com.echonet.datahandling.DataHanlder;
+import com.echonet.datahandling.DataHandler;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 
@@ -20,7 +20,7 @@ public class DataHanlderTest {
     @Test
     public void testMainDataBaseConnection() {
         try {
-            DataHanlder handler = new DataHanlder(Config.DATABASE_INIT);
+            DataHandler handler = new DataHandler(Config.DATABASE_INIT);
             return;
         } catch (SQLException e) {
             fail("Database connection could not be found.");
@@ -35,7 +35,7 @@ public class DataHanlderTest {
     @Test
     public void testUnitTestDataBaseConnection() {
         try {
-            DataHanlder handlerToTest = new DataHanlder(Config.TEST_DATABASE_INIT);
+            DataHandler handlerToTest = new DataHandler(Config.TEST_DATABASE_INIT);
             return;
         } catch (SQLException e) {
             fail("Database connection could not be found.");
@@ -50,7 +50,7 @@ public class DataHanlderTest {
     public void testCannotFindDataBase() {
         try 
         {
-            DataHanlder h = new DataHanlder(fakeDB);
+            DataHandler h = new DataHandler(fakeDB);
             fail("Did not catch fake database.");
         } catch (SQLException e) {
             fail("Database connection could not be found.");
@@ -63,7 +63,7 @@ public class DataHanlderTest {
     @Test
     public void testExistsMethodWithParams() {
         try {
-            DataHanlder handlerToTest = new DataHanlder(Config.TEST_DATABASE_INIT);
+            DataHandler handlerToTest = new DataHandler(Config.TEST_DATABASE_INIT);
             assertTrue(handlerToTest.isExist(Config.TEST_DATABASE_INIT));
         } catch (SQLException e) {
             fail("Database connection could not be found.");
@@ -77,7 +77,7 @@ public class DataHanlderTest {
     @Test
     public void testExistsWithFail() {
         try {
-            DataHanlder handlerToTest = new DataHanlder(Config.TEST_DATABASE_INIT);
+            DataHandler handlerToTest = new DataHandler(Config.TEST_DATABASE_INIT);
             assertFalse(handlerToTest.isExist(fakeDB));
         } catch (SQLException e) {
             fail("Database connection could not be found.");
@@ -98,7 +98,7 @@ public class DataHanlderTest {
         expectedTableNames.add("test_col_2");
 
         try {
-            DataHanlder handlerToTest = new DataHanlder(Config.TEST_DATABASE_INIT);
+            DataHandler handlerToTest = new DataHandler(Config.TEST_DATABASE_INIT);
             acutalTableNames = handlerToTest.getTableColumnNames(tableName);
             assertEquals(expectedTableNames, acutalTableNames);
         } catch (SQLException e) {
