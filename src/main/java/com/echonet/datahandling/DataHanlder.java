@@ -17,7 +17,6 @@ import com.echonet.utilities.Config;
 public class DataHanlder {
     private final static String driver = Config.DATABASE_DRIVER;     //JDBC driver - do not change
     private static String database;                            //holds the name of the database plus syntax to establish a connection
-    //private final String defaultDatabasePath = "echodata.db"; //path to main database
     private Connection c = null;                              //allows connection to database, creation of statements, etc
     private SqlGenerator sqlgen;                              //generates sql statements 
 
@@ -82,32 +81,4 @@ public class DataHanlder {
             
         return databaseCheck.exists();
     }
-
-    /* Below these functions are only used for unit testing to test different kinds of errors. DO NOT CALL OUTSIDE OF UNIT TESTS */
-
-    /**
-     * constructor that can takes a formated database and a path to a database. for Unit testing ONLY!!!
-     * @param testDataBase - formatted string database of the format jdbc:sqlite:mydb.db
-     * @param testDataBasePath - path to the desired database
-     * @throws SQLException - occurs when the database is found, but a connection cannot be made
-     * @throws ClassNotFoundException - occurs when the JDBC driver cannot be found 
-     * @throws DataBaseNotFoundException - occurs when the database file cannot be found
-    //  */
-    // public DataHanlder(final String testDataBase, final String testDataBasePath) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
-    //     if(!this.isExist(testDataBasePath)) {throw new DataBaseNotFoundException();}
-    //     database = testDataBase;
-    //     Class.forName(driver);
-    //     c = DriverManager.getConnection(database);
-    //     sqlgen = new SqlGenerator();
-    // }
-
-    /**
-     * checks to see if any db in the project exists. Used in unit testing ONLY!!
-     * @param dataBasePath - path to the database
-     * @return - true if the database can be found on the given path, false if it does not
-     */
-    // public boolean isExist(final String dataBasePath) {
-    //     File echoDataBase = new File (dataBasePath);
-    //     return echoDataBase.exists();
-    // }
 }

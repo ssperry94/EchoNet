@@ -8,17 +8,15 @@ package com.echonet.datahandling;
  * insertStatement(String table) -> returns an INSERT statement that will insert values into that database 
  */
 
-//TODO: create a table class that will be able to store its column names so that we can easily generate sql
-
 public class SqlGenerator {
 
     //public methods 
-    public String queryStatement(final String table /*final User u*/) {
-        return "SELECT * FROM " + table + " WHERE user_id = " /*+ u.getID()*/;
+    public String queryStatement(final Table table /*final User u*/) {
+        return "SELECT * FROM " + table.getTableName() + " WHERE user_id = " /*+ u.getID()*/;
     }
 
-    public String insertStatement(final String table) {
-        return "INSERT INTO " + table + " VALUES ";
+    public String insertStatement(final Table table) {
+        return "INSERT INTO " + table.getTableName() + " VALUES ";
     }
 
     public String getTableInfoQuery(final String tableName) {
