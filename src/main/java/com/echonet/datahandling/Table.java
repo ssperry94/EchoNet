@@ -12,7 +12,7 @@ public class Table {
 
     public Table(final String tableName) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         this.tableName = tableName;
-        this.handler = new DataHanlder();
+        //this.handler = new DataHanlder();
         this.columnNames = this.handler.getTableColumnNames(tableName);
     }
 

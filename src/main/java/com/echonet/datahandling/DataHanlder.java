@@ -10,13 +10,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.utilities.Config;
 /**
  * Parent class that establishes connection to database. 
  */
 public class DataHanlder {
-    private final static String driver = "org.sqlite.JDBC";     //JDBC driver - do not change
+    private final static String driver = Config.DATABASE_DRIVER;     //JDBC driver - do not change
     private static String database;                            //holds the name of the database plus syntax to establish a connection
-    private final String defaultDatabasePath = "echodata.db"; //path to main database
+    //private final String defaultDatabasePath = "echodata.db"; //path to main database
     private Connection c = null;                              //allows connection to database, creation of statements, etc
     private SqlGenerator sqlgen;                              //generates sql statements 
 
@@ -26,10 +27,11 @@ public class DataHanlder {
      * @throws ClassNotFoundException - occurs when the JDBC driver cannot be found 
      * @throws DataBaseNotFoundException - occurs when the database file cannot be found
     */
-    public DataHanlder() throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
-        if(!this.isExist()) {throw new DataBaseNotFoundException();}
+    public DataHanlder(final String database) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
+        this.database = database;
+        
+        if(!this.isExist(this.database)) {throw new DataBaseNotFoundException();}
 
-        database = "jdbc:sqlite:" + defaultDatabasePath;
         Class.forName(driver);
         c = DriverManager.getConnection(database);
         sqlgen = new SqlGenerator();
@@ -60,11 +62,25 @@ public class DataHanlder {
 
    /**
     * checks to see if the main database can be located
-    * @return - true if the defaultDataBasePath can be found, false if it cannot
+    * takes the database field and finds the last of the delimiter (":"). then it grabs everything after as the path, and returns if that path can
+    * be found or not
+    * @return - true if the database can be found, false if it cannot
     */
-    public boolean isExist() {
-        File echoDataBase = new File (defaultDatabasePath);
-        return echoDataBase.exists();
+    public boolean isExist(final String database) {
+        File databaseCheck;
+        String databasePath;
+        char databaseToken = ':';
+        int beginningOfPath = database.lastIndexOf(databaseToken);
+
+        if(beginningOfPath < 0) {
+            return false;
+        }
+        
+        databasePath = database.substring(beginningOfPath + 1);
+
+        databaseCheck = new File(databasePath);
+            
+        return databaseCheck.exists();
     }
 
     /* Below these functions are only used for unit testing to test different kinds of errors. DO NOT CALL OUTSIDE OF UNIT TESTS */
@@ -76,22 +92,22 @@ public class DataHanlder {
      * @throws SQLException - occurs when the database is found, but a connection cannot be made
      * @throws ClassNotFoundException - occurs when the JDBC driver cannot be found 
      * @throws DataBaseNotFoundException - occurs when the database file cannot be found
-     */
-    public DataHanlder(final String testDataBase, final String testDataBasePath) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
-        if(!this.isExist(testDataBasePath)) {throw new DataBaseNotFoundException();}
-        database = testDataBase;
-        Class.forName(driver);
-        c = DriverManager.getConnection(database);
-        sqlgen = new SqlGenerator();
-    }
+    //  */
+    // public DataHanlder(final String testDataBase, final String testDataBasePath) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
+    //     if(!this.isExist(testDataBasePath)) {throw new DataBaseNotFoundException();}
+    //     database = testDataBase;
+    //     Class.forName(driver);
+    //     c = DriverManager.getConnection(database);
+    //     sqlgen = new SqlGenerator();
+    // }
 
     /**
      * checks to see if any db in the project exists. Used in unit testing ONLY!!
      * @param dataBasePath - path to the database
      * @return - true if the database can be found on the given path, false if it does not
      */
-    public boolean isExist(final String dataBasePath) {
-        File echoDataBase = new File (dataBasePath);
-        return echoDataBase.exists();
-    }
+    // public boolean isExist(final String dataBasePath) {
+    //     File echoDataBase = new File (dataBasePath);
+    //     return echoDataBase.exists();
+    // }
 }

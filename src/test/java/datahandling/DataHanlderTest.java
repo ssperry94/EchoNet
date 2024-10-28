@@ -12,17 +12,15 @@ import org.junit.Test;
 
 import com.echonet.datahandling.DataHanlder;
 import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.utilities.Config;
 
 public class DataHanlderTest {
-    String testDB = "jdbc:sqlite:src/test/echodatatest.db";
     String fakeDB = "jdbc:sqlite:src/test/echodatatestfake.db";
-    String testDBPath = "src/test/echodatatest.db";
-    String fakeDBPath = "src/test/echodatatestfake.db";
 
     @Test
     public void testMainDataBaseConnection() {
         try {
-            DataHanlder handler = new DataHanlder();
+            DataHanlder handler = new DataHanlder(Config.DATABASE_INIT);
             return;
         } catch (SQLException e) {
             fail("Database connection could not be found.");
@@ -35,25 +33,10 @@ public class DataHanlderTest {
 
     //tests constructor that goes to database used in testing 
     @Test
-    public void testFakeDataBaseConnection() {
+    public void testUnitTestDataBaseConnection() {
         try {
-            DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
+            DataHanlder handlerToTest = new DataHanlder(Config.TEST_DATABASE_INIT);
             return;
-        } catch (SQLException e) {
-            fail("Database connection could not be found.");
-        } catch (ClassNotFoundException e) {
-            fail("Driver could not be located.");
-        } catch (DataBaseNotFoundException e) {
-            fail("Cannot find database.");
-        }
-    }
-
-    @Test
-    public void testExistsMethodWithNoParams() {
-        try 
-        {
-            DataHanlder h = new DataHanlder();
-            assertTrue(h.isExist());
         } catch (SQLException e) {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {
@@ -67,7 +50,7 @@ public class DataHanlderTest {
     public void testCannotFindDataBase() {
         try 
         {
-            DataHanlder h = new DataHanlder(fakeDB, fakeDBPath);
+            DataHanlder h = new DataHanlder(fakeDB);
             fail("Did not catch fake database.");
         } catch (SQLException e) {
             fail("Database connection could not be found.");
@@ -80,8 +63,8 @@ public class DataHanlderTest {
     @Test
     public void testExistsMethodWithParams() {
         try {
-            DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
-            assertTrue(handlerToTest.isExist(testDBPath));
+            DataHanlder handlerToTest = new DataHanlder(Config.TEST_DATABASE_INIT);
+            assertTrue(handlerToTest.isExist(Config.TEST_DATABASE_INIT));
         } catch (SQLException e) {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {
@@ -94,8 +77,8 @@ public class DataHanlderTest {
     @Test
     public void testExistsWithFail() {
         try {
-            DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
-            assertFalse(handlerToTest.isExist(fakeDBPath));
+            DataHanlder handlerToTest = new DataHanlder(Config.TEST_DATABASE_INIT);
+            assertFalse(handlerToTest.isExist(fakeDB));
         } catch (SQLException e) {
             fail("Database connection could not be found.");
         } catch (ClassNotFoundException e) {
@@ -115,7 +98,7 @@ public class DataHanlderTest {
         expectedTableNames.add("test_col_2");
 
         try {
-            DataHanlder handlerToTest = new DataHanlder(testDB, testDBPath);
+            DataHanlder handlerToTest = new DataHanlder(Config.TEST_DATABASE_INIT);
             acutalTableNames = handlerToTest.getTableColumnNames(tableName);
             assertEquals(expectedTableNames, acutalTableNames);
         } catch (SQLException e) {

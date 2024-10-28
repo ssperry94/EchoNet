@@ -7,4 +7,5 @@ public class Config {
     public static final String DATABASE_INIT = "jdbc:sqlite:echodata.db";
     public static final String DATABASE_PATH = "echodata.db";
     public static final String DATABASE_DRIVER = "org.sqlite.JDBC";
+    public static final String TEST_DATABASE_INIT = "jdbc:sqlite:src/test/echodatatest.db";
 }
