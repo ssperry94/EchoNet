@@ -6,12 +6,12 @@ import com.echonet.datahandling.Table;
 public class User {
 
     protected Table userTable;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String birthday;
-    private String email;
-    private int ID; 
+    protected String firstName;
+    protected String lastName;
+    protected String username;
+    protected String birthday;
+    protected String email;
+    protected int ID; 
     
     public User(final int ID, final ResultSet rs) {
         this.ID = ID;
