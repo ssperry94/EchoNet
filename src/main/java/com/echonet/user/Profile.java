@@ -1,14 +1,14 @@
-package com.echonet.profile;
+package com.echonet.user;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class profile {
+public class Profile extends User{
     private String name;
     private int age;
     private String birthday;
     private String email;
-    private Set<profile> friends;
+    private Set<Profile> friends;
 
     public void Profile(String name, int age, String birthday, String email) {
         this.name = name;
@@ -74,11 +74,11 @@ public class profile {
     }
 
     // Friend manegement
-    public Set<profile> getFriends() {
+    public Set<Profile> getFriends() {
         return friends;
     }
 
-    public boolean addFriend(profile friend){
+    public boolean addFriend(Profile friend){
         if(friend == null){             // checks if friend exists
             return false;
         }
@@ -94,7 +94,7 @@ public class profile {
         return true;
     }   
 
-    public boolean removeFriend(profile friend){
+    public boolean removeFriend(Profile friend){
         if(friend == null || !friends.contains(friend)){
             return false;
         }
