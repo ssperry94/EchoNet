@@ -28,6 +28,9 @@ public class User {
         this.firstName = firstName;
     }
    
+    public String getLastName() {return this.lastName;}
+    public void setLastName(String lastName) {this.lastName = lastName;}
+    
     public String getUsername(){
         return username;
     }
