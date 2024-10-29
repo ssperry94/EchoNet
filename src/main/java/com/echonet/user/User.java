@@ -1,7 +1,11 @@
 package com.echonet.user;
 
+import java.sql.ResultSet;
+
+import com.echonet.datahandling.Table;
 public class User {
 
+    protected Table userTable;
     private String firstName;
     private String lastName;
     private String username;
@@ -9,13 +13,15 @@ public class User {
     private String email;
     private int ID; 
     
-    //friends list
-    
-    public User() {}
+    public User(final int ID, final ResultSet rs) {
+        this.ID = ID;
+
+        //TODO: add all user fields and use result set to populate user information. also add code to instantiate user table
+    }
 
     // getter and setter methods for user info
     public String getFirstName(){
-        return username;
+        return this.firstName;
     }
 
     public void setFirstName(String firstName){
