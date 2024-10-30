@@ -25,6 +25,7 @@ public class SqlGeneratorTest {
     public void testQueryStatement() {
         ResultSet emptySet = null;
         User u = new User(1, emptySet);
+        u.setUserTable(testTable);
         // When
         String result = sqlGenerator.queryStatement(testTable, u);
 
