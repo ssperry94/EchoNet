@@ -1,8 +1,11 @@
 package com.echonet.datahandling;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.user.User;
 
 public class DataReader extends DataHandler {
     
@@ -10,10 +13,11 @@ public class DataReader extends DataHandler {
         super(database);
     }
 
-    // public ResultSet read(Table table) throws SQLException {
-    //     ResultSet rs;
-    //     //pass table to sql gen to generate a prepared statement
-    //     //exectute statement
-    //     return rs;
-    //}
+    public ResultSet read(final Table table, final User u) throws SQLException {
+        ResultSet rs;
+        String sql = this.sqlgen.queryStatement(table, u);
+        Statement stmt = c.createStatement();
+        rs = stmt.executeQuery(sql);
+        return rs;
+    }
 }
