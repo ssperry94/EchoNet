@@ -64,4 +64,6 @@ public class User {
         this.ID = ID;
     }
     
+    public void setUserTable(Table t) {this.userTable = t;}
+    public Table getUserTable() {return this.userTable;}
 }

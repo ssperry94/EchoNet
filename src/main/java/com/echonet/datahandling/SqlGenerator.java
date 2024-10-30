@@ -8,6 +8,9 @@ package com.echonet.datahandling;
  * insertStatement(String table) -> returns an INSERT statement that will insert values into that database 
  */
 
+//imports 
+import com.echonet.user.User;
+
 public class SqlGenerator {
 
     private String generateValues(final Table table) {
@@ -23,8 +26,8 @@ public class SqlGenerator {
     }
 
     //public methods 
-    public String queryStatement(final Table table /*final User u*/) {
-        return "SELECT * FROM " + table.getTableName() + " WHERE user_id = " /*+ u.getID()*/;
+    public String queryStatement(final Table table, final User u) {
+        return "SELECT * FROM " + table.getTableName() + " WHERE user_id = " + u.getID();
     }
 
     public String insertStatement(final Table table) {

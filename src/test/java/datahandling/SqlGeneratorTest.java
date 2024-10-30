@@ -1,11 +1,14 @@
 package datahandling;
 
+import java.sql.ResultSet;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.echonet.datahandling.SqlGenerator;
 import com.echonet.datahandling.Table;
+import com.echonet.user.User;
 
 public class SqlGeneratorTest {
 
@@ -20,11 +23,13 @@ public class SqlGeneratorTest {
 
     @Test
     public void testQueryStatement() {
+        ResultSet emptySet = null;
+        User u = new User(1, emptySet);
         // When
-        String result = sqlGenerator.queryStatement(testTable);
+        String result = sqlGenerator.queryStatement(testTable, u);
 
         // Then
-        assertEquals("SELECT * FROM TestTable1 WHERE user_id = ", result);
+        assertEquals("SELECT * FROM TestTable1 WHERE user_id = 1", result);
     }
 
     @Test
