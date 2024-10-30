@@ -33,7 +33,7 @@ public class SqlGeneratorTest {
         String result = sqlGenerator.insertStatement(testTable);
 
         // Then
-        assertEquals("INSERT INTO TestTable1 VALUES ", result);
+        assertEquals("INSERT INTO TestTable1 VALUES (?,?,?)", result);
     }
 
     @Test
