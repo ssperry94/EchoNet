@@ -1,0 +1,28 @@
+git init -creates repository from folder
+git status- shows what has/has not been committed, changes, etc
+git add FILENAME.filetype - tracks a specific file
+git rm --cached FILENAME.filetype - untracks a spcific file
+git add --all - tracks all files in a directory
+git commit -m "" - commits all files in staging, must have message
+git commit -a -m "" - commits all files that have been modified, skips staging step
+git diff - shows what has been changed in a file
+git --staged FILENAME.filetype - moves a file into the staging process
+git rm FILENAME.filetype - deletes a file from repos
+git restore FILENAME.filetype - un-deletes a file
+git mv "OLDFILENAME.FILETYPE" "NEWFILENAME.FILETYPE" - renames a file
+git log - shows detailed history of commits
+git log --oneline - showls abbreviated version of commits
+git reset #COMMITNUM - reverts files back to this commit
+git branch BranchName - creates a new branch
+git brach switch BranchName - switches to disired branch
+git merge -m "MESSAGE" BranchName - merges branch with the main or master branch
+git branch -d BrancName - deletes the branch
+git switch -c BranchName - creates a new branch and switches into it
+git fetch - gets changes from github on local machine (must be followed by git merge to actually merge them)
+git pull - merges all changes from github
+clear - clears out terminal for readability (not git clear, just clear)
+
+
+-----------------------------------------------------------------------------------------
+create a .gitignore file by doing it in VScode, then its # for comments, and *.filetype
+to ignore certain files
