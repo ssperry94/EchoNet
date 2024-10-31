@@ -8,7 +8,7 @@ import java.util.Map;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
 public class DataWriter extends DataHandler {
-    private void populatePreparedStatement(PreparedStatement pstmt, Map <String, Object> map) throws SQLException {
+    public void populatePreparedStatement(PreparedStatement pstmt, Map <String, Object> map) throws SQLException {
         Iterator<Map.Entry<String, Object>> itr = map.entrySet().iterator();  //iterator to iterate through map
         int indexCount = 1; //keeps track of which argument is added
         while(itr.hasNext()) {
