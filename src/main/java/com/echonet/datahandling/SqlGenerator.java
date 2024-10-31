@@ -9,7 +9,7 @@ package com.echonet.datahandling;
  */
 
 //imports 
-import com.echonet.user.User;
+import com.echonet.domainmodel.User;
 
 public class SqlGenerator {
 

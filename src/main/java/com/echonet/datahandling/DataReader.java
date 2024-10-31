@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
-import com.echonet.user.User;
 
 public class DataReader extends DataHandler {
     

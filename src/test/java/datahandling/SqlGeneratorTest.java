@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.echonet.datahandling.SqlGenerator;
 import com.echonet.datahandling.Table;
-import com.echonet.user.User;
+import com.echonet.domainmodel.User;
 
 public class SqlGeneratorTest {
 

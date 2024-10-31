@@ -1,4 +1,4 @@
-package com.echonet.user;
+package com.echonet.domainmodel;
 
 import java.sql.ResultSet;
 

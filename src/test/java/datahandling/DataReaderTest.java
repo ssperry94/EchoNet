@@ -12,8 +12,8 @@ import org.junit.Test;
 
 import com.echonet.datahandling.DataReader;
 import com.echonet.datahandling.Table;
+import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
-import com.echonet.user.User;
 import com.echonet.utilities.Config;
 
 public class DataReaderTest {
