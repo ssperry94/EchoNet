@@ -1,11 +1,10 @@
-package com.echonet.user;
+package com.echonet.domainmodel;
 
 import java.sql.ResultSet;
 
 import com.echonet.datahandling.Table;
-public class User {
+public class User extends Domain {
 
-    protected Table userTable;
     protected String firstName;
     protected String lastName;
     protected String username;
