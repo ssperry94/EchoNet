@@ -1,8 +1,10 @@
 package domainmodel;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -97,5 +99,30 @@ public class UserTest {
         user.setTable(t);
 
         assertEquals(t, user.getTable());
+    }
+
+    @Test
+    public void testCreateMapForBackEnd() {
+
+        //set up new user class
+        user.setID(12345);
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setUsername("johndoe");
+        user.setBirthday("1990-01-01");
+        user.setEmail("johndoe@example.com");
+        // Act
+        Map<Integer, Object> dataMap = user.createMapForBackEnd();
+
+        // Assert
+        assertNotNull(dataMap);
+        assertEquals(6, dataMap.size());
+
+        assertEquals(user.getID(), dataMap.get(0));
+        assertEquals(user.getFirstName(), dataMap.get(1));
+        assertEquals(user.getLastName(), dataMap.get(2));
+        assertEquals(user.getUsername(), dataMap.get(3));
+        assertEquals(user.getBirthday(), dataMap.get(4));
+        assertEquals(user.getEmail(), dataMap.get(5));
     }
 }
