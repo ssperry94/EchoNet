@@ -35,7 +35,6 @@ public class DataPipe {
             //throw error message
             return false;
         }
-
     }
     //for unit tests only
     public ResultSet read(final Domain d, boolean isTest) {
@@ -49,4 +48,18 @@ public class DataPipe {
             return null;
         }
     }   
+
+    public boolean write(final Domain d, boolean isTest) {
+        Map <Integer, Object> dataMap;
+
+        try {
+            DataWriter writer = new DataWriter(Config.TEST_DATABASE_INIT);
+            dataMap = d.createMapForBackEnd();
+            writer.write(d.getTable(), dataMap);
+            return true;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            //throw error message
+            return false;
+        }
+    }
 }

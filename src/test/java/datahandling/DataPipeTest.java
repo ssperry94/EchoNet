@@ -53,5 +53,44 @@ public class DataPipeTest {
             }
         }
     }
+
+    @Test
+    public void testWriteMethod() throws Exception{      
+        Table t = new Table("user_test", true);   
+        User testUser = new User(2); 
+        testUser.setFirstName("Jane");
+        testUser.setLastName("Doe");
+        testUser.setUsername("jdoe456");
+        testUser.setBirthday("2/2/2000");
+        testUser.setEmail("jdoe@email.com");
+        testUser.setTable(t);
+        
+
+        // Act: Attempt to write the user data to the database
+        boolean writeSuccess = dataPipe.write(testUser, true);
+
+        // Assert: Verify the write was successful and data was inserted
+        assertTrue("Write operation should return true", writeSuccess);
+
+        // Verify insertion by querying data back
+        ResultSet rs = dataPipe.read(testUser, true);
+        if(rs == null) {
+            fail("Couldn't find data.");
+        }
+        else {
+            try {
+                assertTrue("ResultSet should contain at least one row", rs.next());
+                assertEquals("User ID should match", 2, rs.getInt("user_id"));
+                assertEquals("First name should match", "Jane", rs.getString("first_name"));
+                assertEquals("Last name should match", "Doe", rs.getString("last_name"));
+                assertEquals("Username should match", "jdoe456", rs.getString("username"));
+                assertEquals("Birthday should match", "2/2/2000", rs.getString("birthday"));
+                assertEquals("Email should match", "jdoe@email.com", rs.getString("email"));
+            } catch (SQLException e) {
+                fail("SQLException occured.");
+            }
+
+        }
+    }
 }
 
