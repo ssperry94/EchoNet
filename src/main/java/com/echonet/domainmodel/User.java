@@ -1,8 +1,8 @@
 package com.echonet.domainmodel;
 
 import java.sql.ResultSet;
-
-import com.echonet.datahandling.Table;
+import java.util.HashMap;
+import java.util.Map;
 public class User extends Domain {
 
     protected String firstName;
@@ -62,7 +62,13 @@ public class User extends Domain {
     public void setID(int ID){
         this.ID = ID;
     }
-    
-    public void setUserTable(Table t) {this.userTable = t;}
-    public Table getUserTable() {return this.userTable;}
+
+    @Override
+    public Map <Integer, Object> createMapForBackEnd() {
+        Map <Integer, Object> dataMap = new HashMap<>();
+
+
+
+        return dataMap;
+    }
 }
