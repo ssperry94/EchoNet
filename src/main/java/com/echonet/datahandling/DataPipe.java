@@ -13,7 +13,20 @@ public class DataPipe {
     public ResultSet read(final Domain d) {
         ResultSet rs;
         try {
-            DataReader reader = new DataReader(Config.DATABASE_DRIVER);
+            DataReader reader = new DataReader(Config.DATABASE_INIT);
+            rs = reader.read(d.getTable(), d);
+            return rs;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            //throw error message
+            return null;
+        }
+    }   
+
+    //for unit tests only
+    public ResultSet read(final Domain d, boolean isTest) {
+        ResultSet rs;
+        try {
+            DataReader reader = new DataReader(Config.TEST_DATABASE_INIT);
             rs = reader.read(d.getTable(), d);
             return rs;
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
