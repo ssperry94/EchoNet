@@ -66,9 +66,12 @@ public class User extends Domain {
     @Override
     public Map <Integer, Object> createMapForBackEnd() {
         Map <Integer, Object> dataMap = new HashMap<>();
-
-
-
+        dataMap.put(0, this.ID);
+        dataMap.put(1, this.firstName);
+        dataMap.put(2, this.lastName);
+        dataMap.put(3, this.username);
+        dataMap.put(4, this.birthday);
+        dataMap.put(5, this.email);
         return dataMap;
     }
 }
