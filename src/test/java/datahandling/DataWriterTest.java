@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,35 +40,20 @@ public class DataWriterTest {
         }
     }
 
-    @Test
-    public void testPopulatePreparedStatement_UserIdAndStringValues() throws SQLException {
-        // Arrange
-        String sql = "INSERT INTO TestTable1 (user_id, test_col_1, test_col_2) VALUES (?, ?, ?)";
-        PreparedStatement pstmt = connection.prepareStatement(sql);
+    private void deleteRecord() throws SQLException {
+        String sql = "DELETE FROM TestTable1 WHERE user_id = 3";
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate(sql);
 
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("user_id", 1);           // Integer for user_id
-        dataMap.put("test_col_1", "value1"); // String for test_col_1
-        dataMap.put("test_col_2", "value2"); // String for test_col_2
-
-        // Act
-        dataWriter.populatePreparedStatement(pstmt, dataMap);
-
-        // Assert
-        assertEquals(1, pstmt.getParameterMetaData().getParameterType(1)); // user_id as int
-        assertEquals("VARCHAR", pstmt.getParameterMetaData().getParameterTypeName(2)); // test_col_1 as String
-        assertEquals("VARCHAR", pstmt.getParameterMetaData().getParameterTypeName(3)); // test_col_2 as String
-        pstmt.close();
     }
-
     @Test
     public void testWrite_InsertDataIntoTestTable1() throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         // Arrange
         Table testTable = new Table("TestTable1", true);
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("user_id", 1);           // Integer for user_id
-        dataMap.put("test_col_1", "value1"); // String for test_col_1
-        dataMap.put("test_col_2", "value2"); // String for test_col_2
+        Map<Integer, Object> dataMap = new HashMap<>();
+        dataMap.put(0, 3);           // Integer for user_id
+        dataMap.put(1, "value1"); // String for test_col_1
+        dataMap.put(2, "value2"); // String for test_col_2
 
         // Act
         dataWriter.write(testTable, dataMap);
@@ -75,30 +61,31 @@ public class DataWriterTest {
         // Verify insertion by querying data back
         String verifySql = "SELECT * FROM TestTable1 WHERE user_id = ? AND test_col_1 = ? AND test_col_2 = ?";
         PreparedStatement verifyStmt = connection.prepareStatement(verifySql);
-        verifyStmt.setInt(1, 1);
+        verifyStmt.setInt(1, 3);
         verifyStmt.setString(2, "value1");
         verifyStmt.setString(3, "value2");
         ResultSet rs = verifyStmt.executeQuery();
 
         // Assert
         assertTrue(rs.next());
-        assertEquals(1, rs.getInt("user_id"));
+        assertEquals(3, rs.getInt("user_id"));
         assertEquals("value1", rs.getString("test_col_1"));
         assertEquals("value2", rs.getString("test_col_2"));
 
         // Clean up
         rs.close();
         verifyStmt.close();
+        deleteRecord();
     }
 
     @Test(expected = SQLException.class)
     public void testWrite_ThrowsSQLExceptionOnInvalidTable() throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         // Arrange
         Table invalidTable = new Table("nonexistent_table"); // Assuming this table does not exist in the DB
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("user_id", 1);
-        dataMap.put("test_col_1", "value1");
-        dataMap.put("test_col_2", "value2");
+        Map<Integer, Object> dataMap = new HashMap<>();
+        dataMap.put(0, 1);
+        dataMap.put(1, "value1");
+        dataMap.put(2, "value2");
 
         // Act - Should throw SQLException since the table doesn't exist
         dataWriter.write(invalidTable, dataMap);
