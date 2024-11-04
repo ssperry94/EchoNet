@@ -12,6 +12,7 @@ public class User extends Domain {
     protected String email;
     protected int ID; 
     
+    public User() {} //added this constructor for unit testing - may delete later
     public User(final int ID, final ResultSet rs) {
         this.ID = ID;
 
