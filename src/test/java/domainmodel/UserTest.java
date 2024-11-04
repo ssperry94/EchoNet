@@ -18,7 +18,7 @@ public class UserTest {
 
     @Before
     public void setUp() {
-        user = new User(); // Using the default constructor for testing
+        user = new User(12345); // Using the default constructor for testing
     }
 
     @Test

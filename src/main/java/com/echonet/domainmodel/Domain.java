@@ -9,11 +9,14 @@ import com.echonet.datahandling.Table;
 abstract public class Domain {
     //protected fields
     protected Table table;
+    private int ID;
+    public Domain(int ID) {this.ID = ID;} //constructor
 
-    public Domain() {} //constructor
+    public int getID() {return this.ID;}
+    public void setID(int ID) {this.ID = ID;}
 
     public Table getTable() {return this.table;}
     public void setTable(Table table) {this.table = table;}
 
-    abstract Map <Integer, Object> createMapForBackEnd();
+    abstract public Map <Integer, Object> createMapForBackEnd();
 }
