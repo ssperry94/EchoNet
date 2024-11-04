@@ -1,10 +1,12 @@
 package com.echonet.domainmodel;
 
+import java.util.Map;
+
 import com.echonet.datahandling.Table;
 /**
  * This class is used as a parent for all classes that will acess the database
  */
-public class Domain {
+abstract class Domain {
     //protected fields
     protected Table table;
 
@@ -13,5 +15,5 @@ public class Domain {
     public Table getTable() {return this.table;}
     public void setTable(Table table) {this.table = table;}
 
-
+    abstract Map <Integer, Object> createMapForBackEnd();
 }
