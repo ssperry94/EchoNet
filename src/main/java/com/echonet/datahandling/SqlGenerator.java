@@ -9,7 +9,7 @@ package com.echonet.datahandling;
  */
 
 //imports 
-import com.echonet.domainmodel.User;
+import com.echonet.domainmodel.Domain;
 
 public class SqlGenerator {
 
@@ -26,7 +26,7 @@ public class SqlGenerator {
     }
 
     //public methods 
-    public String queryStatement(final Table table, final User u) {
+    public String queryStatement(final Table table, final Domain u) {
         return "SELECT * FROM " + table.getTableName() + " WHERE user_id = " + u.getID();
     }
 

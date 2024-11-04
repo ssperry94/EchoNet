@@ -12,7 +12,6 @@ public class DataPipe {
         ResultSet rs;
         
 
-
         return rs;
     }
 }
