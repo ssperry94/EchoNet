@@ -6,7 +6,7 @@ import com.echonet.datahandling.Table;
 /**
  * This class is used as a parent for all classes that will acess the database
  */
-abstract class Domain {
+abstract public class Domain {
     //protected fields
     protected Table table;
 
