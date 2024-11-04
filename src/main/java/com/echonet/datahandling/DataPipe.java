@@ -18,8 +18,7 @@ public class DataPipe {
      */
     public ResultSet read(final Domain d) {
         ResultSet rs;
-        try {
-            DataReader reader = new DataReader(Config.DATABASE_INIT);
+        try (DataReader reader = new DataReader(Config.DATABASE_INIT)) {
             rs = reader.read(d.getTable(), d);
             return rs;
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
@@ -36,8 +35,7 @@ public class DataPipe {
     public boolean write(final Domain d) {
         Map <Integer, Object> dataMap;
 
-        try {
-            DataWriter writer = new DataWriter(Config.DATABASE_INIT);
+        try (DataWriter writer = new DataWriter(Config.DATABASE_INIT)){
             dataMap = d.createMapForBackEnd();
             writer.write(d.getTable(), dataMap);
             return true;
@@ -49,8 +47,7 @@ public class DataPipe {
     //for unit tests only
     public ResultSet read(final Domain d, boolean isTest) {
         ResultSet rs;
-        try {
-            DataReader reader = new DataReader(Config.TEST_DATABASE_INIT);
+        try (DataReader reader = new DataReader(Config.TEST_DATABASE_INIT)) {
             rs = reader.read(d.getTable(), d);
             return rs;
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
@@ -63,8 +60,7 @@ public class DataPipe {
     public boolean write(final Domain d, boolean isTest) {
         Map <Integer, Object> dataMap;
 
-        try {
-            DataWriter writer = new DataWriter(Config.TEST_DATABASE_INIT);
+        try (DataWriter writer = new DataWriter(Config.TEST_DATABASE_INIT)) {
             dataMap = d.createMapForBackEnd();
             writer.write(d.getTable(), dataMap);
             return true;

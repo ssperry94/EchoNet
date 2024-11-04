@@ -14,7 +14,7 @@ import com.echonet.utilities.Config;
 /**
  * Parent class that establishes connection to database. 
  */
-public class DataHandler {
+public class DataHandler implements AutoCloseable {
     private final static String driver = Config.DATABASE_DRIVER;     //JDBC driver - do not change
     private static String database;                            //holds the name of the database plus syntax to establish a connection
     protected Connection c = null;                              //allows connection to database, creation of statements, etc
@@ -80,5 +80,10 @@ public class DataHandler {
         databaseCheck = new File(databasePath);
             
         return databaseCheck.exists();
+    }
+
+    @Override
+    public void close() throws SQLException {
+        c.close();
     }
 }
