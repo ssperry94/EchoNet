@@ -1,7 +1,6 @@
 package com.echonet.domainmodel;
 
 import java.sql.ResultSet;
-import java.util.HashSet;
 import java.util.Set;
 
 public class Profile extends User{
