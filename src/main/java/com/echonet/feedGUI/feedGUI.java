@@ -1,3 +1,6 @@
+package com.echonet.feedGUI;
+
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -48,7 +51,7 @@ public class feedGUI{
         post.setText("Label Text");
     }
 
-    public static void main(String[] args){
-        new GUI();
-    }
+    // public static void main(String[] args){
+    //     new GUI();
+    // }
 }
