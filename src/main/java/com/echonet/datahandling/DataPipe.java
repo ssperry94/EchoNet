@@ -2,13 +2,29 @@ package com.echonet.datahandling;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.echonet.domainmodel.Domain;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 public class DataPipe {
-    
+    private Map <String, Object> createMap(final ResultSet rs, final Table t) throws SQLException {
+        Map <String, Object> data = new HashMap<>();
+        List <String> columnNames = t.getTableColumns();
+        while(rs.next()) {
+            for(int i = 1; i <= columnNames.size(); i++) {
+                data.put(columnNames.get(i -1), rs.getObject((i)));
+            }
+        }
+
+        if(data.isEmpty()) 
+            return null;
+        else 
+            return data;
+    }
+
     public DataPipe() {};
 
     /**
@@ -16,11 +32,13 @@ public class DataPipe {
      * @param d - a subclass of Domain that must have a table and ID field
      * @return - ResultSet containg all of the data in the table associated with the class passed in, null if any exceptions were thrown
      */
-    public ResultSet read(final Domain d) {
+    public Map <String, Object> read(final Domain d) {
         ResultSet rs;
+        Map <String, Object> data;
         try (DataReader reader = new DataReader(Config.DATABASE_INIT)) {
             rs = reader.read(d.getTable(), d);
-            return rs;
+            data = this.createMap(rs, d.getTable());
+            return data;
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
             //throw error message
             return null;
@@ -45,13 +63,15 @@ public class DataPipe {
         }
     }
     //for unit tests only
-    public ResultSet read(final Domain d, boolean isTest) {
+    public Map <String, Object> read(final Domain d, boolean isTest) {
         ResultSet rs;
+        Map <String, Object> data;
         try (DataReader reader = new DataReader(Config.TEST_DATABASE_INIT)) {
             rs = reader.read(d.getTable(), d);
-            return rs;
+            data = this.createMap(rs, d.getTable());
+            return data;
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
-            //throw error message
+            e.printStackTrace();
             return null;
         }
     }   
@@ -65,7 +85,7 @@ public class DataPipe {
             writer.write(d.getTable(), dataMap);
             return true;
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
-            //throw error message
+            e.printStackTrace();
             return false;
         }
     }
