@@ -79,7 +79,7 @@ public class DataPipe {
     //for unit test 
     public boolean write(final Domain d, boolean isTest) {
         Map <Integer, Object> dataMap;
-
+        System.out.println("Calling write");
         try (DataWriter writer = new DataWriter(Config.TEST_DATABASE_INIT)) {
             dataMap = d.createMapForBackEnd();
             writer.write(d.getTable(), dataMap);
