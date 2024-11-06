@@ -17,6 +17,5 @@ public class DataRemover extends DataHandler {
         Statement stmt = c.createStatement();
         stmt.executeUpdate(sql);
         stmt.close();
-        
     }
 }
