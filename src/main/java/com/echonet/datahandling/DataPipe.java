@@ -9,7 +9,21 @@ import java.util.Map;
 import com.echonet.domainmodel.Domain;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
+
+/**
+ * Class that acts as a pipeline between the frontend and backend
+ * for each method, pass a subclass of Domain, and it will read/write/remove all data associated with that object.
+ * 
+ * @author Sam Perry - all methods
+ */
 public class DataPipe {
+    /**
+     * private method that creates a Map from a result set. keys are the table names, and the values are the data corrisponding with each row
+     * @param rs - {@code ResultSet} generated from the read method
+     * @param t - {@code Table} passed in from (@code Domain)
+     * @return - {@code Map} with table column names as keys, data in those columns as values
+     * @throws SQLException - if any database related errors occur
+     */
     private Map <String, Object> createMap(final ResultSet rs, final Table t) throws SQLException {
         Map <String, Object> data = new HashMap<>();
         List <String> columnNames = t.getTableColumns();
@@ -29,8 +43,8 @@ public class DataPipe {
 
     /**
      * Method used by client code to read information from the database. must pass a subclass of Domain
-     * @param d - a subclass of Domain that must have a table and ID field
-     * @return - ResultSet containg all of the data in the table associated with the class passed in, null if any exceptions were thrown
+     * @param d - a subclass of {@code Domain} that must have a table and ID field
+     * @return - {@code ResultSet} containg all of the data in the table associated with the class passed in, null if any exceptions were thrown
      */
     public Map <String, Object> read(final Domain d) {
         ResultSet rs;
@@ -62,6 +76,20 @@ public class DataPipe {
             return false;
         }
     }
+
+    /**
+     * Removes data based on primary key. This method removes an entire row, so be sure when calling it
+     * @param d - a subclass of domain. Must have a table field
+     * @return - true if data was successfully deleted, false if an exception was thrown
+     */
+    public boolean remove(final Domain d) {
+        try(DataRemover remover = new DataRemover(Config.DATABASE_INIT)) {
+            remover.remove(d.getTable(), d);
+            return true;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            return false;
+        }
+    }
     //for unit tests only
     public Map <String, Object> read(final Domain d, boolean isTest) {
         ResultSet rs;
@@ -86,6 +114,15 @@ public class DataPipe {
             return true;
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean remove(final Domain d, boolean isTest) {
+        try(DataRemover remover = new DataRemover(Config.TEST_DATABASE_INIT)) {
+            remover.remove(d.getTable(), d);
+            return true;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
             return false;
         }
     }

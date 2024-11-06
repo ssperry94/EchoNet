@@ -7,7 +7,13 @@ import java.sql.Statement;
 import com.echonet.domainmodel.Domain;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
-public class DataReader extends DataHandler {
+/**
+ * Backend class that reads data from the database.
+ * returns to {@code DataPipe} a {@code ResultSet}
+ * 
+ * @author Sam Perry - all methods
+ */
+class DataReader extends DataHandler {
     
     public DataReader(final String database) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         super(database);
