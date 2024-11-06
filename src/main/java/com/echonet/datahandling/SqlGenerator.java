@@ -34,6 +34,10 @@ public class SqlGenerator {
         return "INSERT INTO " + table.getTableName() + " VALUES " + this.generateValues(table);
     }
 
+    public String deleteStatement(final Table table, final Domain d) {
+        return "DELETE FROM " + table.getTableName() + " WHERE user_id = " + d.getID();
+    }
+
     public String getTableInfoQuery(final String tableName) {
         return "SELECT * FROM " + tableName;
     }

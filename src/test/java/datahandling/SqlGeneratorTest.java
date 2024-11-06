@@ -1,6 +1,7 @@
 package datahandling;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -9,6 +10,7 @@ import org.junit.Test;
 import com.echonet.datahandling.SqlGenerator;
 import com.echonet.datahandling.Table;
 import com.echonet.domainmodel.User;
+import com.echonet.exceptions.DataBaseNotFoundException;
 
 public class SqlGeneratorTest {
 
@@ -52,5 +54,18 @@ public class SqlGeneratorTest {
 
         // Then
         assertEquals("SELECT * FROM test", result);
+    }
+
+    @Test
+    public void testDeleteStatement() throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
+        String expectedSql = "DELETE FROM user_test WHERE user_id = 66";
+        Table t = new Table("user_test", true);
+        User u = new User(66);
+    
+        // Act
+        String generatedSql = sqlGenerator.deleteStatement(t, u);
+    
+        // Assert
+        assertEquals("The generated SQL delete statement should match the expected format", expectedSql, generatedSql);
     }
 }
