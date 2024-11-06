@@ -13,8 +13,10 @@ import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 /**
  * Parent class that establishes connection to database. 
+ * 
+ * @author Sam Perry - all methods
  */
-public class DataHandler implements AutoCloseable {
+class DataHandler implements AutoCloseable {
     private final static String driver = Config.DATABASE_DRIVER;     //JDBC driver - do not change
     private static String database;                            //holds the name of the database plus syntax to establish a connection
     protected Connection c = null;                              //allows connection to database, creation of statements, etc

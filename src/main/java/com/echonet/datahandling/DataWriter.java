@@ -9,8 +9,10 @@ import com.echonet.exceptions.DataBaseNotFoundException;
 /**
  * Class responsible for all writing of data to the databse. Takes in a table and a Map that should both be gotten from the subclasses of Domain
  * Then writes the data in order of table columns in database
+ * 
+ * @author Sam Perry - all methods
  */
-public class DataWriter extends DataHandler {    
+class DataWriter extends DataHandler {    
     /**
      * Populates the specified {@code PreparedStatement} with values from the map given by the Domain class
      * The key in the map corrisponds to the first column in a table, and the value is the value that belongs to that column
