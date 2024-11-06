@@ -62,6 +62,15 @@ public class DataPipe {
             return false;
         }
     }
+
+    public boolean remove(final Domain d) {
+        try(DataRemover remover = new DataRemover(Config.DATABASE_INIT)) {
+            remover.remove(d.getTable(), d);
+            return true;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            return false;
+        }
+    }
     //for unit tests only
     public Map <String, Object> read(final Domain d, boolean isTest) {
         ResultSet rs;
