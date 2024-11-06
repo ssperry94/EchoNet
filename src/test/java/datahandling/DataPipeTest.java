@@ -8,6 +8,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
@@ -118,6 +119,23 @@ public class DataPipeTest {
             deleteUserById(66);
 
         }
+    }
+
+    @Test
+    public void testRemove() throws Exception{
+        User testUser3 = new User(99);
+        testUser3.setFirstName("Mark");
+        testUser3.setLastName("Brown");
+        testUser3.setUsername("mbrown123");
+        testUser3.setBirthday("3/3/1999");
+        testUser3.setEmail("mbrown@email.com");
+        testUser3.setTable(new Table("user_test", true));
+
+        assertTrue(dataPipe.write(testUser3, true));
+        assertTrue(dataPipe.remove(testUser3, true));
+        Map <String, Object> testMap = dataPipe.read(testUser3, true);
+        assertNull(testMap);
+
     }
 }
 

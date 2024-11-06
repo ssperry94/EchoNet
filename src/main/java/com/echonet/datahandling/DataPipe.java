@@ -98,4 +98,13 @@ public class DataPipe {
             return false;
         }
     }
+
+    public boolean remove(final Domain d, boolean isTest) {
+        try(DataRemover remover = new DataRemover(Config.TEST_DATABASE_INIT)) {
+            remover.remove(d.getTable(), d);
+            return true;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            return false;
+        }
+    }
 }
