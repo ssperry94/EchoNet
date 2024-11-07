@@ -8,6 +8,8 @@ import com.echonet.utilities.Config;
 
 /**
  * A class representing a table in the database
+ * 
+ * @author Sam Perry - all methods
  */
 public class Table {
     private String tableName;

@@ -1,19 +1,19 @@
 package com.echonet.domainmodel;
 
 import java.sql.ResultSet;
-
-import com.echonet.datahandling.Table;
+import java.util.HashMap;
+import java.util.Map;
 public class User extends Domain {
 
     protected String firstName;
     protected String lastName;
     protected String username;
     protected String birthday;
-    protected String email;
-    protected int ID; 
+    protected String email; 
     
+    public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
     public User(final int ID, final ResultSet rs) {
-        this.ID = ID;
+        super(ID);
 
         //TODO: add all user fields and use result set to populate user information. also add code to instantiate user table
     }
@@ -53,14 +53,16 @@ public class User extends Domain {
     public void setEmail(String email){
         this.email = email;
     }
-    
- 
-    public int getID(){
-        return ID;
-    }
 
-    public void setID(int ID){
-        this.ID = ID;
+    @Override
+    public Map <Integer, Object> createMapForBackEnd() {
+        Map <Integer, Object> dataMap = new HashMap<>();
+        dataMap.put(0, this.getID());
+        dataMap.put(1, this.firstName);
+        dataMap.put(2, this.lastName);
+        dataMap.put(3, this.username);
+        dataMap.put(4, this.birthday);
+        dataMap.put(5, this.email);
+        return dataMap;
     }
-    
 }

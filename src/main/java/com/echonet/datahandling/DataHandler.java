@@ -13,12 +13,14 @@ import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 /**
  * Parent class that establishes connection to database. 
+ * 
+ * @author Sam Perry - all methods
  */
-public class DataHandler {
+class DataHandler implements AutoCloseable {
     private final static String driver = Config.DATABASE_DRIVER;     //JDBC driver - do not change
     private static String database;                            //holds the name of the database plus syntax to establish a connection
-    private Connection c = null;                              //allows connection to database, creation of statements, etc
-    private SqlGenerator sqlgen;                              //generates sql statements 
+    protected Connection c = null;                              //allows connection to database, creation of statements, etc
+    protected SqlGenerator sqlgen;                              //generates sql statements 
 
     /**
      * Constructor that establishes connection to the database. Does not take any arguements, since there is only one offical database for testing
@@ -80,5 +82,10 @@ public class DataHandler {
         databaseCheck = new File(databasePath);
             
         return databaseCheck.exists();
+    }
+
+    @Override
+    public void close() throws SQLException {
+        c.close();
     }
 }
