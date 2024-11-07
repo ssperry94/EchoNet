@@ -1,6 +1,8 @@
 package domainmodel;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -19,6 +21,31 @@ public class UserTest {
     @Before
     public void setUp() {
         user = new User(12345); // Using the default constructor for testing
+    }
+
+    @Test
+    public void testUserConstructorWithAttributeArray() {
+        // Arrange
+        int userID = 99;
+        List<String> attributeArray = Arrays.asList(
+            "Jane",             // First Name
+            "Doe",              // Last Name
+            "janedoe123",       // Username
+            "1/1/1990",         // Birthday
+            "jane.doe@example.com" // Email
+        );
+
+        // Act
+        User user = new User(userID, attributeArray);
+
+        // Assert
+        assertNotNull("User object should not be null", user);
+        assertEquals("User ID should match", userID, user.getID());
+        assertEquals("First name should match", "Jane", user.getFirstName());
+        assertEquals("Last name should match", "Doe", user.getLastName());
+        assertEquals("Username should match", "janedoe123", user.getUsername());
+        assertEquals("Birthday should match", "1/1/1990", user.getBirthday());
+        assertEquals("Email should match", "jane.doe@example.com", user.getEmail());
     }
 
     @Test
