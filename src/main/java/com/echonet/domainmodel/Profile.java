@@ -7,7 +7,7 @@ public class Profile extends User{
     private Set<Profile> friends;
 
     public Profile(final int ID, final ResultSet rs) {
-        super(ID , rs);
+        super(ID);
     }
 
     // Friend manegement

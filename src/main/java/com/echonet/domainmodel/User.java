@@ -1,7 +1,7 @@
 package com.echonet.domainmodel;
 
-import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 public class User extends Domain {
 
@@ -12,10 +12,30 @@ public class User extends Domain {
     protected String email; 
     
     public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
-    public User(final int ID, final ResultSet rs) {
-        super(ID);
 
-        //TODO: add all user fields and use result set to populate user information. also add code to instantiate user table
+    /**
+     * Instantiates the User class using an ID, and an array containg the rest of the attribtues
+     * Indexes:
+     * 0 - first name
+     * 1 - last name
+     * 2 - username
+     * 3 - birthday
+     * 4 - email
+     * @param ID an integer representing the primary key
+     * @param attributeArray - array containing all the attributes
+     */
+    public User(final int ID, final List<String> attributeArray) {
+        super(ID);
+        for(int i = 0; i < attributeArray.size(); i++) {
+            switch(i) {
+                case 0: this.firstName = attributeArray.get(i); break;
+                case 1: this.lastName = attributeArray.get(i); break;
+                case 2: this.username = attributeArray.get(i); break;
+                case 3: this.birthday = attributeArray.get(i); break;
+                case 4: this.email = attributeArray.get(i); break;
+                default: System.err.println("No more attributes to set."); break;
+            }
+        }
     }
 
     // getter and setter methods for user info
