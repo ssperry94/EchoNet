@@ -30,7 +30,7 @@ class SqlGenerator {
 
     //public methods 
     public String queryStatement(final Table table, final Domain u) {
-        return "SELECT * FROM " + table.getTableName() + " WHERE user_id = " + u.getID();
+        return "SELECT * FROM " + table.getTableName() + " WHERE " + table.getTableColumns().get(0) + " = " + u.getID();
     }
 
     public String insertStatement(final Table table) {
@@ -38,7 +38,7 @@ class SqlGenerator {
     }
 
     public String deleteStatement(final Table table, final Domain d) {
-        return "DELETE FROM " + table.getTableName() + " WHERE user_id = " + d.getID();
+        return "DELETE FROM " + table.getTableName() + " WHERE " + table.getTableColumns().get(0) + " = " + d.getID();
     }
 
     public String getTableInfoQuery(final String tableName) {

@@ -5,8 +5,10 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
+import com.echonet.datahandling.DataPipe;
 import com.echonet.domainmodel.Message;
 
 public class MessageTest {
@@ -78,5 +80,29 @@ public class MessageTest {
         assertEquals("Data map should contain message ID", messageId, dataMap.get(1));
         assertEquals("Data map should contain timestamp as string", timestamp.toString(), dataMap.get(2));
         assertEquals("Data map should contain contents", contents, dataMap.get(3));
+    }
+
+    @Test
+    public void testDataPipeWithMessage() throws Exception {
+        int userId = 1;
+        int messageId = 101;
+        String contents = "Test message";
+        Timestamp timestamp = Timestamp.valueOf("2023-01-01 12:00:00");
+
+        Message message = new Message(userId, messageId, contents, timestamp);
+
+        DataPipe dataPipe = new DataPipe();
+
+        boolean writeSuccess = dataPipe.write(message);
+        assertTrue(writeSuccess);
+        Map <String, Object> dataMap = dataPipe.read(message);
+        assertNotNull(dataMap);
+        assertEquals("Data map should contain user ID", userId, dataMap.get("userID"));
+        assertEquals("Data map should contain message ID", messageId, dataMap.get("messageID"));
+        assertEquals("Data map should contain timestamp as string", timestamp.toString(), dataMap.get("timestamp"));
+        assertEquals("Data map should contain contents", contents, dataMap.get("contents"));
+
+        boolean removeSuccess = dataPipe.remove(message);
+        assertTrue(removeSuccess);
     }
 }
