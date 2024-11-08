@@ -13,6 +13,13 @@ public class Message extends Domain {
         super(userID);
     }
 
+    public Message(final int userID, final int messageID, final String contents, final Timestamp timeStamp) {
+        super(userID);
+        this.messageID = messageID;
+        this.contents = contents;
+        this.timeStamp = timeStamp;
+    }
+    
     public int getMessageID() {return this.messageID;}
     public String getContents() {return this.contents;}
     public Timestamp getTimeStampObject() {return this.timeStamp;}
@@ -32,6 +39,4 @@ public class Message extends Domain {
         dataMap.put(3, this.contents);
         return dataMap;
     }
-
-    
 }
