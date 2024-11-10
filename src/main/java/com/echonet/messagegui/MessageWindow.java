@@ -14,7 +14,21 @@ public class MessageWindow {
     private JPanel displayPanel;
     private JButton sendMessage;
     private JButton updateMessage;
-    
+
+    private void initalizeButtonsPanel() {
+        this.buttonPanel = new JPanel();
+        this.buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 200, 10));
+        buttonPanel.setBackground(Color.GRAY);
+        this.buttonPanel.add(sendMessage);
+        this.buttonPanel.add(updateMessage);
+    }
+
+    private void initalizeMessagePanel() {
+        this.displayPanel = new JPanel();
+        this.displayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        this.displayPanel.setBackground(Color.BLUE);
+    }
+
     private void initalize() {
         this.mainWindow = new JFrame();
         this.mainWindow.setTitle("Messages");
@@ -22,24 +36,21 @@ public class MessageWindow {
         this.mainWindow.setLayout(new BorderLayout(20,10));
         this.mainWindow.setSize(800, 500);
         this.mainWindow.setLocationRelativeTo(null);
-
-        this.displayPanel = new JPanel();
-        this.displayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        this.displayPanel.setBackground(Color.BLUE);
-        this.buttonPanel = new JPanel();
-        this.buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 200, 10));
-        this.mainWindow.add(buttonPanel, BorderLayout.SOUTH);
-
-        buttonPanel.setBackground(Color.GRAY);
+        
         this.initalizeButtons();
+        this.initalizeButtonsPanel();
+        this.initalizeMessagePanel();
+
+        this.mainWindow.add(buttonPanel, BorderLayout.SOUTH);
+        this.mainWindow.add(displayPanel, BorderLayout.CENTER);
+
     }
 
     private void initalizeButtons() {
         this.sendMessage = new JButton("Send Message");
         this.updateMessage = new JButton("Update Messages");
-        this.buttonPanel.add(sendMessage);
-        this.buttonPanel.add(updateMessage);
     }
+
     public MessageWindow() {
         this.initalize();
     }
