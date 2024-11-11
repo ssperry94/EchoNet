@@ -59,11 +59,11 @@ public class DataPipe {
         }
     }   
 
-    public Map <String, Object> read(final Domain d, String tableColumnName) {
+    public Map <String, Object> read(final Domain d, String tableColumnName, Object value) {
         ResultSet rs;
         Map <String, Object> data;
         try (DataReader reader = new DataReader(Config.DATABASE_INIT)) {
-            rs = reader.read(d.getTable(), d, tableColumnName);
+            rs = reader.read(d.getTable(), d, tableColumnName, value);
             data = this.createMap(rs, d.getTable());
             return data;
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {

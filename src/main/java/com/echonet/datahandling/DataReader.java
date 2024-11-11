@@ -26,4 +26,12 @@ class DataReader extends DataHandler {
         rs = stmt.executeQuery(sql);
         return rs;
     }
+
+    public ResultSet read(final Table table, final Domain u, String tableColumnName, Object value) throws SQLException {
+        ResultSet rs;
+        String sql = this.sqlgen.queryStatement(table, u, tableColumnName, value);
+        Statement stmt = c.createStatement();
+        rs = stmt.executeQuery(sql);
+        return rs;
+    }
 }

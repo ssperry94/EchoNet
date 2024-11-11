@@ -33,6 +33,10 @@ class SqlGenerator {
         return "SELECT * FROM " + table.getTableName() + " WHERE " + table.getTableColumns().get(0) + " = " + u.getID();
     }
 
+    public String queryStatement(final Table table, final Domain u, final String tableColumnName, final Object value) {
+        return "SELECT * FROM " + table.getTableName() + " WHERE " + tableColumnName + " = " + value.toString();
+    }
+
     public String insertStatement(final Table table) {
         return "INSERT INTO " + table.getTableName() + " VALUES " + this.generateValues(table);
     }
