@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -13,7 +15,13 @@ import javax.swing.JPanel;
 
 import com.echonet.domainmodel.Message;
 
+/* TODO: add window listener to have message composer close when this window does
+ * adjust DataPipe to read multiple messages at once.
+ * adjust Backend System to read by any subclass of domain by any column names (ie postID, messageID, timestamp, etc)
+ */
+
 public class MessageWindow {
+    private MessageComposer composer;
     private JFrame mainWindow;
     private JPanel buttonPanel;
     private JPanel displayPanel;
@@ -54,6 +62,16 @@ public class MessageWindow {
         this.initalizeButtonsPanel();
         this.initalizeMessagePanel();
 
+        this.mainWindow.addWindowListener(new WindowAdapter() {
+            
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(composer.getMainWindow() != null) {
+                    composer.getMainWindow().dispose();
+                }
+            }
+        });
+
         this.mainWindow.add(buttonPanel, BorderLayout.SOUTH);
         this.mainWindow.add(displayPanel, BorderLayout.CENTER);
 
@@ -65,7 +83,7 @@ public class MessageWindow {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                MessageComposer composer = new MessageComposer();
+                composer = new MessageComposer();
                 composer.show();
             }
         });

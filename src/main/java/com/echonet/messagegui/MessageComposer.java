@@ -88,4 +88,8 @@ public class MessageComposer {
     public void show() {
         this.mainWindow.setVisible(true);
     }
+
+    public JFrame getMainWindow() {
+        return this.mainWindow;
+    }
 }
