@@ -15,8 +15,7 @@ import javax.swing.JPanel;
 
 import com.echonet.domainmodel.Message;
 
-/* TODO: add window listener to have message composer close when this window does
- * adjust DataPipe to read multiple messages at once.
+/* TODO: adjust DataPipe to read multiple messages at once.
  * adjust Backend System to read by any subclass of domain by any column names (ie postID, messageID, timestamp, etc)
  */
 
