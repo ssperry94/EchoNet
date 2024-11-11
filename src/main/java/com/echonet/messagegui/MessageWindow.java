@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import com.echonet.domainmodel.Message;
 
 public class MessageWindow {
     private JFrame mainWindow;
@@ -14,6 +17,7 @@ public class MessageWindow {
     private JPanel displayPanel;
     private JButton sendMessage;
     private JButton updateMessage;
+    private JEditorPane messageDisplay;
 
     private void initalizeButtonsPanel() {
         this.buttonPanel = new JPanel();
@@ -23,20 +27,27 @@ public class MessageWindow {
         this.buttonPanel.add(updateMessage);
     }
 
-    private void initalizeMessagePanel() {
+    private void initalizeMessagePanel() throws Exception{
+        Message m = new Message(1);
+        m.setContents("Hello!");
+        this.messageDisplay = new JEditorPane();
+        messageDisplay.setEditable(false);
+        messageDisplay.setText(m.getContents());
+
         this.displayPanel = new JPanel();
         this.displayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         this.displayPanel.setBackground(Color.BLUE);
+        this.displayPanel.add(messageDisplay);
     }
 
-    private void initalize() {
+    private void initalize() throws Exception {
         this.mainWindow = new JFrame();
         this.mainWindow.setTitle("Messages");
         this.mainWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.mainWindow.setLayout(new BorderLayout(20,10));
         this.mainWindow.setSize(800, 500);
         this.mainWindow.setLocationRelativeTo(null);
-        
+
         this.initalizeButtons();
         this.initalizeButtonsPanel();
         this.initalizeMessagePanel();
@@ -51,7 +62,7 @@ public class MessageWindow {
         this.updateMessage = new JButton("Update Messages");
     }
 
-    public MessageWindow() {
+    public MessageWindow() throws Exception{
         this.initalize();
     }
 
@@ -61,7 +72,12 @@ public class MessageWindow {
 
     //for running window
     public static void main(String args[]) {
-        MessageWindow window = new MessageWindow();
-        window.show();
+        try {
+            MessageWindow window = new MessageWindow();
+            window.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+    }
     }
 }
