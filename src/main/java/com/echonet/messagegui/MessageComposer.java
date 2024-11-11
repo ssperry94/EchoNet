@@ -12,8 +12,10 @@ import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 public class MessageComposer {
+
     private JFrame mainWindow;
     private JPanel composerPanel;
     private JPanel buttonPanel;
@@ -22,6 +24,7 @@ public class MessageComposer {
     private JEditorPane recipiantBox;
     private JLabel recipantLabel;
     private JLabel contentsLabel;
+    private JScrollPane contentsScrollBar;
 
     private void initalizeEditors() {
         this.recipantLabel = new JLabel();
@@ -35,13 +38,14 @@ public class MessageComposer {
         this.contentsLabel.setText("Contents:");
 
         this.messageBox = new JEditorPane();
-        this.messageBox.setMaximumSize(new Dimension(500,500));
+        this.messageBox.setPreferredSize(new Dimension(500,500));
         this.messageBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.contentsScrollBar = new JScrollPane(this.messageBox);
 
         this.composerPanel.add(this.recipantLabel);
         this.composerPanel.add(this.recipiantBox);
         this.composerPanel.add(this.contentsLabel);
-        this.composerPanel.add(this.messageBox);
+        this.composerPanel.add(this.contentsScrollBar);
     }
 
     private void initalizeButtons() {
