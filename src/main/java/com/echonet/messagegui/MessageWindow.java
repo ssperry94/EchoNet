@@ -3,6 +3,8 @@ package com.echonet.messagegui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -59,6 +61,13 @@ public class MessageWindow {
 
     private void initalizeButtons() {
         this.sendMessage = new JButton("Send Message");
+        this.sendMessage.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Clicked.");
+            }
+        });
         this.updateMessage = new JButton("Update Messages");
     }
 
