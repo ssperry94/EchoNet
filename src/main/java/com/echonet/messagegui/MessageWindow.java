@@ -65,7 +65,8 @@ public class MessageWindow {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Clicked.");
+                MessageComposer composer = new MessageComposer();
+                composer.show();
             }
         });
         this.updateMessage = new JButton("Update Messages");
