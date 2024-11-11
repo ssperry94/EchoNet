@@ -59,6 +59,18 @@ public class DataPipe {
         }
     }   
 
+    public Map <String, Object> read(final Domain d, String tableColumnName) {
+        ResultSet rs;
+        Map <String, Object> data;
+        try (DataReader reader = new DataReader(Config.DATABASE_INIT)) {
+            rs = reader.read(d.getTable(), d, tableColumnName);
+            data = this.createMap(rs, d.getTable());
+            return data;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            return null;
+        }
+    }
+
     /**
      * Method used by clinet code to write to database. Must pass in a subclass of Domain
      * @param d - a subclass of Domian. must have a table, and an overriden createMapForBackEnd() function
