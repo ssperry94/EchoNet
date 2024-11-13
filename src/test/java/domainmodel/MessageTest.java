@@ -78,8 +78,8 @@ public class MessageTest {
         // Assert
         assertEquals("Data map should contain user ID", userId, dataMap.get(0));
         assertEquals("Data map should contain message ID", messageId, dataMap.get(1));
-        assertEquals("Data map should contain timestamp as string", timestamp.toString(), dataMap.get(2));
-        assertEquals("Data map should contain contents", contents, dataMap.get(3));
+        assertEquals("Data map should contain contents", contents, dataMap.get(2));
+        assertEquals("Data map should contain timestamp as a string: ", timestamp.toString(), dataMap.get(3));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class MessageTest {
         assertTrue(writeSuccess);
         Map <String, Object> dataMap = dataPipe.read(message);
         assertNotNull(dataMap);
-        assertEquals("Data map should contain user ID", userId, dataMap.get("userID"));
+        assertEquals("Data map should contain user ID", userId, dataMap.get("user_id"));
         assertEquals("Data map should contain message ID", messageId, dataMap.get("messageID"));
         assertEquals("Data map should contain timestamp as string", timestamp.toString(), dataMap.get("timestamp"));
         assertEquals("Data map should contain contents", contents, dataMap.get("contents"));
