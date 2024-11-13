@@ -15,8 +15,7 @@ import javax.swing.JPanel;
 
 import com.echonet.domainmodel.Message;
 
-/* TODO: adjust DataPipe to read multiple messages at once.
- * adjust Backend System to read by any subclass of domain by any column names (ie postID, messageID, timestamp, etc)
+/* TODO: add functionality to get message history upon startup of window
  */
 
 public class MessageWindow {
