@@ -10,7 +10,7 @@ public class feed {
     private List<String> messages;
 
     // Constructor
-     public void feed() {
+     public  feed() {
         posts = new ArrayList<>();
         messages = new ArrayList<>();
     }
@@ -41,5 +41,10 @@ public class feed {
         for (String message : messages) {
             System.out.println(message);
         }
+    }
+
+    public void test() {
+        System.out.println("test successful!");
+        
     }
 }
