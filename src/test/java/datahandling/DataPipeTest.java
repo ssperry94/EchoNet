@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -158,6 +159,53 @@ public class DataPipeTest {
         assertTrue(dataPipe.remove(testUser3, true));
         Map <String, Object> testMap = dataPipe.read(testUser3, true);
         assertNull(testMap);
+
+    }
+
+    @Test
+    public void testMultiRead() throws Exception {
+        boolean success1, success2, success3;
+        Message message1 = new Message(1, 101, "First test message", Timestamp.valueOf("2023-01-01 10:00:00"));
+        Message message2 = new Message(1, 102, "Second test message", Timestamp.valueOf("2023-01-02 11:00:00"));
+        Message message3 = new Message(1, 103, "Third test message", Timestamp.valueOf("2023-01-03 12:00:00"));
+
+        success1 = dataPipe.write(message1);
+        assertTrue(success1);
+        success2 = dataPipe.write(message2);
+        assertTrue(success2);
+        success3 = dataPipe.write(message3);
+        assertTrue(success3);
+
+        // Act: Use multiRead to retrieve all messages for the given domain (Message class)
+        List<Map<String, Object>> dataList = dataPipe.multiRead(message1);
+
+        // Assert: Verify that all three messages are retrieved and their content matches
+        assertNotNull("Data list should not be null", dataList);
+        assertEquals("Data list should contain three messages", 3, dataList.size());
+
+        Map<String, Object> firstMessage = dataList.get(0);
+        Map<String, Object> secondMessage = dataList.get(1);
+        Map<String, Object> thirdMessage = dataList.get(2);
+
+        assertEquals("First message ID should match", 101, firstMessage.get("messageID"));
+        assertEquals("First message content should match", "First test message", firstMessage.get("contents"));
+        assertEquals("First message timestamp should match", Timestamp.valueOf("2023-01-01 10:00:00").toString(), firstMessage.get("timestamp"));
+
+        assertEquals("Second message ID should match", 102, secondMessage.get("messageID"));
+        assertEquals("Second message content should match", "Second test message", secondMessage.get("contents"));
+        assertEquals("Second message timestamp should match", Timestamp.valueOf("2023-01-02 11:00:00").toString(), secondMessage.get("timestamp"));
+
+        assertEquals("Third message ID should match", 103, thirdMessage.get("messageID"));
+        assertEquals("Third message content should match", "Third test message", thirdMessage.get("contents"));
+        assertEquals("Third message timestamp should match", Timestamp.valueOf("2023-01-03 12:00:00").toString(), thirdMessage.get("timestamp"));
+
+        success1 = dataPipe.remove(message1);
+        assertTrue(success1);
+        success2 = dataPipe.remove(message2);
+        assertTrue(success2);
+        success3 = dataPipe.remove(message3);
+        assertTrue(success3);
+
 
     }
 }

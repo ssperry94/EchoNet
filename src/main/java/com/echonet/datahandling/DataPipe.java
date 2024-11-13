@@ -36,7 +36,6 @@ public class DataPipe {
                 else {
                     data.put(columnNames.get(i -1), value);
                 }
-                
             }
 
         if(data.isEmpty()) 
@@ -103,7 +102,6 @@ public class DataPipe {
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
             return null;
         }
-
     }
 
     // public List <Map <String, Object>> multiRead(final Domain d, final String tableColumnName, final Object value) {
