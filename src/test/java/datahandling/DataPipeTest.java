@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -16,6 +17,7 @@ import org.junit.Test;
 
 import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
+import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
 import com.echonet.utilities.Config;
 
@@ -83,6 +85,27 @@ public class DataPipeTest {
         assertEquals("Username should match", "jsmith123", dataMap.get("username"));
         assertEquals("Birthday should match", "1/1/1999", dataMap.get("birthday"));
         assertEquals("Email should match", "jsmith@email.com", dataMap.get("email"));
+    }
+
+    @Test
+    public void testCustomReadMethod() throws Exception {
+        Message testMessage = new Message(1, 101, "Test message content", Timestamp.valueOf("2023-01-01 10:00:00"));
+        // Act: Read the message based on a specific column, like "messageID"
+        boolean writeSuccess = dataPipe.write(testMessage);
+        assertTrue(writeSuccess);
+
+        //need to look at message's backend map method
+        Map<String, Object> dataMap = dataPipe.read(testMessage, "messageID", testMessage.getMessageID());
+
+        // Assert: Verify that the data retrieved matches the test message data
+        assertNotNull("Data map should not be null", dataMap);
+        assertEquals("Message ID should match", testMessage.getMessageID(), dataMap.get("messageID"));
+        assertEquals("User ID should match", testMessage.getID(), dataMap.get("user_id"));
+        assertEquals("Contents should match", testMessage.getContents(), dataMap.get("contents"));
+        assertEquals("Timestamp should match", testMessage.getTimeStampString(), dataMap.get("timestamp").toString());
+
+        boolean removeSuccess = dataPipe.remove(testMessage);
+        assertTrue(removeSuccess);
     }
 
     @Test

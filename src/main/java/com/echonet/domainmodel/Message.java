@@ -43,8 +43,8 @@ public class Message extends Domain {
         Map <Integer, Object> dataMap = new HashMap<>();
         dataMap.put(0, this.getID());
         dataMap.put(1, this.messageID);
-        dataMap.put(2, this.timeStamp.toString());
-        dataMap.put(3, this.contents);
+        dataMap.put(2, this.contents);
+        dataMap.put(3, this.timeStamp.toString());
         return dataMap;
     }
 }
