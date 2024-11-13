@@ -2,6 +2,7 @@ package com.echonet.datahandling;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +28,30 @@ public class DataPipe {
     private Map <String, Object> createMap(final ResultSet rs, final Table t) throws SQLException {
         Map <String, Object> data = new HashMap<>();
         List <String> columnNames = t.getTableColumns();
-        while(rs.next()) {
-            for(int i = 1; i <= columnNames.size(); i++) {
-                data.put(columnNames.get(i -1), rs.getObject((i)));
+        for(int i = 1; i <= columnNames.size(); i++) {
+                Object value = rs.getObject(i);
+                if(value == null) {
+                    return null; //returns null if any value wasn't gathered from the database
+                }
+                else {
+                    data.put(columnNames.get(i -1), value);
+                }
+                
             }
-        }
 
         if(data.isEmpty()) 
             return null;
         else 
             return data;
+    }
+
+    private List <Map <String, Object>> createMultipleMaps(final ResultSet rs, final Table t) throws SQLException {
+        List <Map <String, Object>> dataList = new ArrayList<>();
+        while(rs.next()) {
+            Map <String, Object> dataMap = this.createMap(rs, t);
+            dataList.add(dataMap);
+        }
+        return dataList;
     }
 
     public DataPipe() {};
@@ -59,6 +74,13 @@ public class DataPipe {
         }
     }   
 
+    /**
+     * Overload of read that allows data to be retrieved from the database based on criteria other than the primary key
+     * @param d - subclass of domain
+     * @param tableColumnName - the column in which you wish to search for
+     * @param value - the value of the column
+     * @return
+     */
     public Map <String, Object> read(final Domain d, String tableColumnName, Object value) {
         ResultSet rs;
         Map <String, Object> data;
@@ -71,6 +93,22 @@ public class DataPipe {
         }
     }
 
+    public List <Map <String, Object>> multiRead(final Domain d) {
+        ResultSet rs;
+        List <Map <String, Object>> dataList;
+        try (DataReader reader = new DataReader(Config.DATABASE_INIT)) {
+            rs = reader.read(d.getTable(), d);
+            dataList = this.createMultipleMaps(rs, d.getTable());
+            return dataList;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            return null;
+        }
+
+    }
+
+    // public List <Map <String, Object>> multiRead(final Domain d, final String tableColumnName, final Object value) {
+
+    // }
     /**
      * Method used by clinet code to write to database. Must pass in a subclass of Domain
      * @param d - a subclass of Domian. must have a table, and an overriden createMapForBackEnd() function
