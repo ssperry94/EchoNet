@@ -104,9 +104,18 @@ public class DataPipe {
         }
     }
 
-    // public List <Map <String, Object>> multiRead(final Domain d, final String tableColumnName, final Object value) {
-
-    // }
+    public List <Map <String, Object>> multiRead(final Domain d, final String tableColumnName, final Object value) {
+        ResultSet rs;
+        List <Map <String, Object>> dataList;
+        try (DataReader reader = new DataReader(Config.DATABASE_INIT)) {
+            rs = reader.read(d.getTable(), d, tableColumnName, value);
+            dataList = this.createMultipleMaps(rs, d.getTable());
+            return dataList;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     /**
      * Method used by clinet code to write to database. Must pass in a subclass of Domain
      * @param d - a subclass of Domian. must have a table, and an overriden createMapForBackEnd() function

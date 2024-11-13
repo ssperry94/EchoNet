@@ -34,7 +34,7 @@ class SqlGenerator {
     }
 
     public String queryStatement(final Table table, final Domain u, final String tableColumnName, final Object value) {
-        return "SELECT * FROM " + table.getTableName() + " WHERE " + tableColumnName + " = " + value.toString();
+        return "SELECT * FROM " + table.getTableName() + " WHERE " + tableColumnName + " = " + "\"" + value.toString() + "\"";
     }
 
     public String insertStatement(final Table table) {
