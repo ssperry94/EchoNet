@@ -23,8 +23,8 @@ import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
-/* TODO: adjust DataPipe to read multiple messages at once.
-* adjust Backend System to read by any subclass of domain by any column names (ie postID, messageID, timestamp, etc)
+/* TODO: create recipiant field of Message class
+* Create sendMessage() function in message composer class 
 * Make posts table: user_id, postID, contents, timestamp, ENHANCEMENT: hashtags,
 */
 
@@ -88,12 +88,6 @@ public class MessageWindow {
     }
 
     private void initalizeMessagePanel() throws Exception {
-        // Message m = new Message(1);
-        // m.setContents("Hello!");
-        // this.messageDisplay = new JEditorPane();
-        // messageDisplay.setEditable(false);
-        // messageDisplay.setText(m.getContents());
-
         this.displayPanel = new JPanel();
         this.displayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         this.displayPanel.setBackground(Color.BLUE);
