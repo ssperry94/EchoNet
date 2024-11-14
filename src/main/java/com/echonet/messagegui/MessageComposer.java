@@ -26,6 +26,15 @@ public class MessageComposer {
     private JLabel contentsLabel;
     private JScrollPane contentsScrollBar;
 
+    private boolean sendMessage() {
+        //check to make sure recipiant exists
+
+        //create message from recipant and conent
+            //add timestamp
+        
+        //dataPipe.write(message); 
+        return true;
+    }
     private void initalizeEditors() {
         this.recipantLabel = new JLabel();
         this.recipantLabel.setText("To:");
