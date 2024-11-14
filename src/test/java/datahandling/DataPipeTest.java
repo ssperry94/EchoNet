@@ -90,7 +90,7 @@ public class DataPipeTest {
 
     @Test
     public void testCustomReadMethod() throws Exception {
-        Message testMessage = new Message(1, 101, "Test message content", Timestamp.valueOf("2023-01-01 10:00:00"));
+        Message testMessage = new Message(1, 101, "Test message content", Timestamp.valueOf("2023-01-01 10:00:00"), 2);
         // Act: Read the message based on a specific column, like "messageID"
         boolean writeSuccess = dataPipe.write(testMessage);
         assertTrue(writeSuccess);
@@ -165,9 +165,9 @@ public class DataPipeTest {
     @Test
     public void testMultiRead() throws Exception {
         boolean success1, success2, success3;
-        Message message1 = new Message(1, 101, "First test message", Timestamp.valueOf("2023-01-01 10:00:00"));
-        Message message2 = new Message(1, 102, "Second test message", Timestamp.valueOf("2023-01-02 11:00:00"));
-        Message message3 = new Message(1, 103, "Third test message", Timestamp.valueOf("2023-01-03 12:00:00"));
+        Message message1 = new Message(1, 101, "First test message", Timestamp.valueOf("2023-01-01 10:00:00"),2);
+        Message message2 = new Message(1, 102, "Second test message", Timestamp.valueOf("2023-01-02 11:00:00"),2);
+        Message message3 = new Message(1, 103, "Third test message", Timestamp.valueOf("2023-01-03 12:00:00"),2);
 
         success1 = dataPipe.write(message1);
         assertTrue(success1);
@@ -210,9 +210,9 @@ public class DataPipeTest {
     @Test
     public void testCustomMultiRead() throws Exception {
         boolean success1, success2, success3;
-        Message message1 = new Message(1, 101, "testing.", Timestamp.valueOf("2023-01-01 10:00:00"));
-        Message message2 = new Message(1, 102, "testing.", Timestamp.valueOf("2023-01-02 11:00:00"));
-        Message message3 = new Message(1, 103, "testing.", Timestamp.valueOf("2023-01-03 12:00:00"));
+        Message message1 = new Message(1, 101, "testing.", Timestamp.valueOf("2023-01-01 10:00:00"),2);
+        Message message2 = new Message(1, 102, "testing.", Timestamp.valueOf("2023-01-02 11:00:00"),2);
+        Message message3 = new Message(1, 103, "testing.", Timestamp.valueOf("2023-01-03 12:00:00"),2);
 
         success1 = dataPipe.write(message1);
         assertTrue(success1);

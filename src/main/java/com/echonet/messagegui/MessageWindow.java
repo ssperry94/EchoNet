@@ -25,7 +25,6 @@ import com.echonet.exceptions.DataBaseNotFoundException;
 
 /* TODO: create recipiant field of Message class
 * Create sendMessage() function in message composer class 
-* Make posts table: user_id, postID, contents, timestamp, ENHANCEMENT: hashtags,
 */
 
 public class MessageWindow {
@@ -56,7 +55,7 @@ public class MessageWindow {
         contents = (String) dataMap.get("contents");
         timestamp = java.sql.Timestamp.valueOf(dataMap.get("timestamp").toString());
 
-        message = new Message(primaryID, messageID, contents, timestamp);
+        message = new Message(primaryID, messageID, contents, timestamp, 2);
         return message;
     }
 

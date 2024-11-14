@@ -35,7 +35,7 @@ public class MessageTest {
         Timestamp timestamp = Timestamp.valueOf("2023-01-01 12:00:00");
 
         // Act
-        Message message = new Message(userId, messageId, contents, timestamp);
+        Message message = new Message(userId, messageId, contents, timestamp, 2);
 
         // Assert
         assertEquals("User ID should match", userId, message.getID());
@@ -70,7 +70,7 @@ public class MessageTest {
         String contents = "Test message";
         Timestamp timestamp = Timestamp.valueOf("2023-01-01 12:00:00");
 
-        Message message = new Message(userId, messageId, contents, timestamp);
+        Message message = new Message(userId, messageId, contents, timestamp,2 );
 
         // Act
         Map<Integer, Object> dataMap = message.createMapForBackEnd();
@@ -89,7 +89,7 @@ public class MessageTest {
         String contents = "Test message";
         Timestamp timestamp = Timestamp.valueOf("2023-01-01 12:00:00");
 
-        Message message = new Message(userId, messageId, contents, timestamp);
+        Message message = new Message(userId, messageId, contents, timestamp,2);
 
         DataPipe dataPipe = new DataPipe();
 
