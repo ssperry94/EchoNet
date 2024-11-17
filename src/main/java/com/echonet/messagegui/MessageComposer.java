@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -13,6 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import com.echonet.datahandling.DataPipe;
+import com.echonet.domainmodel.User;
 
 public class MessageComposer {
 
@@ -27,8 +33,19 @@ public class MessageComposer {
     private JScrollPane contentsScrollBar;
 
     private boolean sendMessage() {
+        DataPipe dataPipe = new DataPipe();
         //check to make sure recipiant exists
+        String recipiantUsername = this.recipiantBox.getText();
 
+        if(recipiantUsername == null) {
+            return false;
+        }
+
+        Map <String, Object> userMap = dataPipe.read(new User(1), "username", recipiantUsername);
+
+        if(userMap == null || userMap.get("username") != recipiantUsername) {
+            return false;
+        }
         //create message from recipant and conent
             //add timestamp
         
@@ -60,6 +77,17 @@ public class MessageComposer {
     private void initalizeButtons() {
         this.sendButton = new JButton();
         this.sendButton.setText("Send");
+        this.sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(sendMessage()) {
+                    System.out.println("Success");
+                }
+                else {
+                    System.err.println("Fail");
+                }
+            }
+        });
 
         this.buttonPanel.add(this.sendButton);
     }
