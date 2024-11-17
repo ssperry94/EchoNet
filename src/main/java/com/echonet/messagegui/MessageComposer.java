@@ -18,7 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import com.echonet.datahandling.DataPipe;
+import com.echonet.datahandling.Table;
+import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
+import com.echonet.utilities.Config;
 
 public class MessageComposer {
 
@@ -32,25 +35,41 @@ public class MessageComposer {
     private JLabel contentsLabel;
     private JScrollPane contentsScrollBar;
 
-    private boolean sendMessage() {
+    private boolean sendMessage() { //change when user class has table field set in all constructors
         DataPipe dataPipe = new DataPipe();
+        User u;
+        Message message;
         //check to make sure recipiant exists
         String recipiantUsername = this.recipiantBox.getText();
 
-        if(recipiantUsername == null) {
+        //if nothing was entered
+        if(recipiantUsername.equals("")) {
+            return false;
+        }
+        try {
+            u = new User(1); //will be able to change when constructor is fixed
+            u.setTable(new Table(Config.USER_TABLE));
+    
+            Map <String, Object> userMap = dataPipe.read(u, "username", recipiantUsername);
+            String actualUsername = (String) userMap.get("username");
+            if(userMap == null || !actualUsername.equals(recipiantUsername)) {
+                return false;
+            }
+            //create message from recipant and conent
+                //add timestamp
+            message = new Message((int) userMap.get("user_id"));
+
+            message.setContents(this.messageBox.getText());
+            message.setMessageID(101); //testing purposes only, should be replaced with a random number later
+            
+            
+            //dataPipe.write(message); 
+            return true;  
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
 
-        Map <String, Object> userMap = dataPipe.read(new User(1), "username", recipiantUsername);
-
-        if(userMap == null || userMap.get("username") != recipiantUsername) {
-            return false;
-        }
-        //create message from recipant and conent
-            //add timestamp
-        
-        //dataPipe.write(message); 
-        return true;
     }
     private void initalizeEditors() {
         this.recipantLabel = new JLabel();
