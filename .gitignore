@@ -2,4 +2,4 @@
 /.vscode
 
 #ignore my test scripts - for our team's testing purposes only and won't be included in final project
-src/main/java/com/echonet/mytestscripts/MessageInsertionScript.java
+src/main/java/com/echonet/mytestscripts/

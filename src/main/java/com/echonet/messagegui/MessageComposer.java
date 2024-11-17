@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -13,6 +16,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
+import com.echonet.datahandling.DataPipe;
+import com.echonet.datahandling.Table;
+import com.echonet.domainmodel.Message;
+import com.echonet.domainmodel.User;
+import com.echonet.utilities.Config;
 
 public class MessageComposer {
 
@@ -26,6 +35,42 @@ public class MessageComposer {
     private JLabel contentsLabel;
     private JScrollPane contentsScrollBar;
 
+    private boolean sendMessage() { //change when user class has table field set in all constructors
+        DataPipe dataPipe = new DataPipe();
+        User u;
+        Message message;
+        //check to make sure recipiant exists
+        String recipiantUsername = this.recipiantBox.getText();
+
+        //if nothing was entered
+        if(recipiantUsername.equals("")) {
+            return false;
+        }
+        try {
+            u = new User(1); //will be able to change when constructor is fixed
+            u.setTable(new Table(Config.USER_TABLE));
+    
+            Map <String, Object> userMap = dataPipe.read(u, "username", recipiantUsername);
+            String actualUsername = (String) userMap.get("username");
+            if(userMap == null || !actualUsername.equals(recipiantUsername)) {
+                return false;
+            }
+            //create message from recipant and conent
+                //add timestamp
+            message = new Message((int) userMap.get("user_id"));
+
+            message.setContents(this.messageBox.getText());
+            message.setMessageID(101); //testing purposes only, should be replaced with a random number later
+            
+            
+            //dataPipe.write(message); 
+            return true;  
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
     private void initalizeEditors() {
         this.recipantLabel = new JLabel();
         this.recipantLabel.setText("To:");
@@ -51,6 +96,17 @@ public class MessageComposer {
     private void initalizeButtons() {
         this.sendButton = new JButton();
         this.sendButton.setText("Send");
+        this.sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(sendMessage()) {
+                    System.out.println("Success");
+                }
+                else {
+                    System.err.println("Fail");
+                }
+            }
+        });
 
         this.buttonPanel.add(this.sendButton);
     }

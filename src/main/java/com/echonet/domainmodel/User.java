@@ -1,8 +1,13 @@
 package com.echonet.domainmodel;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.echonet.datahandling.Table;
+import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.utilities.Config;
 public class User extends Domain {
 
     protected String firstName;
@@ -11,7 +16,10 @@ public class User extends Domain {
     protected String birthday;
     protected String email; 
     
-    public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
+    public User(final int ID) /*throws SQLException, ClassNotFoundException, DataBaseNotFoundException*/ { //will need to uncomment when table field is ready
+        super(ID);
+        //this.table = new Table(Config.USER_TABLE);
+    } //added this constructor for unit testing - may delete later
 
     /**
      * Instantiates the User class using an ID, and an array containg the rest of the attribtues
@@ -24,8 +32,9 @@ public class User extends Domain {
      * @param ID an integer representing the primary key
      * @param attributeArray - array containing all the attributes
      */
-    public User(final int ID, final List<String> attributeArray) {
+    public User(final int ID, final List<String> attributeArray) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         super(ID);
+        this.table = new Table(Config.USER_TABLE);
         for(int i = 0; i < attributeArray.size(); i++) {
             switch(i) {
                 case 0: this.firstName = attributeArray.get(i); break;

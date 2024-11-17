@@ -12,30 +12,35 @@ import com.echonet.utilities.Config;
 
 public class Message extends Domain {
     private String contents;
-    Timestamp timeStamp;
-    int messageID;
+    private Timestamp timeStamp;
+    private int messageID;
+    private int recipiantID;
 
     public Message(final int userID) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         super(userID);
         this.table = new Table(Config.MESSAGES_TABLE);
     }
 
-    public Message(final int userID, final int messageID, final String contents, final Timestamp timeStamp) throws SQLException, 
+    public Message(final int userID, final int messageID, final String contents, final Timestamp timeStamp, final int recipiantID) throws SQLException, 
                    ClassNotFoundException, DataBaseNotFoundException {
         super(userID);
         this.table = new Table(Config.MESSAGES_TABLE);
         this.messageID = messageID;
         this.contents = contents;
         this.timeStamp = timeStamp;
+        this.recipiantID = recipiantID;
     }
 
     public int getMessageID() {return this.messageID;}
     public String getContents() {return this.contents;}
     public Timestamp getTimeStampObject() {return this.timeStamp;}
     public String getTimeStampString() {return this.timeStamp.toString();}
+    public int getRecipiantID() {return this.recipiantID;}
 
     public void setMessageID(int ID) {this.messageID = ID;}
     public void setContents(String contents) {this.contents = contents;}
+
+    public void setRecipiantID(final int ID) {this.recipiantID = ID;}
     public void setTimeStamp() {
         Date currentDate = new Date();
         this.timeStamp = new Timestamp(currentDate.getTime());
@@ -49,6 +54,7 @@ public class Message extends Domain {
         dataMap.put(1, this.messageID);
         dataMap.put(2, this.contents);
         dataMap.put(3, this.timeStamp.toString());
+        dataMap.put(4, this.recipiantID);
         return dataMap;
     }
 }
