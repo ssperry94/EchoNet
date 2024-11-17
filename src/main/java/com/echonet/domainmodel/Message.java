@@ -2,6 +2,7 @@ package com.echonet.domainmodel;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +36,10 @@ public class Message extends Domain {
 
     public void setMessageID(int ID) {this.messageID = ID;}
     public void setContents(String contents) {this.contents = contents;}
-
+    public void setTimeStamp() {
+        Date currentDate = new Date();
+        this.timeStamp = new Timestamp(currentDate.getTime());
+    }
 
     // public void setTimeStamp(Timestamp time) {this.timeStamp = timeStamp;} look into how a timestamp updates
     @Override

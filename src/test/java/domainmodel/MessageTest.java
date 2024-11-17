@@ -1,6 +1,7 @@
 package domainmodel;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -105,4 +106,20 @@ public class MessageTest {
         boolean removeSuccess = dataPipe.remove(message);
         assertTrue(removeSuccess);
     }
+
+    @Test
+    public void testSetTimestamp() throws Exception {
+       // Arrange
+       long tolerance = 5000; // Allowable time difference in milliseconds
+       long currentTime = new Date().getTime();
+       Message message = new Message(1);
+
+       // Act
+       message.setTimeStamp(); 
+       Timestamp actualStamp = message.getTimeStampObject();
+
+       // Assert
+       assertTrue("Timestamp should be within the tolerance range",
+               Math.abs(currentTime - actualStamp.getTime()) <= tolerance);
+    }   
 }
