@@ -11,13 +11,13 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import org.ibex.nestedvm.UsermodeConstants;
 
 import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
@@ -38,6 +38,9 @@ public class MessageComposer {
     private JLabel contentsLabel;
     private JScrollPane contentsScrollBar;
 
+    /*TODO: replace any instance of message.setMessageID() with a random number generated
+     * change recipiant box to a drop box that will look at a user's friends first
+     */
     private boolean sendMessage() { //change when user class has table field set in all constructors
         DataPipe dataPipe = new DataPipe();
         User u;
@@ -47,6 +50,7 @@ public class MessageComposer {
 
         //if nothing was entered
         if(recipiantUsername.equals("")) {
+            JOptionPane.showMessageDialog(mainWindow, "Error, must have recipiant.", "RECIPIANTERROR", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         try {
@@ -54,8 +58,13 @@ public class MessageComposer {
             u.setTable(new Table(Config.USER_TABLE));
     
             Map <String, Object> userMap = dataPipe.read(u, "username", recipiantUsername);
+            if(userMap == null) {
+                JOptionPane.showMessageDialog(mainWindow, "Cannot find given user. Please make sure that you entered the correct username.", "RECIPIANTNOTFOUND", JOptionPane.ERROR_MESSAGE);
+                return false; 
+            }
             String actualUsername = (String) userMap.get("username");
-            if(userMap == null || !actualUsername.equals(recipiantUsername)) {
+            if(!actualUsername.equals(recipiantUsername)) {
+                JOptionPane.showMessageDialog(mainWindow, "Internal error occured. Message failed to send", "USERNAMEMISMATCH", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             message = new Message((int) userMap.get("userID"));
@@ -68,6 +77,7 @@ public class MessageComposer {
             dataPipe.write(message);
             return true;  
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(mainWindow, "Unknown Error occured. Message failed to send", "UNKOWNERROR", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             return false;
         }
