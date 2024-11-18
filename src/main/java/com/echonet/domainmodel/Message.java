@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
@@ -38,6 +39,11 @@ public class Message extends Domain {
     public int getRecipiantID() {return this.recipiantID;}
 
     public void setMessageID(int ID) {this.messageID = ID;}
+    
+    public void setAutomaticMessageID() {
+        Random randomIdGenerator = new Random();
+        this.messageID = randomIdGenerator.nextInt(999);
+    }
     public void setContents(String contents) {this.contents = contents;}
 
     public void setRecipiantID(final int ID) {this.recipiantID = ID;}

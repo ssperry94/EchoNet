@@ -7,6 +7,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import com.echonet.datahandling.DataPipe;
@@ -122,4 +123,15 @@ public class MessageTest {
        assertTrue("Timestamp should be within the tolerance range",
                Math.abs(currentTime - actualStamp.getTime()) <= tolerance);
     }   
+
+    @Test
+    public void testAutomaticMessageID() throws Exception {
+        Message test = new Message(1);
+        test.setAutomaticMessageID();
+
+        int messageID = test.getMessageID();
+        if(messageID < 0 || messageID > 999) {
+            fail("Number out of range.");
+        }
+    }
 }
