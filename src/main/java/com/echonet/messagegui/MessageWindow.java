@@ -23,9 +23,7 @@ import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
-/* TODO: create recipiant field of Message class
-* Create sendMessage() function in message composer class 
-* add error checking for messages
+/* TODO: add error checking for messages
 * add borders, colors, etc to various parts of messages 
 */
 
@@ -132,7 +130,7 @@ public class MessageWindow {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                composer = new MessageComposer();
+                composer = new MessageComposer(currentUser);
                 composer.show();
             }
         });

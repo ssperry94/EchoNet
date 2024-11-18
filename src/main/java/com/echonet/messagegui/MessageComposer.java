@@ -17,6 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.ibex.nestedvm.UsermodeConstants;
+
 import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.domainmodel.Message;
@@ -25,6 +27,7 @@ import com.echonet.utilities.Config;
 
 public class MessageComposer {
 
+    private User currentUser;
     private JFrame mainWindow;
     private JPanel composerPanel;
     private JPanel buttonPanel;
@@ -55,15 +58,14 @@ public class MessageComposer {
             if(userMap == null || !actualUsername.equals(recipiantUsername)) {
                 return false;
             }
-            //create message from recipant and conent
-                //add timestamp
-            message = new Message((int) userMap.get("user_id"));
+            message = new Message((int) userMap.get("userID"));
 
             message.setContents(this.messageBox.getText());
             message.setMessageID(101); //testing purposes only, should be replaced with a random number later
-            
-            
-            //dataPipe.write(message); 
+            message.setTimeStamp();
+            message.setRecipiantID(this.currentUser.getID());
+
+            dataPipe.write(message);
             return true;  
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,7 +139,8 @@ public class MessageComposer {
         this.mainWindow.add(this.composerPanel, BorderLayout.CENTER);
     }
 
-    public MessageComposer() {
+    public MessageComposer(final User currentUser) {
+        this.currentUser = currentUser;
         this.initalize();
     }
 
