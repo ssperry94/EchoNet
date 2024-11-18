@@ -39,7 +39,7 @@ public class MessageComposer {
 
     /*TODO: change recipiant box to a drop box that will look at a user's friends first
      */
-    private boolean sendMessage() { //change when user class has table field set in all constructors
+    private void sendMessage() { //change when user class has table field set in all constructors
         DataPipe dataPipe = new DataPipe();
         User u;
         Message message;
@@ -50,7 +50,7 @@ public class MessageComposer {
         if(recipiantUsername.equals("")) {
             JOptionPane.showMessageDialog(mainWindow, "Error, must have recipiant.", "RECIPIANTERROR", JOptionPane.ERROR_MESSAGE);
             this.messageBox.setText("");
-            return false;
+            return;
         }
         try {
             u = new User(1); //will be able to change when constructor is fixed
@@ -60,13 +60,13 @@ public class MessageComposer {
             if(userMap == null) {
                 JOptionPane.showMessageDialog(mainWindow, "Cannot find given user. Please make sure that you entered the correct username.", "RECIPIANTNOTFOUND", JOptionPane.ERROR_MESSAGE);
                 this.messageBox.setText("");
-                return false; 
+                return;
             }
             String actualUsername = (String) userMap.get("username");
             if(!actualUsername.equals(recipiantUsername)) {
                 JOptionPane.showMessageDialog(mainWindow, "Internal error occured. Message failed to send", "USERNAMEMISMATCH", JOptionPane.ERROR_MESSAGE);
                 this.messageBox.setText("");
-                return false;
+                return;
             }
             message = new Message((int) userMap.get("userID"));
 
@@ -78,14 +78,12 @@ public class MessageComposer {
             dataPipe.write(message);
             this.messageBox.setText("");
             JOptionPane.showMessageDialog(mainWindow, "Message Sent!", "MESSAGESUCCESS", JOptionPane.INFORMATION_MESSAGE);
-            return true;  
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow, "Unknown Error occured. Message failed to send", "UNKOWNERROR", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
-            return false;
         }
-
     }
+
     private void initalizeEditors() {
         this.recipantLabel = new JLabel();
         this.recipantLabel.setText("To:");
@@ -114,12 +112,7 @@ public class MessageComposer {
         this.sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(sendMessage()) {
-                    System.out.println("Success");
-                }
-                else {
-                    System.err.println("Fail");
-                }
+               sendMessage();
             }
         });
 
