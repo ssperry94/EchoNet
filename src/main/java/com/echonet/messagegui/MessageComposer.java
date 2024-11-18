@@ -37,8 +37,7 @@ public class MessageComposer {
     private JLabel contentsLabel;
     private JScrollPane contentsScrollBar;
 
-    /*TODO: replace any instance of message.setMessageID() with a random number generated
-     * change recipiant box to a drop box that will look at a user's friends first
+    /*TODO: change recipiant box to a drop box that will look at a user's friends first
      */
     private boolean sendMessage() { //change when user class has table field set in all constructors
         DataPipe dataPipe = new DataPipe();
@@ -72,7 +71,7 @@ public class MessageComposer {
             message = new Message((int) userMap.get("userID"));
 
             message.setContents(this.messageBox.getText());
-            message.setMessageID(101); //testing purposes only, should be replaced with a random number later
+            message.setAutomaticMessageID();
             message.setTimeStamp();
             message.setRecipiantID(this.currentUser.getID());
 

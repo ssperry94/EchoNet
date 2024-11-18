@@ -23,9 +23,7 @@ import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
-/* TODO:  make updateMessage button pull any new messages 
-* add error checking for messages
-* add borders, colors, etc to various parts of messages 
+/* TODO: add borders, colors, etc to various parts of messages 
 */
 
 public class MessageWindow {
