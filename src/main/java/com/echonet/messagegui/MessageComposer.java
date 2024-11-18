@@ -51,6 +51,7 @@ public class MessageComposer {
         //if nothing was entered
         if(recipiantUsername.equals("")) {
             JOptionPane.showMessageDialog(mainWindow, "Error, must have recipiant.", "RECIPIANTERROR", JOptionPane.ERROR_MESSAGE);
+            this.messageBox.setText("");
             return false;
         }
         try {
@@ -60,11 +61,13 @@ public class MessageComposer {
             Map <String, Object> userMap = dataPipe.read(u, "username", recipiantUsername);
             if(userMap == null) {
                 JOptionPane.showMessageDialog(mainWindow, "Cannot find given user. Please make sure that you entered the correct username.", "RECIPIANTNOTFOUND", JOptionPane.ERROR_MESSAGE);
+                this.messageBox.setText("");
                 return false; 
             }
             String actualUsername = (String) userMap.get("username");
             if(!actualUsername.equals(recipiantUsername)) {
                 JOptionPane.showMessageDialog(mainWindow, "Internal error occured. Message failed to send", "USERNAMEMISMATCH", JOptionPane.ERROR_MESSAGE);
+                this.messageBox.setText("");
                 return false;
             }
             message = new Message((int) userMap.get("userID"));
@@ -75,6 +78,8 @@ public class MessageComposer {
             message.setRecipiantID(this.currentUser.getID());
 
             dataPipe.write(message);
+            this.messageBox.setText("");
+            JOptionPane.showMessageDialog(mainWindow, "Message Sent!", "MESSAGESUCCESS", JOptionPane.INFORMATION_MESSAGE);
             return true;  
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow, "Unknown Error occured. Message failed to send", "UNKOWNERROR", JOptionPane.ERROR_MESSAGE);
