@@ -23,7 +23,8 @@ import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
-/* TODO: add error checking for messages
+/* TODO:  make updateMessage button pull any new messages 
+* add error checking for messages
 * add borders, colors, etc to various parts of messages 
 */
 
@@ -135,6 +136,18 @@ public class MessageWindow {
             }
         });
         this.updateMessage = new JButton("Update Messages");
+        this.updateMessage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Clicked.");
+                displayPanel.removeAll();
+                messageDisplay.clear();
+                updateMessages();
+                for(JEditorPane messageBox : messageDisplay) {
+                    displayPanel.add(messageBox);
+                }
+                displayPanel.updateUI();
+            }});
     }
 
     public MessageWindow(final User currentUser) throws Exception{
