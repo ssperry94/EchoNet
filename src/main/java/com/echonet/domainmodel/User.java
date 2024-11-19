@@ -1,9 +1,13 @@
 package com.echonet.domainmodel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Config;
+
+import com.echonet.datahandling.Table;
 public class User extends Domain {
 
     protected String firstName;
@@ -11,6 +15,7 @@ public class User extends Domain {
     protected String username;
     protected String birthday;
     protected String email; 
+    protected String tempfriends;
     private List<Friend> friends;
     
     //public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
@@ -29,6 +34,7 @@ public class User extends Domain {
     public User(final int ID) {
         super(ID);
         this.friends = new ArrayList<>();
+        this.table = new Table(Config.USER_TABLE);
     }
 
     public User(final int ID, final List<String> attributeArray) {
@@ -40,7 +46,7 @@ public class User extends Domain {
                 case 2: this.username = attributeArray.get(i); break;
                 case 3: this.birthday = attributeArray.get(i); break;
                 case 4: this.email = attributeArray.get(i); break;
-                case 5: this.friends = attributeArray.get(i); break;
+                case 5: this.tempfriends = attributeArray.get(i); List<Friend> friends = new ArrayList<>(Arrays.asList(tempfriends.split(","))); break;
                 default: System.err.println("No more attributes to set."); break;
             }
         }
