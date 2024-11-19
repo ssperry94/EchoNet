@@ -11,5 +11,8 @@ public class Config {
     public static final String TEST_DATABASE_INIT = "jdbc:sqlite:src/test/echodatatest.db";
 
     //stores actual table names
+    public static final String LOGIN_TABLE = "RegistrationInfo";
+    public static final String USER_TABLE = "UserInformation";
+    public static final String POSTS_TABLE = "Posts";
     public static final String MESSAGES_TABLE = "Messages";
 }

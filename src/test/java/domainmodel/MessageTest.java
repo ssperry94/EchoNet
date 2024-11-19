@@ -1,11 +1,13 @@
 package domainmodel;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import com.echonet.datahandling.DataPipe;
@@ -35,7 +37,7 @@ public class MessageTest {
         Timestamp timestamp = Timestamp.valueOf("2023-01-01 12:00:00");
 
         // Act
-        Message message = new Message(userId, messageId, contents, timestamp);
+        Message message = new Message(userId, messageId, contents, timestamp, 2);
 
         // Assert
         assertEquals("User ID should match", userId, message.getID());
@@ -70,7 +72,7 @@ public class MessageTest {
         String contents = "Test message";
         Timestamp timestamp = Timestamp.valueOf("2023-01-01 12:00:00");
 
-        Message message = new Message(userId, messageId, contents, timestamp);
+        Message message = new Message(userId, messageId, contents, timestamp,2 );
 
         // Act
         Map<Integer, Object> dataMap = message.createMapForBackEnd();
@@ -89,7 +91,7 @@ public class MessageTest {
         String contents = "Test message";
         Timestamp timestamp = Timestamp.valueOf("2023-01-01 12:00:00");
 
-        Message message = new Message(userId, messageId, contents, timestamp);
+        Message message = new Message(userId, messageId, contents, timestamp,2);
 
         DataPipe dataPipe = new DataPipe();
 
@@ -104,5 +106,32 @@ public class MessageTest {
 
         boolean removeSuccess = dataPipe.remove(message);
         assertTrue(removeSuccess);
+    }
+
+    @Test
+    public void testSetTimestamp() throws Exception {
+       // Arrange
+       long tolerance = 5000; // Allowable time difference in milliseconds
+       long currentTime = new Date().getTime();
+       Message message = new Message(1);
+
+       // Act
+       message.setTimeStamp(); 
+       Timestamp actualStamp = message.getTimeStampObject();
+
+       // Assert
+       assertTrue("Timestamp should be within the tolerance range",
+               Math.abs(currentTime - actualStamp.getTime()) <= tolerance);
+    }   
+
+    @Test
+    public void testAutomaticMessageID() throws Exception {
+        Message test = new Message(1);
+        test.setAutomaticMessageID();
+
+        int messageID = test.getMessageID();
+        if(messageID < 0 || messageID > 999) {
+            fail("Number out of range.");
+        }
     }
 }

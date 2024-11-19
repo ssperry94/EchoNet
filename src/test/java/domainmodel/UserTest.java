@@ -24,7 +24,7 @@ public class UserTest {
     }
 
     @Test
-    public void testUserConstructorWithAttributeArray() {
+    public void testUserConstructorWithAttributeArray() throws Exception {
         // Arrange
         int userID = 99;
         List<String> attributeArray = Arrays.asList(

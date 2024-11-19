@@ -1,13 +1,8 @@
 package com.echonet.domainmodel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Config;
-
-import com.echonet.datahandling.Table;
 public class User extends Domain {
 
     protected String firstName;
@@ -18,7 +13,7 @@ public class User extends Domain {
     protected String tempfriends;
     private List<Friend> friends;
     
-    //public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
+    public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
 
     /**
      * Instantiates the User class using an ID, and an array containg the rest of the attribtues
@@ -31,14 +26,9 @@ public class User extends Domain {
      * @param ID an integer representing the primary key
      * @param attributeArray - array containing all the attributes
      */
-    public User(final int ID) {
-        super(ID);
-        this.friends = new ArrayList<>();
-        this.table = new Table(Config.USER_TABLE);
-    }
-
     public User(final int ID, final List<String> attributeArray) {
         super(ID);
+        this.table = new Table(Config.USER_TABLE);
         for(int i = 0; i < attributeArray.size(); i++) {
             switch(i) {
                 case 0: this.firstName = attributeArray.get(i); break;
