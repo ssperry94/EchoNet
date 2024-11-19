@@ -13,7 +13,7 @@ public class User extends Domain {
     protected String email; 
     private List<Friend> friends;
     
-    public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
+    //public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
 
     /**
      * Instantiates the User class using an ID, and an array containg the rest of the attribtues
@@ -40,6 +40,7 @@ public class User extends Domain {
                 case 2: this.username = attributeArray.get(i); break;
                 case 3: this.birthday = attributeArray.get(i); break;
                 case 4: this.email = attributeArray.get(i); break;
+                case 5: this.friends = attributeArray.get(i); break;
                 default: System.err.println("No more attributes to set."); break;
             }
         }
