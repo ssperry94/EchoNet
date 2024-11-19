@@ -3,14 +3,14 @@ package com.echonet.feedGUI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class feed {
+public class Feed {
 
     // attributes to store posts and messages
-    private List<String> posts;
+    public List<String> posts;
     private List<String> messages;
 
     // Constructor
-     public  feed() {
+     public Feed() {
         posts = new ArrayList<>();
         messages = new ArrayList<>();
     }
