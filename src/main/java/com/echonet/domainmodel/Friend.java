@@ -1,14 +1,11 @@
 package com.echonet.domainmodel;
 
-import java.sql.ResultSet;
-import java.util.Set;
-
 public class Friend extends User{
-
     private final User user1;
     private final User user2;
 
     public Friend(User user1, User user2) {
+        super(user1.getID());
         this.user1 = user1;
         this.user2 = user2;
     }
@@ -36,6 +33,11 @@ public class Friend extends User{
     @Override
     public int hashCode() {
         return user1.hashCode() + user2.hashCode(); // Order-independent hash
+    }
+
+    public Object involves(User friend) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'involves'");
     }
 }
 

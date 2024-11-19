@@ -1,8 +1,15 @@
 package com.echonet.domainmodel;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.echonet.datahandling.Table;
+import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.utilities.Config;
 public class User extends Domain {
 
     protected String firstName;
@@ -25,10 +32,14 @@ public class User extends Domain {
      * 4 - email
      * @param ID an integer representing the primary key
      * @param attributeArray - array containing all the attributes
+     * @throws DataBaseNotFoundException 
+     * @throws SQLException 
+     * @throws ClassNotFoundException 
      */
-    public User(final int ID, final List<String> attributeArray) {
+    public User(final int ID, final List<String> attributeArray) throws ClassNotFoundException, SQLException, DataBaseNotFoundException {
         super(ID);
         this.table = new Table(Config.USER_TABLE);
+        this.friends = new ArrayList<>();
         for(int i = 0; i < attributeArray.size(); i++) {
             switch(i) {
                 case 0: this.firstName = attributeArray.get(i); break;
@@ -36,7 +47,7 @@ public class User extends Domain {
                 case 2: this.username = attributeArray.get(i); break;
                 case 3: this.birthday = attributeArray.get(i); break;
                 case 4: this.email = attributeArray.get(i); break;
-                case 5: this.tempfriends = attributeArray.get(i); List<Friend> friends = new ArrayList<>(Arrays.asList(tempfriends.split(","))); break;
+                case 5: this.tempfriends = attributeArray.get(i); List<String> friends = new ArrayList<>(Arrays.asList(tempfriends.split(","))); break;
                 default: System.err.println("No more attributes to set."); break;
             }
         }
@@ -44,7 +55,7 @@ public class User extends Domain {
 
     // Method to add a friend by creating a Friendship
     public void addFriend(User friend) {
-        if (friend != this && !isFriendsWith(friend)) {
+        if (friend != this /*&& !isFriendsWith(friend)*/) {
             Friend newFriend = new Friend(this, friend);
             friends.add(newFriend);
             friend.friends.add(newFriend);  // Mutual friendship
@@ -52,9 +63,9 @@ public class User extends Domain {
     }
 
     // Check if a user is already a friend
-    public boolean isFriendsWith(User friend) {
-        return friends.stream().anyMatch(f -> f.involves(friend));
-    }
+    //public boolean isFriendsWith(User friend) {
+    //    return friends.stream().anyMatch(f -> f.involves(friend));
+    //}
 
     // Method to retrieve all friends as a list of Users
     public List<User> getFriends() {
