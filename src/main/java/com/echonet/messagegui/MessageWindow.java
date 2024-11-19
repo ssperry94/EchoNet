@@ -66,11 +66,19 @@ public class MessageWindow {
             DataPipe dataPipe = new DataPipe();
             messageHistory = dataPipe.multiRead(dummymsg);
 
-            for (Map <String, Object> dataMap : messageHistory) {
-            dummymsg = this.createMessage(dataMap);
-            messageBox = this.createMessageBox(dummymsg);
-            messageDisplay.add(messageBox);
+            if(messageHistory.isEmpty()) {
+                dummymsg.setContents("No messages.....yet!");
+                messageBox = this.createMessageBox(dummymsg);
+                this.messageDisplay.add(messageBox);
             }
+            else {
+                for (Map <String, Object> dataMap : messageHistory) {
+                    dummymsg = this.createMessage(dataMap);
+                    messageBox = this.createMessageBox(dummymsg);
+                    messageDisplay.add(messageBox);
+                    }
+            }
+
         } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
             e.printStackTrace();
             System.exit(1);
