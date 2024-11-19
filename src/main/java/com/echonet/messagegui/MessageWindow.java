@@ -19,9 +19,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
 import com.echonet.datahandling.DataPipe;
+import com.echonet.datahandling.Table;
 import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.utilities.Config;
 
 /* TODO: add borders, colors, etc to various parts of messages 
 */
@@ -36,10 +38,39 @@ public class MessageWindow {
     private JButton updateMessage;
     private List <JTextPane> messageDisplay;
 
+    private User getRecipiant(final Message m) {
+        DataPipe dataPipe;
+        User recipiant;
+        Map <String, Object> userMap;
+        String firstName, lastName;
+        try {
+            dataPipe = new DataPipe();
+            recipiant = new User(m.getRecipiantID());
+            recipiant.setTable(new Table(Config.USER_TABLE));
+            userMap = dataPipe.read(recipiant);
+
+            if(userMap == null) {
+                recipiant.setFirstName("Unknown");
+                recipiant.setLastName("User");
+                return recipiant;
+            }
+
+            recipiant.setFirstName((String) userMap.get("first_name"));
+            recipiant.setLastName((String) userMap.get("last_name"));
+            return recipiant;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
     private JTextPane createMessageBox(final Message message) {
+        User recipiant = this.getRecipiant(message);
+        String messageBoxText = "From: " + recipiant.getFirstName() + " " + recipiant.getLastName() + "\nSent: " + message.getTimeStampString() + "\nContents: " + message.getContents();
         JTextPane messageBox = new JTextPane();
         messageBox.setEditable(false);
-        messageBox.setText(message.getContents());
+        messageBox.setText(messageBoxText);
         return messageBox;
         }
     private Message createMessage(final Map <String, Object> dataMap) throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
