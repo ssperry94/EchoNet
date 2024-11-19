@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextPane;
 
 import com.echonet.datahandling.DataPipe;
 import com.echonet.domainmodel.Message;
@@ -34,10 +34,10 @@ public class MessageWindow {
     private JPanel displayPanel;
     private JButton sendMessage;
     private JButton updateMessage;
-    private List <JEditorPane> messageDisplay;
+    private List <JTextPane> messageDisplay;
 
-    private JEditorPane createMessageBox(final Message message) {
-        JEditorPane messageBox = new JEditorPane();
+    private JTextPane createMessageBox(final Message message) {
+        JTextPane messageBox = new JTextPane();
         messageBox.setEditable(false);
         messageBox.setText(message.getContents());
         return messageBox;
@@ -45,7 +45,7 @@ public class MessageWindow {
     private Message createMessage(final Map <String, Object> dataMap) throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
         //all fields of a message class
         Message message; 
-        int primaryID, messageID;
+        int primaryID, messageID, recipiantID;
         String contents;
         Timestamp timestamp;
 
@@ -53,14 +53,14 @@ public class MessageWindow {
         messageID = (int) dataMap.get("messageID");
         contents = (String) dataMap.get("contents");
         timestamp = java.sql.Timestamp.valueOf(dataMap.get("timestamp").toString());
-
-        message = new Message(primaryID, messageID, contents, timestamp, 2);
+        recipiantID = (int) dataMap.get("recipiants");
+        message = new Message(primaryID, messageID, contents, timestamp, recipiantID);
         return message;
     }
 
     private void updateMessages() {
         List <Map <String, Object>> messageHistory; //holds all messages gathered from database
-        JEditorPane messageBox;
+        JTextPane messageBox;
         try {
             Message dummymsg = new Message(this.currentUser.getID());
             DataPipe dataPipe = new DataPipe();
@@ -91,7 +91,7 @@ public class MessageWindow {
         this.displayPanel.setBackground(Color.BLUE);
         this.updateMessages();
 
-        for(JEditorPane messageBox : this.messageDisplay) {
+        for(JTextPane messageBox : this.messageDisplay) {
             this.displayPanel.add(messageBox);
         }
     }
@@ -140,7 +140,7 @@ public class MessageWindow {
                 displayPanel.removeAll();
                 messageDisplay.clear();
                 updateMessages();
-                for(JEditorPane messageBox : messageDisplay) {
+                for(JTextPane messageBox : messageDisplay) {
                     displayPanel.add(messageBox);
                 }
                 displayPanel.updateUI();
