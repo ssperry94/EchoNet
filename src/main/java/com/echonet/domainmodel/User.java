@@ -1,5 +1,6 @@
 package com.echonet.domainmodel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ public class User extends Domain {
     protected String username;
     protected String birthday;
     protected String email; 
+    private List<Friend> friends;
     
     public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
 
@@ -24,6 +26,11 @@ public class User extends Domain {
      * @param ID an integer representing the primary key
      * @param attributeArray - array containing all the attributes
      */
+    public User(final int ID) {
+        super(ID);
+        this.friends = new ArrayList<>();
+    }
+
     public User(final int ID, final List<String> attributeArray) {
         super(ID);
         for(int i = 0; i < attributeArray.size(); i++) {
@@ -36,6 +43,33 @@ public class User extends Domain {
                 default: System.err.println("No more attributes to set."); break;
             }
         }
+    }
+
+    // Method to add a friend by creating a Friendship
+    public void addFriend(User friend) {
+        if (friend != this && !isFriendsWith(friend)) {
+            Friend newFriend = new Friend(this, friend);
+            friends.add(newFriend);
+            friend.friends.add(newFriend);  // Mutual friendship
+        }
+    }
+
+    // Check if a user is already a friend
+    public boolean isFriendsWith(User friend) {
+        return friends.stream().anyMatch(f -> f.involves(friend));
+    }
+
+    // Method to retrieve all friends as a list of Users
+    public List<User> getFriends() {
+        List<User> friendsList = new ArrayList<>();
+        for (Friend friends : friends) {
+            if (friends.getUser1().equals(this)) {
+                friendsList.add(friends.getUser2());
+            } else {
+                friendsList.add(friends.getUser1());
+            }
+        }
+        return friendsList;
     }
 
     // getter and setter methods for user info
@@ -83,6 +117,7 @@ public class User extends Domain {
         dataMap.put(3, this.username);
         dataMap.put(4, this.birthday);
         dataMap.put(5, this.email);
+        dataMap.put(6, this.getFriends());
         return dataMap;
     }
 }
