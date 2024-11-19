@@ -1,4 +1,4 @@
-package com.echonet.messagegui;
+package com.echonet.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

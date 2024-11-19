@@ -4,6 +4,10 @@
 
 package com.echonet.main;
 
+import javax.swing.SwingUtilities;
+
+import com.echonet.gui.MainFrame;
+
 /**
  *
  * @author sperry94
@@ -11,8 +15,9 @@ package com.echonet.main;
 public class EchoNet {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        System.out.println("this is sid");
-        System.err.println("Hello everyone!");
+        SwingUtilities.invokeLater(() -> {
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setVisible(true);
+        });
     }
 }
