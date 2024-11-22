@@ -1,5 +1,4 @@
-
-//package com.echonet.feedGUI;
+package com.echonet.FeedGUI;
 
 
 import javax.swing.JFrame;

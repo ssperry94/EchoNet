@@ -3,7 +3,7 @@
  */
 
 package com.echonet.main;
-import com.echonet.feedGUI.feedGUI;
+import com.echonet.FeedGUI.FeedGUI;
 
 /**
  *
@@ -12,6 +12,6 @@ import com.echonet.feedGUI.feedGUI;
 public class EchoNet {
 
     public static void main(String[] args) {
-        feedGUI feed = new feedGUI();
+        FeedGUI feed = new FeedGUI();
     }
 }
