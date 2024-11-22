@@ -1,14 +1,19 @@
 package domainmodel;
 
-import static org.junit.Assert.*;
+import java.sql.SQLException;
+import java.util.Map;
+
+import javax.swing.JLabel;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 
+import com.echonet.datahandling.DataPipe;
 import com.echonet.domainmodel.Post;
-
-import org.junit.Before;
-
-import javax.swing.*;
-import java.util.Map;
+import com.echonet.exceptions.DataBaseNotFoundException;
 
 public class PostTest {
 
@@ -50,4 +55,24 @@ public class PostTest {
         assertEquals("Map should contain correct content", "This is a test post.", dataMap.get(2));
         assertEquals("Map should contain correct timestamp", post.timestamp, dataMap.get(3));
     }
+
+    @Test
+    public void testPostBackendFunctionality() throws ClassNotFoundException, SQLException, DataBaseNotFoundException{
+        DataPipe writeToPost = new DataPipe();
+        boolean success;
+        Post post = new Post(1,101, "applesauce");
+        // success = writeToPost.write(post);
+        // assertTrue(success);
+
+        Map<String, Object> dataMap = writeToPost.read(post);
+        // assertEquals("Map should contain correct userID", 1, (int) dataMap.get("user_id"));
+        // assertEquals("Map should contain correct postID", 101, (int) dataMap.get("postID"));
+        // assertEquals("Map should contain correct content", "applesause", (String) dataMap.get("contents"));
+
+        success = writeToPost.remove(post);
+        assertTrue(success);
+
+
+    }
+    
 }
