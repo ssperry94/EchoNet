@@ -17,9 +17,9 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class feedGUI {
+public class FeedGUI {
 
-    public feedGUI() {
+    public FeedGUI() {
         // Window setup
         JFrame frame = new JFrame();
         JPanel mainPanel = new JPanel();
@@ -92,6 +92,6 @@ public class feedGUI {
     }
 
     public static void main(String[] args) {
-        new feedGUI();  
+        new FeedGUI();  
     }
 }
