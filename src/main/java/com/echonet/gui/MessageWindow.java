@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
@@ -79,6 +80,12 @@ public class MessageWindow extends JPanel {
         JTextPane messageBox = new JTextPane();
         messageBox.setEditable(false);
         messageBox.setText(messageBoxText);
+
+        // Set the background color
+        messageBox.setBackground(new Color(146, 199, 195)); // Light blue color
+        messageBox.setForeground(Color.BLACK); // Optional: Set text color
+        messageBox.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1)); // Optional: Add a border
+
         return messageBox;
     }
 
@@ -162,7 +169,7 @@ public class MessageWindow extends JPanel {
     private void initializeMessagePanel() {
         this.displayPanel = new JPanel();
         this.displayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        this.displayPanel.setBackground(new Color(146, 199, 195));
+        this.displayPanel.setBackground(new Color(61, 63, 71));
         updateMessages();
 
         for (JTextPane messageBox : this.messageDisplay) {
