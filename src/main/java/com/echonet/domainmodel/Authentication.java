@@ -2,6 +2,8 @@ package com.echonet.domainmodel;
 
 import java.util.HashMap;
 import java.util.Map;
+
+
 import com.echonet.datahandling.DataPipe;
 
 public class Authentication {
