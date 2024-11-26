@@ -49,7 +49,7 @@ public class HomePanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH); // Buttons moved to the bottom
 
         // Action Listeners for Buttons
-        profileButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "View Profile coming soon!"));
+        profileButton.addActionListener(e -> mainFrame.showPanel("ProfilePanel"));
         friendsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Friends List coming soon!"));
         postButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Create Post coming soon!"));
 

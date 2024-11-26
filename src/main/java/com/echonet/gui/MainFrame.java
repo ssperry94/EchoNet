@@ -32,12 +32,13 @@ public class MainFrame extends JFrame {
         try {
             User dummyUser = new User(1); // Create a dummy user for testing
             MessageWindow messageWindow = new MessageWindow(dummyUser, this); // Pass MainFrame to MessageWindow
-
+            ProfilePanel profilePanel = new ProfilePanel(this, dummyUser); //adding profile panel
             // Add all panels to the main panel
             mainPanel.add(loginPanel, "LoginPanel");
             mainPanel.add(registrationPanel, "RegistrationPanel");
             mainPanel.add(homePanel, "HomePanel");
             mainPanel.add(messageWindow, "MessagePanel");
+            mainPanel.add(profilePanel, "ProfilePanel");
         } catch (Exception e) {
             e.printStackTrace();
         }

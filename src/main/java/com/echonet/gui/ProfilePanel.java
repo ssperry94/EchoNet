@@ -1,5 +1,6 @@
 package com.echonet.gui;
 
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
@@ -28,13 +29,22 @@ public class ProfilePanel extends JPanel {
 
     private void initalize() {
         this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
         //initalize labels
         this.titleLabel = new JLabel("My Profile");
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        this.add(this.titleLabel, gbc);
+
         this.nameLabel = new JLabel("Name: ");
         this.usernameLabel = new JLabel("Username: ");
         this.birthdayLabel = new JLabel("Birthday: ");
         this.emailLabel = new JLabel("Email: ");
+
+        
+        this.add(this.titleLabel);
 
         this.initalizeDisplayLabels();
         this.initalizeButtons();
@@ -45,10 +55,5 @@ public class ProfilePanel extends JPanel {
         this.mainWindow = mw;
         this.currentUser = u;
         this.initalize();
-    }
-
-    public static void main(String args[]) {
-        ProfilePanel p = new ProfilePanel(new MainFrame(), new User(1));
-        p.setVisible(true);
     }
 }
