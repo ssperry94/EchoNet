@@ -18,11 +18,26 @@ public class ProfilePanel extends JPanel {
     
     private JButton backButton;
 
+    private void initalizeDisplayLabels() {
+
+    }
+
+    private void initalizeButtons() {
+
+    }
+
     private void initalize() {
         this.setLayout(new GridBagLayout());
 
         //initalize labels
+        this.titleLabel = new JLabel("My Profile");
+        this.nameLabel = new JLabel("Name: ");
+        this.usernameLabel = new JLabel("Username: ");
+        this.birthdayLabel = new JLabel("Birthday: ");
+        this.emailLabel = new JLabel("Email: ");
 
+        this.initalizeDisplayLabels();
+        this.initalizeButtons();
 
     }
 
