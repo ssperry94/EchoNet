@@ -39,12 +39,31 @@ public class ProfilePanel extends JPanel {
         this.add(this.titleLabel, gbc);
 
         this.nameLabel = new JLabel("Name: ");
-        this.usernameLabel = new JLabel("Username: ");
-        this.birthdayLabel = new JLabel("Birthday: ");
-        this.emailLabel = new JLabel("Email: ");
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        this.add(this.nameLabel, gbc);
 
-        
-        this.add(this.titleLabel);
+
+        this.usernameLabel = new JLabel("Username: ");
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        this.add(this.usernameLabel, gbc);
+
+        this.birthdayLabel = new JLabel("Birthday: ");
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        this.add(this.birthdayLabel, gbc);
+
+        this.emailLabel = new JLabel("Email: ");
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        this.add(this.emailLabel, gbc);
+
+    
 
         this.initalizeDisplayLabels();
         this.initalizeButtons();
