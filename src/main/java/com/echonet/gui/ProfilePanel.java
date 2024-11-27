@@ -27,7 +27,7 @@ public class ProfilePanel extends JPanel {
         this.nameDisplayLabel = new JLabel(this.currentUser.getFirstName() + " " + this.currentUser.getLastName());
         this.nameDisplayLabel.setForeground(Color.WHITE);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 0, 0, 0);
         this.add(this.nameDisplayLabel, gbc);
@@ -35,27 +35,36 @@ public class ProfilePanel extends JPanel {
         this.usernameDisplayLabel = new JLabel(this.currentUser.getUsername());
         this.usernameDisplayLabel.setForeground(Color.WHITE);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 3;
         this.add(this.usernameDisplayLabel, gbc);
 
         this.birthdayDisplayLabel = new JLabel(this.currentUser.getBirthday());
         this.birthdayDisplayLabel.setForeground(Color.WHITE);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 4;
         this.add(this.birthdayDisplayLabel, gbc);
 
         this.emailDisplayLabel = new JLabel(this.currentUser.getEmail());
         this.emailDisplayLabel.setForeground(Color.WHITE);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 5;
         this.add(this.emailDisplayLabel, gbc);
     }
 
-    private void initalizeButtons() {
-
+    private void initalizeButtons(GridBagConstraints gbc) {
+        this.backButton = new JButton("Home");
+        this.backButton.addActionListener(e -> this.mainWindow.showPanel("HomePanel"));
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10,0,0,0);
+        this.add(this.backButton, gbc);
     }
 
     private void initalize() {
@@ -66,7 +75,7 @@ public class ProfilePanel extends JPanel {
         //initalize labels
         this.titleLabel = new JLabel("My Profile", SwingConstants.CENTER);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
         this.titleLabel.setFont(new Font("Monserrat", Font.BOLD, 50));
@@ -105,11 +114,8 @@ public class ProfilePanel extends JPanel {
         gbc.gridy = 5;
         this.add(this.emailLabel, gbc);
 
-    
-
+        this.initalizeButtons(gbc);
         this.initalizeDisplayLabels(gbc);
-        this.initalizeButtons();
-
     }
 
     public ProfilePanel(final MainFrame mw, final User u) {
