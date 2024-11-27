@@ -23,8 +23,35 @@ public class ProfilePanel extends JPanel {
     
     private JButton backButton;
 
-    private void initalizeDisplayLabels() {
+    private void initalizeDisplayLabels(GridBagConstraints gbc) {
+        this.nameDisplayLabel = new JLabel(this.currentUser.getFirstName() + " " + this.currentUser.getLastName());
+        this.nameDisplayLabel.setForeground(Color.WHITE);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        this.add(this.nameDisplayLabel, gbc);
 
+        this.usernameDisplayLabel = new JLabel(this.currentUser.getUsername());
+        this.usernameDisplayLabel.setForeground(Color.WHITE);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        this.add(this.usernameDisplayLabel, gbc);
+
+        this.birthdayDisplayLabel = new JLabel(this.currentUser.getBirthday());
+        this.birthdayDisplayLabel.setForeground(Color.WHITE);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        this.add(this.birthdayDisplayLabel, gbc);
+
+        this.emailDisplayLabel = new JLabel(this.currentUser.getEmail());
+        this.emailDisplayLabel.setForeground(Color.WHITE);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        this.add(this.emailDisplayLabel, gbc);
     }
 
     private void initalizeButtons() {
@@ -80,7 +107,7 @@ public class ProfilePanel extends JPanel {
 
     
 
-        this.initalizeDisplayLabels();
+        this.initalizeDisplayLabels(gbc);
         this.initalizeButtons();
 
     }
@@ -88,6 +115,15 @@ public class ProfilePanel extends JPanel {
     public ProfilePanel(final MainFrame mw, final User u) {
         this.mainWindow = mw;
         this.currentUser = u;
+
+        /******************************************************************************/
+        /*Initalizing user fields - DELETE WHEN LOGIN SYSTEM IS FINISHED!!!!!!!!*/
+        u.setBirthday("1-1-1999");
+        u.setEmail("fakeemail@email.com");
+        u.setFirstName("John");
+        u.setLastName("Smith");
+        u.setUsername("user123");
+        /******************************************************************************/
         this.initalize();
     }
 }
