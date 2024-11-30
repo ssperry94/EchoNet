@@ -97,14 +97,14 @@ public class MessageTest {
 
         boolean writeSuccess = dataPipe.write(message);
         assertTrue(writeSuccess);
-        Map <String, Object> dataMap = dataPipe.read(message);
+        Map <String, Object> dataMap = dataPipe.read(message, "messageID", 101);
         assertNotNull(dataMap);
         assertEquals("Data map should contain user ID", userId, dataMap.get("user_id"));
         assertEquals("Data map should contain message ID", messageId, dataMap.get("messageID"));
         assertEquals("Data map should contain timestamp as string", timestamp.toString(), dataMap.get("timestamp"));
         assertEquals("Data map should contain contents", contents, dataMap.get("contents"));
 
-        boolean removeSuccess = dataPipe.remove(message);
+        boolean removeSuccess = dataPipe.remove(message, "messageID", 101);
         assertTrue(removeSuccess);
     }
 

@@ -161,6 +161,16 @@ public class DataPipe {
             return false;
         }
     }
+
+    public boolean remove(final Domain d, final String tableColumnName, final Object value) {
+        try(DataRemover remover = new DataRemover(Config.DATABASE_INIT)) {
+            remover.remove(d.getTable(), d, tableColumnName, value);
+            return true;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            return false;
+        }
+        
+    }
     //for unit tests only
     public Map <String, Object> read(final Domain d, boolean isTest) {
         ResultSet rs;
@@ -175,6 +185,7 @@ public class DataPipe {
         }
     }   
     
+
     //for unit test 
     public boolean write(final Domain d, boolean isTest) {
         Map <Integer, Object> dataMap;

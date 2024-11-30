@@ -45,6 +45,10 @@ class SqlGenerator {
         return "DELETE FROM " + table.getTableName() + " WHERE " + table.getTableColumns().get(0) + " = " + d.getID();
     }
 
+    public String deleteStatement(final Table table, final Domain d, final String tableColumnName, final Object value) {
+        return "DELETE FROM " + table.getTableName() + " WHERE " + tableColumnName + " = " + "\"" + value.toString() + "\""; 
+    }
+
     public String getTableInfoQuery(final String tableName) {
         return "SELECT * FROM " + tableName;
     }
