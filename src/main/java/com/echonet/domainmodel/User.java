@@ -20,6 +20,11 @@ public class User extends Domain {
     protected String tempfriends;
     private List<Friend> friends;
     
+    private void createFriendsList(final String friendsStr) {
+        //get each number
+        //get each friend from database
+        //set attributes and add to list 
+    }
     public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
 
     /**
