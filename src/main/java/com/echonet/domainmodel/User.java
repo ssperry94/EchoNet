@@ -7,9 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
+
+/*TODO: uncomment getFriends in createMapForBackend()*/
 public class User extends Domain {
 
     protected String firstName;
@@ -20,10 +23,30 @@ public class User extends Domain {
     protected String tempfriends;
     private List<Friend> friends;
     
-    private void createFriendsList(final String friendsStr) {
-        //get each number
-        //get each friend from database
-        //set attributes and add to list 
+    public void createFriendsList(final String friendsStr) {
+        //locals
+        this.friends = new ArrayList<>(); 
+        String [] friendIDs = friendsStr.split(",");
+        DataPipe dataPipe = new DataPipe();
+        Map <String, Object> dataMap;
+
+        //main for loop
+        for (String friend : friendIDs) {
+            //convert int to string and populate datamap
+            int convertedInt = Integer.parseInt(friend);
+            User nextFriend = new User(convertedInt);
+            dataMap = dataPipe.read(nextFriend);
+
+            //fill all fields of user
+            nextFriend.setFirstName((String) dataMap.get("first_name"));
+            nextFriend.setLastName((String) dataMap.get("last_name"));
+            nextFriend.setUsername((String) dataMap.get("username"));
+            nextFriend.setBirthday((String) dataMap.get("birthday"));
+            nextFriend.setEmail((String) dataMap.get("email"));
+
+            //upcast to friend and add to list
+            this.friends.add((Friend) nextFriend);
+        }
     }
     public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
 
@@ -85,6 +108,10 @@ public class User extends Domain {
         return friendsList;
     }
 
+    public List <Friend> getterFriends() {
+        return this.friends;
+    }
+
     // getter and setter methods for user info
     public String getFirstName(){
         return this.firstName;
@@ -130,7 +157,7 @@ public class User extends Domain {
         dataMap.put(3, this.username);
         dataMap.put(4, this.birthday);
         dataMap.put(5, this.email);
-        dataMap.put(6, this.getFriends());
+        //dataMap.put(6, this.getFriends());
         return dataMap;
     }
 }
