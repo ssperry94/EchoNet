@@ -68,7 +68,7 @@ public class PostTest {
         // assertEquals("Map should contain correct userID", 1, (int) dataMap.get("user_id"));
         // assertEquals("Map should contain correct postID", 101, (int) dataMap.get("postID"));
         // assertEquals("Map should contain correct content", "applesause", (String) dataMap.get("contents"));
-
+        //once you check user ID you can write read delte with this
         success = writeToPost.remove(post);
         assertTrue(success);
 

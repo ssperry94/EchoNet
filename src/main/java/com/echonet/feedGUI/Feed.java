@@ -1,4 +1,4 @@
-package com.echonet.feedGUI;
+package com.echonet.FeedGUI;
 
 import java.util.ArrayList;
 import java.util.List;
