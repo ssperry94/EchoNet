@@ -3,7 +3,10 @@
  */
 
 package com.echonet.main;
-import com.echonet.FeedGUI.FeedGUI;
+
+import javax.swing.SwingUtilities;
+
+import com.echonet.gui.MainFrame;
 
 /**
  *
@@ -12,6 +15,9 @@ import com.echonet.FeedGUI.FeedGUI;
 public class EchoNet {
 
     public static void main(String[] args) {
-        FeedGUI feed = new FeedGUI();
+        SwingUtilities.invokeLater(() -> {
+            MainFrame mainFrame = new MainFrame();
+            mainFrame.setVisible(true);
+        });
     }
 }
