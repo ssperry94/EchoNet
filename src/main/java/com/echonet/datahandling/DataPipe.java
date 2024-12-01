@@ -41,8 +41,8 @@ public class DataPipe {
         List <String> columnNames = t.getTableColumns();
         for(int i = 1; i <= columnNames.size(); i++) {
                 Object value = rs.getObject(i);
-                boolean debugNewFunct = this.canBeNull(columnNames.get(i)); //for debugging only
-                if(value == null && !this.canBeNull(columnNames.get(i))) {
+                boolean debugNewFunct = this.canBeNull(columnNames.get(i-1)); //for debugging only
+                if(value == null && !this.canBeNull(columnNames.get(i - 1))) {
                     return null; //returns null if any value wasn't gathered from the database
                 }
                 else {
