@@ -25,6 +25,16 @@ public class User extends Domain {
     protected String tempfriends;
     private List<Friend> friends;
     
+    private void addFriendID(final User friend) {
+        String idStr = String.valueOf(friend.getID());
+        if(this.tempfriends == null) {
+            this.tempfriends = idStr;
+        }
+        else {
+            this.tempfriends = this.tempfriends + "," + idStr;
+        }
+        
+    }
     private void createFriendsList(final String friendsStr) throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
         if(friendsStr == null) {
             return;
@@ -93,7 +103,9 @@ public class User extends Domain {
     public void addFriend(User friend) {
         if (friend != this /*&& !isFriendsWith(friend)*/) {
             Friend newFriend = new Friend(this, friend);
-            friends.add(newFriend);
+            if(friends.add(newFriend)) {
+                this.addFriendID(friend);
+            }
             friend.friends.add(newFriend);  // Mutual friendship
         }
     }
