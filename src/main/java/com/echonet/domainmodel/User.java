@@ -2,14 +2,17 @@ package com.echonet.domainmodel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
+
+/*TODO: make a way to update friends list in database
+*/
 public class User extends Domain {
 
     protected String firstName;
@@ -20,7 +23,47 @@ public class User extends Domain {
     protected String tempfriends;
     private List<Friend> friends;
     
-    public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
+    private void addFriendID(final User friend) {
+        String idStr = String.valueOf(friend.getID());
+        if(this.tempfriends == null) {
+            this.tempfriends = idStr;
+        }
+        else {
+            this.tempfriends = this.tempfriends + "," + idStr;
+        }
+        
+    }
+    private void createFriendsList(final String friendsStr) throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
+        if(friendsStr == null) {
+            return;
+        }
+
+        //locals
+        String [] friendIDs = friendsStr.split(",");
+        DataPipe dataPipe = new DataPipe();
+        Map <String, Object> dataMap;
+
+        //main for loop
+        for (String friend : friendIDs) {
+            //convert int to string and populate datamap
+            int convertedInt = Integer.parseInt(friend);
+            User nextFriend = new User(convertedInt);
+            nextFriend.setTable(new Table(Config.USER_TABLE));
+            dataMap = dataPipe.read(nextFriend);
+
+            //fill all fields of user
+            nextFriend.setFirstName((String) dataMap.get("first_name"));
+            nextFriend.setLastName((String) dataMap.get("last_name"));
+            nextFriend.setUsername((String) dataMap.get("username"));
+            nextFriend.setBirthday((String) dataMap.get("birthday"));
+            nextFriend.setEmail((String) dataMap.get("email"));
+
+            Friend newFriend = new Friend(this, nextFriend);
+
+            this.friends.add(newFriend);
+        }
+    }
+    public User(final int ID) {super(ID);} 
 
     /**
      * Instantiates the User class using an ID, and an array containg the rest of the attribtues
@@ -30,6 +73,7 @@ public class User extends Domain {
      * 2 - username
      * 3 - birthday
      * 4 - email
+     * 5 - string of friends
      * @param ID an integer representing the primary key
      * @param attributeArray - array containing all the attributes
      * @throws DataBaseNotFoundException 
@@ -47,7 +91,7 @@ public class User extends Domain {
                 case 2: this.username = attributeArray.get(i); break;
                 case 3: this.birthday = attributeArray.get(i); break;
                 case 4: this.email = attributeArray.get(i); break;
-                case 5: this.tempfriends = attributeArray.get(i); List<String> friends = new ArrayList<>(Arrays.asList(tempfriends.split(","))); break;
+                case 5: this.tempfriends = attributeArray.get(i); this.createFriendsList(this.tempfriends); break;
                 default: System.err.println("No more attributes to set."); break;
             }
         }
@@ -57,7 +101,9 @@ public class User extends Domain {
     public void addFriend(User friend) {
         if (friend != this /*&& !isFriendsWith(friend)*/) {
             Friend newFriend = new Friend(this, friend);
-            friends.add(newFriend);
+            if(friends.add(newFriend)) {
+                this.addFriendID(friend);
+            }
             friend.friends.add(newFriend);  // Mutual friendship
         }
     }
@@ -80,6 +126,11 @@ public class User extends Domain {
         return friendsList;
     }
 
+    public List <Friend> getterFriends() {
+        return this.friends;
+    }
+
+    public String getFriendIdString() {return this.tempfriends;}
     // getter and setter methods for user info
     public String getFirstName(){
         return this.firstName;
@@ -125,7 +176,7 @@ public class User extends Domain {
         dataMap.put(3, this.username);
         dataMap.put(4, this.birthday);
         dataMap.put(5, this.email);
-        //dataMap.put(6, this.getFriends());
+        dataMap.put(6, this.tempfriends);
         return dataMap;
     }
 }
