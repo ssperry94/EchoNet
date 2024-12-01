@@ -49,7 +49,12 @@ class SqlGenerator {
         return "DELETE FROM " + table.getTableName() + " WHERE " + tableColumnName + " = " + "\"" + value.toString() + "\""; 
     }
 
+    public String updateStatement(final Table table, final Domain d, final String tableColumnName, final Object value) {
+        return "UPDATE " + table.getTableName() + " SET " + tableColumnName + " = " + "\"" + value + "\"" + " WHERE " + table.getTableColumns().get(0) + " = " + d.getID(); 
+    }
+    
     public String getTableInfoQuery(final String tableName) {
         return "SELECT * FROM " + tableName;
     }
+
 }
