@@ -12,8 +12,7 @@ import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.exceptions.DomainUpdateFailException;
 import com.echonet.utilities.Config;
 
-/*TODO: make a way to update friends list in database
-*/
+
 public class User extends Domain {
 
     protected String firstName;
@@ -24,6 +23,12 @@ public class User extends Domain {
     protected String tempfriends;
     private List<Friend> friends;
     
+    /**
+     * takes a user that has been successfully added to the friends list, and adds their user id to the string tempfriends.
+     * automatically formats the ID with a comma if needed 
+     * @param friend - a user that is being added to the friends list. should already be added 
+     * @author Sam Perry
+     */
     private void addFriendID(final User friend) {
         String idStr = String.valueOf(friend.getID());
         if(this.tempfriends == null) {
@@ -34,6 +39,17 @@ public class User extends Domain {
         }
         
     }
+
+    /**
+     * initalizes the friends list with whatever user IDs are in the friendsStr (must be comma delimited)
+     * isolates each UserID and attempts to find that user in the database
+     * populates all user info from database and adds them to friends list
+     * @param friendsStr - comma delimted string of user id's 
+     * @throws SQLException - exception thrown by {@code DataPipe.read()}
+     * @throws DataBaseNotFoundException - exception thrown by {@code DataPipe.read()}
+     * @throws ClassNotFoundException - exception thrown by {@code DataPipe.read()}
+     * @author Sam Perry
+     */
     private void createFriendsList(final String friendsStr) throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
         if(friendsStr == null) {
             return;
@@ -92,7 +108,7 @@ public class User extends Domain {
                 case 2: this.username = attributeArray.get(i); break;
                 case 3: this.birthday = attributeArray.get(i); break;
                 case 4: this.email = attributeArray.get(i); break;
-                case 5: this.tempfriends = attributeArray.get(i); this.createFriendsList(this.tempfriends); break;
+                case 5: this.tempfriends = attributeArray.get(i); this.createFriendsList(this.tempfriends); break; //initalize friends list
                 default: System.err.println("No more attributes to set."); break;
             }
         }
@@ -100,13 +116,13 @@ public class User extends Domain {
 
     // Method to add a friend by creating a Friendship
     public void addFriend(User friend) throws DomainUpdateFailException {
-        DataPipe dataPipe;
+        DataPipe dataPipe; //added datapipe object to update new friends list for user - Sam  
         if (friend != this /*&& !isFriendsWith(friend)*/) {
             Friend newFriend = new Friend(this, friend);
-            if(friends.add(newFriend)) {
+            if(friends.add(newFriend)) { //added if statement to make sure that friends are added first and nothing is needlessly added to database - Sam 
                 dataPipe = new DataPipe();
-                this.addFriendID(friend);
-                if(!dataPipe.update(this, "friends", this.tempfriends)) {
+                this.addFriendID(friend); //adds new friend to tempfriends so that it can be written to the database - Sam 
+                if(!dataPipe.update(this, "friends", this.tempfriends)) { //updates database and throws error if it fails - Sam
                     throw new DomainUpdateFailException("Failed to update friends list"); //database could not update friends list
                 }
             }
@@ -132,11 +148,17 @@ public class User extends Domain {
         return friendsList;
     }
 
+    //getter that returns a list of friends, only used in a unit test for now -Sam
     public List <Friend> getterFriends() {
         return this.friends;
     }
 
+    /**
+     * returns the tempfriends attribute 
+     * @return this.tempfriends
+     */
     public String getFriendIdString() {return this.tempfriends;}
+
     // getter and setter methods for user info
     public String getFirstName(){
         return this.firstName;
@@ -147,6 +169,7 @@ public class User extends Domain {
     }
    
     public String getLastName() {return this.lastName;}
+
     public void setLastName(String lastName) {this.lastName = lastName;}
     
     public String getUsername(){
@@ -182,7 +205,7 @@ public class User extends Domain {
         dataMap.put(3, this.username);
         dataMap.put(4, this.birthday);
         dataMap.put(5, this.email);
-        dataMap.put(6, this.tempfriends);
+        dataMap.put(6, this.tempfriends); //adds teh tempfriends since only the string of user ids get added to the database - Sam
         return dataMap;
     }
 }
