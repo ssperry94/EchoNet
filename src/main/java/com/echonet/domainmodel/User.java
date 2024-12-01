@@ -125,7 +125,7 @@ public class User extends Domain {
         dataMap.put(3, this.username);
         dataMap.put(4, this.birthday);
         dataMap.put(5, this.email);
-        dataMap.put(6, this.getFriends());
+        //dataMap.put(6, this.getFriends());
         return dataMap;
     }
 }
