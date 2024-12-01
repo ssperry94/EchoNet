@@ -7,15 +7,13 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
-import com.echonet.domainmodel.Friend;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
-import com.echonet.utilities.Config;
 
 public class UserTest {
 
@@ -35,7 +33,8 @@ public class UserTest {
             "Doe",              // Last Name
             "janedoe123",       // Username
             "1/1/1990",         // Birthday
-            "jane.doe@example.com" // Email
+            "jane.doe@example.com", // Email
+            null //Friends
         );
 
         // Act
@@ -49,6 +48,7 @@ public class UserTest {
         assertEquals("Username should match", "janedoe123", user.getUsername());
         assertEquals("Birthday should match", "1/1/1990", user.getBirthday());
         assertEquals("Email should match", "jane.doe@example.com", user.getEmail());
+        assertTrue(user.getterFriends().isEmpty());
     }
 
     @Test
@@ -156,24 +156,20 @@ public class UserTest {
         assertEquals(user.getEmail(), dataMap.get(5));
     }
 
-    @Test
-    public void testCreateFriendsList() throws Exception {
-        DataPipe dataPipe = new DataPipe();
-        User testUser = new User(1);
-        testUser.setTable(new Table(Config.USER_TABLE));
+    // @Test
+    // public void testCreateFriendsList() throws Exception {
+    //     DataPipe dataPipe = new DataPipe();
+    //     User testUser = new User(1);
+    //     testUser.setTable(new Table(Config.USER_TABLE));
 
-        Map <String, Object> dataMap = dataPipe.read(testUser);
-        assertNotNull(dataMap);
-        String friendsString = (String) dataMap.get("friends");
-        assertNotNull(friendsString);
+    //     Map <String, Object> dataMap = dataPipe.read(testUser);
+    //     assertNotNull(dataMap);
+    //     String friendsString = (String) dataMap.get("friends");
+    //     assertNotNull(friendsString);
 
-        testUser.createFriendsList(friendsString);
+    //     testUser.createFriendsList(friendsString);
 
-        List <Friend> friendsList = testUser.getterFriends();
-        assertNotNull(friendsList);
-
-        
-
-
-    }
+    //     List <Friend> friendsList = testUser.getterFriends();
+    //     assertNotNull(friendsList);
+    // }
 }

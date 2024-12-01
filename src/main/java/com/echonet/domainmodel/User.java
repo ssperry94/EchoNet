@@ -2,7 +2,6 @@ package com.echonet.domainmodel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +12,8 @@ import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 
 /*TODO: uncomment getFriends in createMapForBackend()
- * make createFriendsList private
- * ask if friends should be a list of Users or a list of Friends
+ * create a string with the format ID,ID to write to the database
+ * integrate that method in addFriends() to automatically add it in
 */
 public class User extends Domain {
 
@@ -26,9 +25,12 @@ public class User extends Domain {
     protected String tempfriends;
     private List<Friend> friends;
     
-    public void createFriendsList(final String friendsStr) throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
+    private void createFriendsList(final String friendsStr) throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
+        if(friendsStr == null) {
+            return;
+        }
+
         //locals
-        this.friends = new ArrayList<>(); 
         String [] friendIDs = friendsStr.split(",");
         DataPipe dataPipe = new DataPipe();
         Map <String, Object> dataMap;
@@ -37,7 +39,7 @@ public class User extends Domain {
         for (String friend : friendIDs) {
             //convert int to string and populate datamap
             int convertedInt = Integer.parseInt(friend);
-            Friend nextFriend = new Friend(convertedInt);
+            User nextFriend = new User(convertedInt);
             nextFriend.setTable(new Table(Config.USER_TABLE));
             dataMap = dataPipe.read(nextFriend);
 
@@ -48,11 +50,12 @@ public class User extends Domain {
             nextFriend.setBirthday((String) dataMap.get("birthday"));
             nextFriend.setEmail((String) dataMap.get("email"));
 
-            //upcast to friend and add to list
-            this.friends.add(nextFriend);
+            Friend newFriend = new Friend(this, nextFriend);
+
+            this.friends.add(newFriend);
         }
     }
-    public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later
+    public User(final int ID) {super(ID);} 
 
     /**
      * Instantiates the User class using an ID, and an array containg the rest of the attribtues
@@ -62,6 +65,7 @@ public class User extends Domain {
      * 2 - username
      * 3 - birthday
      * 4 - email
+     * 5 - string of friends
      * @param ID an integer representing the primary key
      * @param attributeArray - array containing all the attributes
      * @throws DataBaseNotFoundException 
@@ -79,7 +83,7 @@ public class User extends Domain {
                 case 2: this.username = attributeArray.get(i); break;
                 case 3: this.birthday = attributeArray.get(i); break;
                 case 4: this.email = attributeArray.get(i); break;
-                case 5: this.tempfriends = attributeArray.get(i); List<String> friends = new ArrayList<>(Arrays.asList(tempfriends.split(","))); break;
+                case 5: this.tempfriends = attributeArray.get(i); this.createFriendsList(this.tempfriends); break;
                 default: System.err.println("No more attributes to set."); break;
             }
         }
