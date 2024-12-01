@@ -11,9 +11,7 @@ import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 
-/*TODO: uncomment getFriends in createMapForBackend()
- * create a string with the format ID,ID to write to the database
- * integrate that method in addFriends() to automatically add it in
+/*TODO: make a way to update friends list in database
 */
 public class User extends Domain {
 
@@ -178,7 +176,7 @@ public class User extends Domain {
         dataMap.put(3, this.username);
         dataMap.put(4, this.birthday);
         dataMap.put(5, this.email);
-        //dataMap.put(6, this.getFriends());
+        dataMap.put(6, this.tempfriends);
         return dataMap;
     }
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -146,7 +147,7 @@ public class UserTest {
 
         // Assert
         assertNotNull(dataMap);
-        assertEquals(6, dataMap.size());
+        assertEquals(7, dataMap.size());
 
         assertEquals(user.getID(), dataMap.get(0));
         assertEquals(user.getFirstName(), dataMap.get(1));
@@ -154,6 +155,7 @@ public class UserTest {
         assertEquals(user.getUsername(), dataMap.get(3));
         assertEquals(user.getBirthday(), dataMap.get(4));
         assertEquals(user.getEmail(), dataMap.get(5));
+        assertNull(dataMap.get(6));
     }
 
     // @Test
