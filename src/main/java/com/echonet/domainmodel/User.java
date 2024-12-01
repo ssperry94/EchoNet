@@ -132,6 +132,7 @@ public class User extends Domain {
         return this.friends;
     }
 
+    public String getFriendIdString() {return this.tempfriends;}
     // getter and setter methods for user info
     public String getFirstName(){
         return this.firstName;

@@ -42,15 +42,18 @@ public class UserTest2 {
         // Verify mutual friendship
         assertTrue(user1.getFriends().contains(user2));
         assertTrue(user2.getFriends().contains(user1));
+        assertEquals("2", user1.getFriendIdString());
     }
 
     @Test
     public void testAddSelfAsFriend() {
         // Try to add self as a friend
+        String expectedTempFriends = user1.getFriendIdString();
         user1.addFriend(user1);
 
         // Verify that self-friendship is not allowed
         assertFalse(user1.getFriends().contains(user1));
+        assertEquals(expectedTempFriends, user1.getFriendIdString());
     }
 
     // @Test
@@ -75,6 +78,7 @@ public class UserTest2 {
         assertEquals(2, friends.size());
         assertTrue(friends.contains(user2));
         assertTrue(friends.contains(user3));
+        assertEquals("2,3", user1.getFriendIdString());
     }
 
 //     @Test
