@@ -10,6 +10,13 @@ public class Friend extends User{
         this.user2 = user2;
     }
 
+    //added for adding friends to list in User
+    public Friend(final int ID) {
+        super(ID);
+        user1 = null;
+        user2 = null;
+    } 
+
     public User getUser1() {
         return user1;
     }

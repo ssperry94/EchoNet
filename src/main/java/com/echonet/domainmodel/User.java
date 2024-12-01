@@ -12,7 +12,10 @@ import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 
-/*TODO: uncomment getFriends in createMapForBackend()*/
+/*TODO: uncomment getFriends in createMapForBackend()
+ * make createFriendsList private
+ * ask if friends should be a list of Users or a list of Friends
+*/
 public class User extends Domain {
 
     protected String firstName;
@@ -23,7 +26,7 @@ public class User extends Domain {
     protected String tempfriends;
     private List<Friend> friends;
     
-    public void createFriendsList(final String friendsStr) {
+    public void createFriendsList(final String friendsStr) throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
         //locals
         this.friends = new ArrayList<>(); 
         String [] friendIDs = friendsStr.split(",");
@@ -34,7 +37,8 @@ public class User extends Domain {
         for (String friend : friendIDs) {
             //convert int to string and populate datamap
             int convertedInt = Integer.parseInt(friend);
-            User nextFriend = new User(convertedInt);
+            Friend nextFriend = new Friend(convertedInt);
+            nextFriend.setTable(new Table(Config.USER_TABLE));
             dataMap = dataPipe.read(nextFriend);
 
             //fill all fields of user
@@ -45,7 +49,7 @@ public class User extends Domain {
             nextFriend.setEmail((String) dataMap.get("email"));
 
             //upcast to friend and add to list
-            this.friends.add((Friend) nextFriend);
+            this.friends.add(nextFriend);
         }
     }
     public User(final int ID) {super(ID);} //added this constructor for unit testing - may delete later

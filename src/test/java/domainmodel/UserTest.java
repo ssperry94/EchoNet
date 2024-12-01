@@ -10,9 +10,12 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
+import com.echonet.domainmodel.Friend;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.utilities.Config;
 
 public class UserTest {
 
@@ -151,5 +154,26 @@ public class UserTest {
         assertEquals(user.getUsername(), dataMap.get(3));
         assertEquals(user.getBirthday(), dataMap.get(4));
         assertEquals(user.getEmail(), dataMap.get(5));
+    }
+
+    @Test
+    public void testCreateFriendsList() throws Exception {
+        DataPipe dataPipe = new DataPipe();
+        User testUser = new User(1);
+        testUser.setTable(new Table(Config.USER_TABLE));
+
+        Map <String, Object> dataMap = dataPipe.read(testUser);
+        assertNotNull(dataMap);
+        String friendsString = (String) dataMap.get("friends");
+        assertNotNull(friendsString);
+
+        testUser.createFriendsList(friendsString);
+
+        List <Friend> friendsList = testUser.getterFriends();
+        assertNotNull(friendsList);
+
+        
+
+
     }
 }
