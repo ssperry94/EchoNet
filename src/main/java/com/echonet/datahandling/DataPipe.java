@@ -41,7 +41,6 @@ public class DataPipe {
         List <String> columnNames = t.getTableColumns();
         for(int i = 1; i <= columnNames.size(); i++) {
                 Object value = rs.getObject(i);
-                boolean debugNewFunct = this.canBeNull(columnNames.get(i)); //for debugging only
                 if(value == null && !this.canBeNull(columnNames.get(i))) {
                     return null; //returns null if any value wasn't gathered from the database
                 }
@@ -182,6 +181,15 @@ public class DataPipe {
             return false;
         }
         
+    }
+
+    public boolean update(final Domain d, final String tableColumnName, final Object value) {
+        try(DataUpdater updater = new DataUpdater(Config.DATABASE_INIT)) {
+            updater.update(d, tableColumnName, value);
+            return true;
+        } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+            return false;
+        }
     }
     //for unit tests only
     public Map <String, Object> read(final Domain d, boolean isTest) {
