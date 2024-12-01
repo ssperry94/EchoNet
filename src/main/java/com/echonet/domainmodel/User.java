@@ -9,6 +9,7 @@ import java.util.Map;
 import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.exceptions.DomainUpdateFailException;
 import com.echonet.utilities.Config;
 
 /*TODO: make a way to update friends list in database
@@ -98,11 +99,16 @@ public class User extends Domain {
     }
 
     // Method to add a friend by creating a Friendship
-    public void addFriend(User friend) {
+    public void addFriend(User friend) throws DomainUpdateFailException {
+        DataPipe dataPipe;
         if (friend != this /*&& !isFriendsWith(friend)*/) {
             Friend newFriend = new Friend(this, friend);
             if(friends.add(newFriend)) {
+                dataPipe = new DataPipe();
                 this.addFriendID(friend);
+                if(!dataPipe.update(this, "friends", this.tempfriends)) {
+                    throw new DomainUpdateFailException("Failed to update friends list"); //database could not update friends list
+                }
             }
             friend.friends.add(newFriend);  // Mutual friendship
         }

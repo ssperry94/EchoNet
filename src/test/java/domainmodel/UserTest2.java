@@ -35,7 +35,7 @@ public class UserTest2 {
     }
 
     @Test
-    public void testAddFriend() {
+    public void testAddFriend() throws Exception {
         // Add user2 as a friend to user1
         user1.addFriend(user2);
 
@@ -46,7 +46,7 @@ public class UserTest2 {
     }
 
     @Test
-    public void testAddSelfAsFriend() {
+    public void testAddSelfAsFriend() throws Exception {
         // Try to add self as a friend
         String expectedTempFriends = user1.getFriendIdString();
         user1.addFriend(user1);
@@ -68,7 +68,7 @@ public class UserTest2 {
     // }
 
     @Test
-    public void testGetFriends() {
+    public void testGetFriends() throws Exception {
         // Add multiple friends to user1
         user1.addFriend(user2);
         user1.addFriend(user3);
