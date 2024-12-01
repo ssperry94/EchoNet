@@ -251,5 +251,23 @@ public class DataPipeTest {
         success3 = dataPipe.remove(message3);
         assertTrue(success3);
     }
+
+    @Test
+    public void testUpdateMethod() throws Exception {
+        Message testMessage = new Message(2);
+        testMessage.setAutomaticMessageID();
+        testMessage.setRecipiantID(1);
+        testMessage.setContents("Hello");
+        testMessage.setTimeStamp();
+
+        assertTrue(dataPipe.write(testMessage));
+
+        assertTrue(dataPipe.update(testMessage, "contents", "goodbye"));
+
+        Map <String, Object> dataMap = dataPipe.read(testMessage); 
+        assertEquals("goodbye", dataMap.get("contents"));
+
+        assertTrue(dataPipe.remove(testMessage));
+    }
 }
 
