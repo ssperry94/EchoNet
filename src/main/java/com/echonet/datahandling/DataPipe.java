@@ -4,8 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.echonet.domainmodel.Domain;
 import com.echonet.exceptions.DataBaseNotFoundException;
@@ -18,6 +20,14 @@ import com.echonet.utilities.Config;
  * @author Sam Perry - all methods
  */
 public class DataPipe {
+
+    private boolean canBeNull(final String columnName) {
+        Set <String> acceptableColumnNames = new HashSet<>();
+        acceptableColumnNames.add("friends"); //friends can be null
+
+        return acceptableColumnNames.contains(columnName);
+    }
+    
     /**
      * private method that creates a Map from a result set. keys are the table names, and the values are the data corrisponding with each row
      * @param rs - {@code ResultSet} generated from the read method
@@ -25,12 +35,14 @@ public class DataPipe {
      * @return - {@code Map} with table column names as keys, data in those columns as values
      * @throws SQLException - if any database related errors occur
      */
+
     private Map <String, Object> createMap(final ResultSet rs, final Table t) throws SQLException {
         Map <String, Object> data = new HashMap<>();
         List <String> columnNames = t.getTableColumns();
         for(int i = 1; i <= columnNames.size(); i++) {
                 Object value = rs.getObject(i);
-                if(value == null) {
+                boolean debugNewFunct = this.canBeNull(columnNames.get(i)); //for debugging only
+                if(value == null && !this.canBeNull(columnNames.get(i))) {
                     return null; //returns null if any value wasn't gathered from the database
                 }
                 else {
