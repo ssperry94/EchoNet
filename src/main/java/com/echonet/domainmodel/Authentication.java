@@ -15,18 +15,25 @@ public class Authentication extends Domain {
 
     //Map <String, Object> dataMap = read.read(User);
 
-    private Map<String, String> users;  // This should be replaced with data base map
+    private Map<String, Object> users;  // This should be replaced with data base map
 
     private void setUsers(final String username) {
-        Map <String, Object> dataMap = read.read(this, "username", username);
-        this.users.put("username", (String) dataMap.get("username"));
+        this.users = this.read.read(this, "username", username);
     }
-
+    
+    
+    //needs other attributes of user 
+    private User createUser() {
+        User u = new User(this.getID());
+        u.setUsername((String) this.users.get("username"));
+        //set everything else here 
+        
+        return u;
+    }
     public Authentication(final int userID) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         super(userID);
         read = new DataPipe();
         this.table = new Table(Config.LOGIN_TABLE);
-        users = new HashMap<>();
     }
 
     // Registering a new user
@@ -36,15 +43,25 @@ public class Authentication extends Domain {
             return false;
         }
         //get items from database into users
+        this.setUsers(username);
         
-        if (users.containsKey(username)) {
+        //if users is null, no other use has been created with this login creds
+        if(this.users == null) {
+            if(read.write(this)) {
+                User newUser = this.createUser();
+                return read.write(newUser);
+            }
+            else {
+                return false;
+            }
+        }
+        else if (this.users.get("username").toString().equals(username)) {
             System.out.println("Username already exists.");
             return false;
         }
-        
-        users.put(username, password);
-        System.out.println("User registered successfully.");
-        return true;
+        else {
+            return false; //failed for some unknown reason
+        }
     }
 
     // log in an existing user
