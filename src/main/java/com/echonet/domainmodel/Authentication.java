@@ -2,13 +2,14 @@ package com.echonet.domainmodel;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.echonet.datahandling.DataPipe;
 
 public class Authentication {
     
     DataPipe read = new DataPipe();
 
-    Map <String, Object> dataMap = read.read(User);
+    //Map <String, Object> dataMap = read.read(User);
 
     private Map<String, String> users;  // This should be replaced with data base map
 
