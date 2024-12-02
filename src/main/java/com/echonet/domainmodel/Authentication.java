@@ -1,19 +1,31 @@
 package com.echonet.domainmodel;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.echonet.datahandling.DataPipe;
+import com.echonet.datahandling.Table;
+import com.echonet.exceptions.DataBaseNotFoundException;
+import com.echonet.utilities.Config;
 
-public class Authentication {
+public class Authentication extends Domain {
     
-    DataPipe read = new DataPipe();
+    DataPipe read;
 
     //Map <String, Object> dataMap = read.read(User);
 
     private Map<String, String> users;  // This should be replaced with data base map
 
-    public Authentication(){
+    private void setUsers(final String username) {
+        Map <String, Object> dataMap = read.read(this, "username", username);
+        this.users.put("username", (String) dataMap.get("username"));
+    }
+
+    public Authentication(final int userID) throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
+        super(userID);
+        read = new DataPipe();
+        this.table = new Table(Config.LOGIN_TABLE);
         users = new HashMap<>();
     }
 
@@ -23,6 +35,7 @@ public class Authentication {
             System.out.println("Username and password cannot be empty.");
             return false;
         }
+        //get items from database into users
         
         if (users.containsKey(username)) {
             System.out.println("Username already exists.");
@@ -48,5 +61,14 @@ public class Authentication {
             System.out.println("Incorrect password.");
             return false;
         }
+    }
+
+    @Override
+    public Map <Integer, Object> createMapForBackEnd() {
+        Map <Integer, Object> dataMap = new HashMap<>();
+        dataMap.put(0, this.getID());
+        dataMap.put(1, this.users.get("username"));
+        dataMap.put(2, this.users.get("password"));
+        return dataMap;
     }
 }
