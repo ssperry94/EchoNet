@@ -23,7 +23,8 @@ public class LoginPanel extends JPanel {
         this.mainFrame = mainFrame;
 
         // Load the background image
-        //backgroundImage = new ImageIcon(getClass().getResource("loginbackround.png")).getImage();
+        System.out.println(getClass().getResource("/loginbackround.png"));
+        backgroundImage = new ImageIcon(getClass().getResource("/loginbackground.png")).getImage();
 
         // Set layout
         setLayout(new GridBagLayout());
