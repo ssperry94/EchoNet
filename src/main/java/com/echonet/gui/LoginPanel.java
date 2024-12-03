@@ -23,7 +23,6 @@ public class LoginPanel extends JPanel {
         this.mainFrame = mainFrame;
 
         // Load the background image
-        System.out.println(getClass().getResource("/loginbackround.png"));
         backgroundImage = new ImageIcon(getClass().getResource("/loginbackground.png")).getImage();
 
         // Set layout

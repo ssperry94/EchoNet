@@ -74,6 +74,13 @@ public class MessageWindow extends JPanel {
     }
 
     private JTextPane createMessageBox(final Message message) {
+        if(message.getContents().equals("No messages.....yet!")) {
+            JTextPane noMessages = new JTextPane();
+            noMessages.setEditable(false);
+            noMessages.setText(message.getContents());
+            return noMessages;
+        }
+        
         User recipiant = this.getRecipiant(message);
         String messageBoxText = "From: " + recipiant.getFirstName() + " " + recipiant.getLastName()
                 + "\nSent: " + message.getTimeStampString() + "\nContents: " + message.getContents();
