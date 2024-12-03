@@ -7,7 +7,7 @@ import java.util.Map;
 import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
-import com.echonet.utilities.Config;
+import com.echonet.utilities.Config;import java.util.Set;
 
 public class Authentication extends Domain {
     
@@ -23,9 +23,17 @@ public class Authentication extends Domain {
     
     
     //needs other attributes of user 
-    private User createUser() {
+    private User createUser() throws SQLException, ClassNotFoundException, DataBaseNotFoundException {
         User u = new User(this.getID());
         u.setUsername((String) this.users.get("username"));
+        
+        //replace once all attributes for user are avalible
+        u.setTable(new Table(Config.USER_TABLE));
+        u.setFirstName("test");
+        u.setLastName("test");
+        u.setBirthday("1/1/1999");
+        u.setEmail("test@test.com");
+
         //set everything else here 
         
         return u;
@@ -47,9 +55,18 @@ public class Authentication extends Domain {
         
         //if users is null, no other use has been created with this login creds
         if(this.users == null) {
-            if(read.write(this)) {
-                User newUser = this.createUser();
-                return read.write(newUser);
+            this.users = new HashMap<>();
+            this.users.put("username", username);
+            this.users.put("password", password);
+            if(read.write(this)) { //try writing authenticator first 
+                try {
+                    User newUser = this.createUser(); //if successful, try writing the user
+                    return read.write(newUser);
+                    
+                } catch (Exception e) {
+                    return false;
+                }
+
             }
             else {
                 return false;
