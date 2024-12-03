@@ -47,6 +47,14 @@ public class Authentication extends Domain {
         this.table = new Table(Config.LOGIN_TABLE);
     }
 
+    public void setAdditionalAttributes(String firstName, String lastName, String email, String birthday) {
+        this.users.put("first_name", firstName);
+        this.users.put("last_name", lastName);
+        this.users.put("email", email);
+        this.users.put("birthday", birthday);
+    }
+    
+
     // Registering a new user
     public boolean Register(String username , String password){
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {

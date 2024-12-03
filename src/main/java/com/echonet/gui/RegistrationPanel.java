@@ -10,9 +10,12 @@ import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import com.echonet.domainmodel.Authentication;
 
 public class RegistrationPanel extends JPanel {
 
@@ -104,7 +107,30 @@ public class RegistrationPanel extends JPanel {
         add(backButton, gbc);
 
         // Action Listeners
-        registerButton.addActionListener(e -> mainFrame.showPanel("HomePanel"));
+        registerButton.addActionListener(e -> {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            String confirmPassword = new String(confirmPasswordField.getPassword());
+
+            if (!password.equals(confirmPassword)) {
+                JOptionPane.showMessageDialog(this, "Passwords do not match.", "Registration Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                Authentication auth = new Authentication(0); // 0 is a placeholder for userID
+                if (auth.Register(username, password)) {
+                    JOptionPane.showMessageDialog(this, "Registration successful! Please log in.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    mainFrame.showPanel("LoginPanel");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Registration failed. Username may already exist.", "Registration Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "An error occurred during registration: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
+
         backButton.addActionListener(e -> mainFrame.showPanel("LoginPanel"));
     }
 
