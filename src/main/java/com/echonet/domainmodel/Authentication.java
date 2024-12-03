@@ -86,6 +86,10 @@ public class Authentication extends Domain {
 
     // log in an existing user
     public boolean login(String username, String password) {
+        if(username == null || password == null) {
+            System.out.println("Username not found.");
+            return false;
+        }
         this.setUsers(username);
         
         if (this.users == null) {

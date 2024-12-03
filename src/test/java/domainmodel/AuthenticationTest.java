@@ -73,5 +73,60 @@ public class AuthenticationTest {
         assertTrue(dataPipe.remove(u));
         assertTrue(dataPipe.remove(authentication));
     }
+    
+    
+    @Test
+    public void testLoginSuccessful() {
+        // Act
+        boolean result = authentication.login("test123", "123test");
+
+        // Assert
+        assertTrue("Login should succeed for valid credentials", result);
+    }
+
+    @Test
+    public void testLoginInvalidPassword() {
+        // Act
+        boolean result = authentication.login("test123", "wrongpassword");
+
+        // Assert
+        assertFalse("Login should fail for invalid password", result);
+    }
+
+    @Test
+    public void testLoginUsernameNotFound() {
+        // Act
+        boolean result = authentication.login("nonexistentuser", "password");
+
+        // Assert
+        assertFalse("Login should fail if the username is not found", result);
+    }
+
+    @Test
+    public void testLoginEmptyUsername() {
+        // Act
+        boolean result = authentication.login("", "password");
+
+        // Assert
+        assertFalse("Login should fail for an empty username", result);
+    }
+
+    @Test
+    public void testLoginEmptyPassword() {
+        // Act
+        boolean result = authentication.login("test123", "");
+
+        // Assert
+        assertFalse("Login should fail for an empty password", result);
+    }
+
+    @Test
+    public void testLoginNullUsernameAndPassword() {
+        // Act
+        boolean result = authentication.login(null, null);
+
+        // Assert
+        assertFalse("Login should fail for null username and password", result);
+    }
 
 }
