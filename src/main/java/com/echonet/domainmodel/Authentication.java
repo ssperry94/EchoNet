@@ -7,8 +7,11 @@ import java.util.Map;
 import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
-import com.echonet.utilities.Config;import java.util.Set;
+import com.echonet.utilities.Config;
 
+/*TODO: erase all attributes once RegistrationPanel can give them over.
+
+*/
 public class Authentication extends Domain {
     
     DataPipe read;
@@ -83,16 +86,18 @@ public class Authentication extends Domain {
 
     // log in an existing user
     public boolean login(String username, String password) {
-        if (!users.containsKey(username)) {
+        this.setUsers(username);
+        
+        if (this.users == null) {
             System.out.println("Username not found.");
             return false;
         }
         
-        if (password.equals(users.get(username))) {
+        if (this.users.get("username").toString().equals(username) && this.users.get("password").toString().equals(password)) {
             System.out.println("Login successful.");
             return true;
         } else {
-            System.out.println("Incorrect password.");
+            System.out.println("Incorrect login credentials.");
             return false;
         }
     }
