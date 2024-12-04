@@ -1,6 +1,6 @@
 package com.echonet.gui;
 
-import java.awt.CardLayout;
+import java.awt.CardLayout; // Import User class
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,7 +12,6 @@ public class MainFrame extends JFrame {
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private User loggedInUser; // Store the logged-in user
 
     public MainFrame() {
         // Setup the main frame
@@ -31,10 +30,15 @@ public class MainFrame extends JFrame {
         HomePanel homePanel = new HomePanel(this);
 
         try {
+            User dummyUser = new User(1); // Create a dummy user for testing
+            MessageWindow messageWindow = new MessageWindow(dummyUser, this); // Pass MainFrame to MessageWindow
+            ProfilePanel profilePanel = new ProfilePanel(this, dummyUser); //adding profile panel
             // Add all panels to the main panel
             mainPanel.add(loginPanel, "LoginPanel");
             mainPanel.add(registrationPanel, "RegistrationPanel");
             mainPanel.add(homePanel, "HomePanel");
+            mainPanel.add(messageWindow, "MessagePanel");
+            mainPanel.add(profilePanel, "ProfilePanel");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,16 +51,6 @@ public class MainFrame extends JFrame {
     // Method to switch between panels
     public void showPanel(String panelName) {
         cardLayout.show(mainPanel, panelName);
-    }
-
-    // Set the logged-in user
-    public void setLoggedInUser(User user) {
-        this.loggedInUser = user;
-    }
-
-    // Get the logged-in user
-    public User getLoggedInUser() {
-        return this.loggedInUser;
     }
 
     // Main method to launch the application
