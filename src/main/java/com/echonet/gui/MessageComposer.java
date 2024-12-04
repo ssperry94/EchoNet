@@ -42,11 +42,22 @@ public class MessageComposer {
     private JLabel contentsLabel;
     private JScrollPane contentsScrollBar;
 
+    private boolean botIDCheck(final int recipiantID) {
+        boolean isUserBot;
+        switch(this.currentUser.getID()) {
+            case 1: isUserBot = (recipiantID == 2 || recipiantID == 3); break;
+            case 2: isUserBot = (recipiantID == 1 || recipiantID == 3); break;
+            case 3: isUserBot = (recipiantID == 1 || recipiantID == 2); break;
+            default: isUserBot = false; break;
+        }
+        
+        return isUserBot;
+    }
  
     private void botRespond(final int recipiantID, final DataPipe pipe) {
         List <String> responses = new ArrayList<>(List.of("Hello!", "How are you?", "I'm good!", "Glad to hear it!", "Tell me more.", "I'm not sure"));
         Message m;
-        if(recipiantID == 1 || recipiantID == 2 || recipiantID == 3) {
+        if(this.botIDCheck(recipiantID)) {
             //send a response back 
             try {
                 m = new Message(this.currentUser.getID());
