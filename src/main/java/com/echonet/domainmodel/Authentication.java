@@ -110,6 +110,7 @@ public class Authentication extends Domain {
                 User currentUser = new User(1);
                 currentUser.setTable(new Table(Config.USER_TABLE));
                 Map <String, Object> currentUserInfo = read.read(currentUser, "username", this.users.get("username"));
+                currentUser.setID(((int) currentUserInfo.get("userID")));
                 currentUser.setUsername((String) currentUserInfo.get("username"));
                 currentUser.setFirstName((String) currentUserInfo.get("first_name"));
                 currentUser.setLastName((String) currentUserInfo.get("last_name"));
