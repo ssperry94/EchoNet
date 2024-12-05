@@ -10,9 +10,12 @@ import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import com.echonet.domainmodel.Authentication;
 
 public class LoginPanel extends JPanel {
 
@@ -90,7 +93,22 @@ public class LoginPanel extends JPanel {
         add(registerButton, gbc);
 
         // Action Listeners
-        loginButton.addActionListener(e -> mainFrame.showPanel("HomePanel"));
+        loginButton.addActionListener(e -> {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+            try {
+                Authentication auth = new Authentication(0); // 0 is a placeholder for userID
+                if (auth.login(username, password) != null) {
+                    mainFrame.showPanel("HomePanel");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Login failed. Please check your credentials.", "Login Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "An error occurred during login: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
+
         registerButton.addActionListener(e -> mainFrame.showPanel("RegistrationPanel"));
     }
 

@@ -96,6 +96,7 @@ public class User extends Domain {
      * @throws DataBaseNotFoundException 
      * @throws SQLException 
      * @throws ClassNotFoundException 
+     * @author Caleb Blair
      */
     public User(final int ID, final List<String> attributeArray) throws ClassNotFoundException, SQLException, DataBaseNotFoundException {
         super(ID);
@@ -113,8 +114,13 @@ public class User extends Domain {
             }
         }
     }
-
-    // Method to add a friend by creating a Friendship
+    /**
+     * Adds a friend's ID to the temporary friends string. If the string already
+     * contains IDs, appends the new ID with a comma separator.
+     * 
+     * @param friend the {@code User} to add to the friend list
+     * @author Sam Perry
+     */
     public void addFriend(User friend) throws DomainUpdateFailException {
         DataPipe dataPipe; //added datapipe object to update new friends list for user - Sam  
         if (friend != this /*&& !isFriendsWith(friend)*/) {
@@ -130,12 +136,12 @@ public class User extends Domain {
         }
     }
 
-    // Check if a user is already a friend
-    //public boolean isFriendsWith(User friend) {
-    //    return friends.stream().anyMatch(f -> f.involves(friend));
-    //}
-
-    // Method to retrieve all friends as a list of Users
+    /**
+    * Retrieves a list of all friends as {@code User} objects.
+    * 
+    * @return a list of {@code User} objects representing the user's friends
+    * @author Caleb Blair
+    */
     public List<User> getFriends() {
         List<User> friendsList = new ArrayList<>();
         for (Friend friends : friends) {
@@ -156,6 +162,7 @@ public class User extends Domain {
     /**
      * returns the tempfriends attribute 
      * @return this.tempfriends
+     * @author Caleb Blair
      */
     public String getFriendIdString() {return this.tempfriends;}
 

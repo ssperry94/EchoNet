@@ -1,5 +1,7 @@
 package com.echonet.utilities;
 
+import com.echonet.domainmodel.User;
+
 /**
  * A class containing all public static final variables that represent constants
  */
@@ -15,4 +17,5 @@ public class Config {
     public static final String USER_TABLE = "UserInformation";
     public static final String POSTS_TABLE = "Posts";
     public static final String MESSAGES_TABLE = "Messages";
+    public static final User LOGGED_IN_USER = null; 
 }
