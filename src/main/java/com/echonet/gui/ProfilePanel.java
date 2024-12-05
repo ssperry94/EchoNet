@@ -121,15 +121,6 @@ public class ProfilePanel extends JPanel {
     public ProfilePanel(final MainFrame mw, final User u) {
         this.mainWindow = mw;
         this.currentUser = u;
-
-        /******************************************************************************/
-        /*Initalizing user fields - DELETE WHEN LOGIN SYSTEM IS FINISHED!!!!!!!!*/
-        u.setBirthday("1-1-1999");
-        u.setEmail("fakeemail@email.com");
-        u.setFirstName("John");
-        u.setLastName("Smith");
-        u.setUsername("user123");
-        /******************************************************************************/
         this.initalize();
     }
 }
