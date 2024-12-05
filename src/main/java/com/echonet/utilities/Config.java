@@ -17,5 +17,5 @@ public class Config {
     public static final String USER_TABLE = "UserInformation";
     public static final String POSTS_TABLE = "Posts";
     public static final String MESSAGES_TABLE = "Messages";
-    public static final User LOGGED_IN_USER = null; 
+    public static User LOGGED_IN_USER = null; 
 }

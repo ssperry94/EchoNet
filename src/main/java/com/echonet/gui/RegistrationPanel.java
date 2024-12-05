@@ -21,11 +21,28 @@ import com.echonet.domainmodel.Authentication;
 import com.echonet.domainmodel.User;
 import com.echonet.utilities.Config;
 
+/**
+ * RegistrationPanel provides the user interface for new users to register an account in the EchoNet application.
+ * It allows users to input their details such as name, email, birthday, username, and password.
+ * Registration success or failure is handled with appropriate messages.
+ * 
+ * The panel also includes a background image and navigation to the LoginPanel.
+ * 
+ * @author Sidney Howard
+ */
+
 public class RegistrationPanel extends JPanel {
 
     private MainFrame mainFrame;
     private Image backgroundImage;
 
+    /**
+     * Constructs a RegistrationPanel and initializes its layout and components.
+     * Provides fields for user details and buttons to register or navigate back to the login screen.
+     * 
+     * @param mainFrame the main application frame that controls panel transitions
+     */
+    
     public RegistrationPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
 
@@ -159,7 +176,7 @@ public class RegistrationPanel extends JPanel {
 
             try {
                 // Create a new User object
-                User newUser = new User(ThreadLocalRandom.current().nextInt(4,1000)); // ID will be auto-generated
+                User newUser = new User(ThreadLocalRandom.current().nextInt(4, 1000)); // ID will be auto-generated
                 newUser.setTable(new Table(Config.USER_TABLE));
                 newUser.setFirstName(firstName);
                 newUser.setLastName(lastName);
@@ -168,27 +185,29 @@ public class RegistrationPanel extends JPanel {
                 newUser.setUsername(username);
 
                 Authentication auth = new Authentication(newUser.getID());
-                
 
-                 
-                
                 if (auth.Register(username, password, newUser)) {
                     JOptionPane.showMessageDialog(this, "Registration successful! Please log in.", "Success", JOptionPane.INFORMATION_MESSAGE);
                     mainFrame.showPanel("LoginPanel");
                 } else {
                     JOptionPane.showMessageDialog(this, "Registration failed. Username may already exist.", "Registration Error", JOptionPane.ERROR_MESSAGE);
                 }
-                
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "An error occurred during registration: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();
             }
-            
         });
 
         backButton.addActionListener(e -> mainFrame.showPanel("LoginPanel"));
     }
 
+    /**
+     * Custom painting for the panel to render a background image.
+     * The image is scaled to fit the panel's dimensions.
+     * 
+     * @param g the Graphics object used for painting
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

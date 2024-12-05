@@ -1,12 +1,28 @@
 package com.echonet.gui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 public class FeedGUI {
 
@@ -27,6 +43,11 @@ public class FeedGUI {
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(mainBackground);
 
+        // Container panel to center the feed and add padding
+        JPanel centeredContainer = new JPanel(new BorderLayout());
+        centeredContainer.setBackground(mainBackground);
+        centeredContainer.setBorder(BorderFactory.createEmptyBorder(0, 150, 0,150)); // Add padding on left and right
+
         // Panel to hold posts
         postPanel = new JPanel();
         postPanel.setLayout(new BoxLayout(postPanel, BoxLayout.Y_AXIS)); // Vertical layout for posts
@@ -36,7 +57,9 @@ public class FeedGUI {
         JScrollPane scrollPane = new JScrollPane(postPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getViewport().setBackground(mainBackground);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        centeredContainer.add(scrollPane, BorderLayout.CENTER);
+
+        mainPanel.add(centeredContainer, BorderLayout.CENTER);
 
         // Panel for text field, upload button, and post button
         JPanel inputPanel = new JPanel(new BorderLayout());

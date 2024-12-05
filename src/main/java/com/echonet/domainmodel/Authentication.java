@@ -106,13 +106,16 @@ public class Authentication extends Domain {
         
         if (this.users.get("username").toString().equals(username) && this.users.get("password").toString().equals(password)) {
             try {
-                User currentUser = new User((int) this.users.get("userID"));
+                
+                User currentUser = new User(1);
                 currentUser.setTable(new Table(Config.USER_TABLE));
-                currentUser.setUsername((String) this.users.get("username"));
-                currentUser.setFirstName((String) this.users.get("first_name"));
-                currentUser.setLastName((String) this.users.get("last_name"));
-                currentUser.setBirthday((String) this.users.get("birthday"));
-                currentUser.setEmail((String) this.users.get("email"));
+                Map <String, Object> currentUserInfo = read.read(currentUser, "username", this.users.get("username"));
+                currentUser.setID(((int) currentUserInfo.get("userID")));
+                currentUser.setUsername((String) currentUserInfo.get("username"));
+                currentUser.setFirstName((String) currentUserInfo.get("first_name"));
+                currentUser.setLastName((String) currentUserInfo.get("last_name"));
+                currentUser.setBirthday((String) currentUserInfo.get("birthday"));
+                currentUser.setEmail((String) currentUserInfo.get("email"));
                 
                 System.out.println("Login successful.");
                 return currentUser; 

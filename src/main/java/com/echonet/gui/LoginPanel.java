@@ -16,12 +16,19 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.echonet.domainmodel.Authentication;
+import com.echonet.utilities.Config;
 
 public class LoginPanel extends JPanel {
 
     private MainFrame mainFrame;
     private Image backgroundImage;
 
+    /**
+     * Constructs a LoginPanel and initializes its layout and components.
+     * This panel includes username and password fields, along with login and register buttons.
+     * 
+     * @param mainFrame the main application frame that controls panel transitions
+     */
     public LoginPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
 
@@ -97,11 +104,13 @@ public class LoginPanel extends JPanel {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
             try {
-                Authentication auth = new Authentication(0); // 0 is a placeholder for userID
-                if (auth.login(username, password) != null) {
-                    mainFrame.showPanel("HomePanel");
+                Authentication auth = new Authentication(0); 
+                Config.LOGGED_IN_USER = auth.login(username, password); 
+                if (Config.LOGGED_IN_USER != null) {
+                    mainFrame.initializeUserPanels(); // Dynamically add user-dependent panels
+                    mainFrame.showPanel("HomePanel"); // Redirect to the HomePanel;
                 } else {
-                    JOptionPane.showMessageDialog(this, "Login failed. Please check your credentials.", "Login Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Invalid login. Please try again.", "Login Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "An error occurred during login: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -112,6 +121,12 @@ public class LoginPanel extends JPanel {
         registerButton.addActionListener(e -> mainFrame.showPanel("RegistrationPanel"));
     }
 
+    /**
+     * Custom painting for the panel to render a background image.
+     * The image is scaled to fit the panel's dimensions.
+     * 
+     * @param g the Graphics object used for painting
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
