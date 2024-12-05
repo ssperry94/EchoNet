@@ -1,7 +1,5 @@
 package com.echonet.gui;
 
-import com.echonet.feedGUI.Feed;
-import com.echonet.feedGUI.FeedGUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -36,20 +34,24 @@ public class HomePanel extends JPanel {
 
         // "echonet" title (center)
         JLabel welcomeLabel = new JLabel("echonet", SwingConstants.CENTER);
-        welcomeLabel.setFont(new Font("Monserrat", Font.BOLD, 30));
+        welcomeLabel.setFont(new Font("Monserrat", Font.BOLD, 70));
         welcomeLabel.setForeground(new Color(146, 199, 195));
         headerPanel.add(welcomeLabel, BorderLayout.CENTER);
 
         // Messages button (top-right)
-        JButton messagesButton = new JButton("EchoChanmbers");
+        JButton messagesButton = new JButton("EchoChambers");
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightPanel.setOpaque(false); // Transparent to match background
         rightPanel.add(messagesButton);
         headerPanel.add(rightPanel, BorderLayout.EAST);
 
+        // Feed Integration
+        Feed feed = new Feed(); // Create a new Feed instance
+        FeedGUI feedGUI = new FeedGUI(feed); // Pass Feed to FeedGUI
+
         // Add components to the panel
         add(headerPanel, BorderLayout.NORTH); // Add header to the top
-     
+        add(feedGUI.getMainPanel(), BorderLayout.CENTER); // Add feed to the center
 
         // Button Listeners
         profileButton.addActionListener(e -> mainFrame.showPanel("ProfilePanel"));
