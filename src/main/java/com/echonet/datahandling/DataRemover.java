@@ -23,4 +23,11 @@ class DataRemover extends DataHandler {
         stmt.executeUpdate(sql);
         stmt.close();
     }
+
+    public void remove(final Table t, final Domain d, final String tableColumnName, final Object value) throws SQLException {
+        String sql = sqlgen.deleteStatement(t, d, tableColumnName, value);
+        Statement stmt = c.createStatement();
+        stmt.executeUpdate(sql);
+        stmt.close();
+    }
 }

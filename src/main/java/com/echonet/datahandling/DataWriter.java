@@ -30,6 +30,11 @@ class DataWriter extends DataHandler {
             if(data instanceof String string) {
                 pstmt.setString(i + 1, string);
             }
+
+            else if(data == null) {
+                pstmt.setObject(i + 1, data);
+            }
+            
             else {
                 pstmt.setInt(i + 1, (int)data);
             }
