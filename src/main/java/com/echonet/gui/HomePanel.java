@@ -10,10 +10,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+/**
+ * HomePanel represents the main home screen of the EchoNet application.
+ * It provides navigation to the ProfilePanel and MessagePanel and displays the user's feed.
+ * 
+ * Features:
+ * - A header section with a title and navigation buttons.
+ * - Integration of a feed component to display user posts or updates.
+ * 
+ * @author Sidney Howard
+ */
 public class HomePanel extends JPanel {
 
     private MainFrame mainFrame;
 
+    /**
+     * Constructs a HomePanel and initializes its layout and components.
+     * The panel includes navigation buttons for the profile and message panels and a feed display.
+     * 
+     * @param mainFrame the main application frame that controls panel transitions
+     */
     public HomePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout()); // Ensure proper containment of components

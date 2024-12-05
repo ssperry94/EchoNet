@@ -21,6 +21,17 @@ import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 
+/**
+ * MessageWindow is a GUI component for displaying and interacting with messages in the EchoNet application.
+ * It allows users to view message history, send new messages, and update the displayed messages.
+ * 
+ * Features:
+ * - Displays a list of messages with sender and timestamp information.
+ * - Allows navigation back to the home panel.
+ * - Provides options to send and refresh messages.
+ * 
+ * @author Sidney Howard
+ */
 public class MessageWindow extends JPanel {
 
     private User currentUser;
@@ -32,6 +43,13 @@ public class MessageWindow extends JPanel {
     private JButton backButton; // Back button
     private List<JTextPane> messageDisplay;
 
+    /**
+     * Constructs a MessageWindow instance for the given user and main application frame.
+     * 
+     * @param currentUser the current user whose messages are displayed
+     * @param mainFrame   the main application frame for navigation
+     * @throws Exception if there is an error during initialization
+     */
     public MessageWindow(final User currentUser, MainFrame mainFrame) throws Exception {
         this.currentUser = currentUser;
         this.mainFrame = mainFrame; // Store MainFrame for back navigation
@@ -47,6 +65,12 @@ public class MessageWindow extends JPanel {
         this.add(displayPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Retrieves the recipient of a given message.
+     * 
+     * @param m the message for which the recipient is to be fetched
+     * @return the recipient user object or a dummy user if the recipient cannot be found
+     */
     private User getRecipiant(final Message m) {
         DataPipe dataPipe;
         User recipiant;
@@ -73,14 +97,20 @@ public class MessageWindow extends JPanel {
         }
     }
 
+    /**
+     * Creates a JTextPane to display a single message.
+     * 
+     * @param message the message to be displayed
+     * @return a JTextPane configured to display the message
+     */
     private JTextPane createMessageBox(final Message message) {
-        if(message.getContents().equals("No messages.....yet!")) {
+        if (message.getContents().equals("No messages.....yet!")) {
             JTextPane noMessages = new JTextPane();
             noMessages.setEditable(false);
             noMessages.setText(message.getContents());
             return noMessages;
         }
-        
+
         User recipiant = this.getRecipiant(message);
         String messageBoxText = "From: " + recipiant.getFirstName() + " " + recipiant.getLastName()
                 + "\nSent: " + message.getTimeStampString() + "\nContents: " + message.getContents();
@@ -88,14 +118,22 @@ public class MessageWindow extends JPanel {
         messageBox.setEditable(false);
         messageBox.setText(messageBoxText);
 
-        // Set the background color
         messageBox.setBackground(new Color(146, 199, 195)); // Light blue color
-        messageBox.setForeground(Color.BLACK); // Optional: Set text color
-        messageBox.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1)); // Optional: Add a border
+        messageBox.setForeground(Color.BLACK); // Text color
+        messageBox.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1)); // Border
 
         return messageBox;
     }
 
+    /**
+     * Creates a Message object from a data map retrieved from the database.
+     * 
+     * @param dataMap the map containing message data
+     * @return a Message object constructed from the data
+     * @throws SQLException if there is an issue with the database query
+     * @throws DataBaseNotFoundException if the database is not found
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     private Message createMessage(final Map<String, Object> dataMap)
             throws SQLException, DataBaseNotFoundException, ClassNotFoundException {
         Message message;
@@ -112,6 +150,9 @@ public class MessageWindow extends JPanel {
         return message;
     }
 
+    /**
+     * Updates the displayed messages by fetching the latest message history.
+     */
     private void updateMessages() {
         List<Map<String, Object>> messageHistory;
         JTextPane messageBox;
@@ -138,10 +179,12 @@ public class MessageWindow extends JPanel {
         }
     }
 
+    /**
+     * Initializes buttons for sending messages, updating messages, and navigating back to the home panel.
+     */
     private void initializeButtons() {
         this.sendMessage = new JButton("Send Message");
         this.sendMessage.addActionListener(e -> {
-            // Open the MessageComposer when clicked
             MessageComposer composer = new MessageComposer(currentUser);
             composer.show();
         });
@@ -158,21 +201,24 @@ public class MessageWindow extends JPanel {
         });
 
         this.backButton = new JButton("Back to Home");
-        this.backButton.addActionListener(e -> {
-            // Navigate back to HomePanel
-            mainFrame.showPanel("HomePanel");
-        });
+        this.backButton.addActionListener(e -> mainFrame.showPanel("HomePanel"));
     }
 
+    /**
+     * Initializes the panel containing buttons for user interaction.
+     */
     private void initializeButtonsPanel() {
         this.buttonPanel = new JPanel();
         this.buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 10));
         this.buttonPanel.setBackground(Color.GRAY);
-        this.buttonPanel.add(backButton); // Add back button
+        this.buttonPanel.add(backButton);
         this.buttonPanel.add(sendMessage);
         this.buttonPanel.add(updateMessage);
     }
 
+    /**
+     * Initializes the panel that displays the message history.
+     */
     private void initializeMessagePanel() {
         this.displayPanel = new JPanel();
         this.displayPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));

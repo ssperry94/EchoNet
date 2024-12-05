@@ -8,11 +8,27 @@ import javax.swing.SwingUtilities;
 
 import com.echonet.utilities.Config;
 
+/**
+ * MainFrame serves as the primary window for the EchoNet application.
+ * It uses a CardLayout to dynamically switch between various panels.
+ * 
+ * Panels include:
+ * - LoginPanel: For user login
+ * - RegistrationPanel: For new user registration
+ * - HomePanel: Post-login home screen
+ * - Additional user-dependent panels (e.g., ProfilePanel, MessageWindow) are added dynamically after login.
+ * 
+ * @author Sidney Howard
+ */
 public class MainFrame extends JFrame {
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
+    /**
+     * Constructs the MainFrame and initializes its layout and non-user-dependent panels.
+     * The frame starts with the LoginPanel displayed.
+     */
     public MainFrame() {
         // Setup the main frame
         setTitle("EchoNet");
@@ -37,6 +53,7 @@ public class MainFrame extends JFrame {
     /**
      * Dynamically adds user-dependent panels after login.
      * This method should be called after the user logs in.
+     * It initializes panels that require the current logged-in user's data.
      */
     public void initializeUserPanels() {
         try {
@@ -50,7 +67,7 @@ public class MainFrame extends JFrame {
 
     /**
      * Switches to a specified panel in the card layout.
-     *
+     * 
      * @param panelName the name of the panel to display
      */
     public void showPanel(String panelName) {
@@ -59,7 +76,10 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * Main method to run the application.
+     * Main method to run the EchoNet application.
+     * It initializes and displays the MainFrame.
+     * 
+     * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {

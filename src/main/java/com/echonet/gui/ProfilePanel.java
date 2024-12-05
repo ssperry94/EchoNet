@@ -14,7 +14,15 @@ import javax.swing.SwingConstants;
 import com.echonet.domainmodel.User;
 import com.echonet.utilities.Config;
 
+/**
+ * ProfilePanel displays the profile details of the currently logged-in user in the EchoNet application.
+ * It provides a user-friendly interface to view personal information such as name, username, birthday, and email.
+ * Additionally, the panel includes buttons for navigating back to the home screen or logging out.
+ * 
+ * @author Sidney Howard
+ */
 public class ProfilePanel extends JPanel {
+
     private MainFrame mainWindow;
     private User currentUser;
 
@@ -25,6 +33,11 @@ public class ProfilePanel extends JPanel {
     private JButton backButton;
     private JButton logoutButton;
 
+    /**
+     * Initializes the labels that display user information on the panel.
+     * 
+     * @param gbc the GridBagConstraints used to position the labels on the panel
+     */
     private void initializeDisplayLabels(GridBagConstraints gbc) {
         this.nameDisplayLabel = new JLabel(this.currentUser.getFirstName() + " " + this.currentUser.getLastName());
         this.nameDisplayLabel.setForeground(Color.WHITE);
@@ -56,6 +69,11 @@ public class ProfilePanel extends JPanel {
         this.add(this.emailDisplayLabel, gbc);
     }
 
+    /**
+     * Initializes the buttons for navigating to the home panel or logging out.
+     * 
+     * @param gbc the GridBagConstraints used to position the buttons on the panel
+     */
     private void initializeButtons(GridBagConstraints gbc) {
         // Panel to hold the buttons side by side
         JPanel buttonPanel = new JPanel();
@@ -94,6 +112,9 @@ public class ProfilePanel extends JPanel {
         this.add(buttonPanel, gbc);
     }
 
+    /**
+     * Initializes the layout and components of the panel, including labels and buttons.
+     */
     private void initialize() {
         this.setLayout(new GridBagLayout());
         this.setBackground(new Color(61, 63, 71));
@@ -144,6 +165,12 @@ public class ProfilePanel extends JPanel {
         this.initializeDisplayLabels(gbc);
     }
 
+    /**
+     * Constructs a ProfilePanel and initializes its layout and components with the given user information.
+     * 
+     * @param mw the main application window that manages navigation
+     * @param u  the user whose profile details are displayed
+     */
     public ProfilePanel(final MainFrame mw, final User u) {
         this.mainWindow = mw;
         this.currentUser = u;
