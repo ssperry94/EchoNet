@@ -64,13 +64,14 @@ If you'd like to register, simply click the register button, and enter in all th
 ### Messaging 
 From Echonet's homepage, click the echochambers button to go to you're messages. From here, you should see this window: 
 
-<insert pic here>
-
 In the center, it should show your message history. If you are using a pre-registered user, you may already see a few messages. If you registered you're own account, you'll see your message history is empty. To send a message, simply click the Send Message button. 
-
-<Insert the message composer pic>
 
 In the top bar, enter the username of the person you wish to send a message to (in this case it can only be one of the ones mentioned in the Login section, or any accounts you've made). In the contents box, you can send any text-based message you'd like. 
 
 If you've sent a message to one of the pre-made accounts, they may decide to message you back. Go back to the main page, and click the update message button. You may have a new message - just an automatic response sent to simulate real messaging. 
 
+### Profile Page
+From the EchoNet Homepage, click on the profile button to view the user information for the logged in acccount. Below the users information is a back button that will allow the user to return to the home page when desired.
+
+### Posting
+The post feed is located in the center of the EchoNet Homepage and allows the user to see posts from other users. It also allows the user to make a post for other users to see. To make a post select the text box located at the bottom of the page. Once the box is selected you may type a message that you wish to be sent to the feed. When your message is ready click the post button located to the right of the text box. A picture can also be posted using the upload picture button located between the text box and post button. 
