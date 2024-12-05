@@ -4,7 +4,15 @@ import java.util.Map;
 
 import com.echonet.datahandling.Table;
 /**
- * This class is used as a parent for all classes that will acess the database
+ * Abstract base class for all domain entities that interact with the database.
+ * 
+ * Contains all fields that {@link DataPipe} will use to gather information on what is 
+ * being passed in, and what table to look for 
+ * 
+ * Child classes must implement the {@code createMapForBackEnd()} method, 
+ * which prepares a {@link java.util.Map} containing all relevant information for writing to the database
+ * 
+ * @author Sam Perry
  */
 abstract public class Domain {
     //protected fields

@@ -5,10 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -18,45 +16,45 @@ public class HomePanel extends JPanel {
 
     public HomePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout()); // Ensure proper containment of components
 
-        // Set background color for the entire panel
-        this.setBackground(new Color(61, 63, 71)); // Custom color #92c7c3
+        // Background color
+        this.setBackground(new Color(61, 63, 71));
 
-        // Welcome Label at the top
-        JLabel welcomeLabel = new JLabel("echonet", SwingConstants.CENTER);
-        welcomeLabel.setFont(new Font("Monserrat", Font.BOLD, 50));
-        welcomeLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        welcomeLabel.setForeground(new Color(146, 199, 195));
+        // Header Panel for buttons and title
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setOpaque(false); // Transparent to match background
 
-        // Buttons
+        // View Profile button (top-left)
         JButton profileButton = new JButton("View Profile");
-        JButton friendsButton = new JButton("Friends List");
-        JButton messagesButton = new JButton("Messages");
-        JButton postButton = new JButton("Create Post");
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setOpaque(false); // Transparent to match background
+        leftPanel.add(profileButton);
+        headerPanel.add(leftPanel, BorderLayout.WEST);
 
-        // Button Panel at the bottom
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10)); // Center buttons with spacing
-        buttonPanel.setOpaque(false); // Make button panel transparent to show parent background
-        buttonPanel.add(profileButton);
-        buttonPanel.add(friendsButton);
-        buttonPanel.add(messagesButton);
-        buttonPanel.add(postButton);
+        // "echonet" title (center)
+        JLabel welcomeLabel = new JLabel("echonet", SwingConstants.CENTER);
+        welcomeLabel.setFont(new Font("Monserrat", Font.BOLD, 70));
+        welcomeLabel.setForeground(new Color(146, 199, 195));
+        headerPanel.add(welcomeLabel, BorderLayout.CENTER);
+
+        // Messages button (top-right)
+        JButton messagesButton = new JButton("EchoChambers");
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightPanel.setOpaque(false); // Transparent to match background
+        rightPanel.add(messagesButton);
+        headerPanel.add(rightPanel, BorderLayout.EAST);
+
+        // Feed Integration
+        Feed feed = new Feed(); // Create a new Feed instance
+        FeedGUI feedGUI = new FeedGUI(feed); // Pass Feed to FeedGUI
 
         // Add components to the panel
-        add(welcomeLabel, BorderLayout.NORTH); // Welcome label at the top
-        add(buttonPanel, BorderLayout.SOUTH); // Buttons moved to the bottom
+        add(headerPanel, BorderLayout.NORTH); // Add header to the top
+        add(feedGUI.getMainPanel(), BorderLayout.CENTER); // Add feed to the center
 
-        // Action Listeners for Buttons
+        // Button Listeners
         profileButton.addActionListener(e -> mainFrame.showPanel("ProfilePanel"));
-        friendsButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Friends List coming soon!"));
-        postButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "Create Post coming soon!"));
-
-        // Action Listener for Messages Button
-        messagesButton.addActionListener(e -> {
-            // Navigate to the MessageWindow panel
-            mainFrame.showPanel("MessagePanel");
-        });
+        messagesButton.addActionListener(e -> mainFrame.showPanel("MessagePanel"));
     }
 }

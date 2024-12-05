@@ -6,13 +6,20 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import com.echonet.datahandling.Table;
+import com.echonet.domainmodel.Authentication;
+import com.echonet.domainmodel.User;
+import com.echonet.utilities.Config;
 
 public class RegistrationPanel extends JPanel {
 
@@ -29,45 +36,77 @@ public class RegistrationPanel extends JPanel {
         setLayout(new GridBagLayout());
 
         // Components
+        JLabel firstNameLabel = new JLabel("First Name:");
+        JLabel lastNameLabel = new JLabel("Last Name:");
+        JLabel emailLabel = new JLabel("Email:");
+        JLabel birthdayLabel = new JLabel("Birthday (YYYY-MM-DD):");
         JLabel usernameLabel = new JLabel("Username:");
         JLabel passwordLabel = new JLabel("Password:");
         JLabel confirmPasswordLabel = new JLabel("Confirm Password:");
+
+        JTextField firstNameField = new JTextField(15);
+        JTextField lastNameField = new JTextField(15);
+        JTextField emailField = new JTextField(15);
+        JTextField birthdayField = new JTextField(15);
         JTextField usernameField = new JTextField(15);
         JPasswordField passwordField = new JPasswordField(15);
         JPasswordField confirmPasswordField = new JPasswordField(15);
+
         JButton registerButton = new JButton("Register");
         JButton backButton = new JButton("Back to Login");
 
         // Change text color
+        firstNameLabel.setForeground(Color.WHITE);
+        lastNameLabel.setForeground(Color.WHITE);
+        emailLabel.setForeground(Color.WHITE);
+        birthdayLabel.setForeground(Color.WHITE);
         usernameLabel.setForeground(Color.WHITE);
         passwordLabel.setForeground(Color.WHITE);
         confirmPasswordLabel.setForeground(Color.WHITE);
-        usernameField.setForeground(Color.BLACK);
-        usernameField.setBackground(Color.LIGHT_GRAY);
-        passwordField.setForeground(Color.BLACK);
-        passwordField.setBackground(Color.LIGHT_GRAY);
-        confirmPasswordField.setForeground(Color.BLACK);
-        confirmPasswordField.setBackground(Color.LIGHT_GRAY);
-        registerButton.setForeground(Color.BLACK);
-        backButton.setForeground(Color.BLACK);
 
         // Layout setup
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // Spacer to move components down
-        JLabel spacer = new JLabel();
+        // First Name
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2; // Span two columns
-        gbc.weighty = 1.0; // Add vertical weight to push components down
-        add(spacer, gbc);
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(firstNameLabel, gbc);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(firstNameField, gbc);
 
-        // Username
-        gbc.weighty = 0; // Reset weight for actual components
-        gbc.gridwidth = 1;
+        // Last Name
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(lastNameLabel, gbc);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(lastNameField, gbc);
+
+        // Email
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(emailLabel, gbc);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(emailField, gbc);
+
+        // Birthday
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(birthdayLabel, gbc);
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(birthdayField, gbc);
+
+        // Username
+        gbc.gridx = 0;
+        gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.LINE_END;
         add(usernameLabel, gbc);
         gbc.gridx = 1;
@@ -76,7 +115,7 @@ public class RegistrationPanel extends JPanel {
 
         // Password
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.LINE_END;
         add(passwordLabel, gbc);
         gbc.gridx = 1;
@@ -85,7 +124,7 @@ public class RegistrationPanel extends JPanel {
 
         // Confirm Password
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.LINE_END;
         add(confirmPasswordLabel, gbc);
         gbc.gridx = 1;
@@ -94,24 +133,65 @@ public class RegistrationPanel extends JPanel {
 
         // Register button
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 7;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         add(registerButton, gbc);
 
         // Back button
-        gbc.gridy = 5;
+        gbc.gridy = 8;
         add(backButton, gbc);
 
         // Action Listeners
-        registerButton.addActionListener(e -> mainFrame.showPanel("HomePanel"));
+        registerButton.addActionListener(e -> {
+            String firstName = firstNameField.getText().trim();
+            String lastName = lastNameField.getText().trim();
+            String email = emailField.getText().trim();
+            String birthday = birthdayField.getText().trim();
+            String username = usernameField.getText().trim();
+            String password = new String(passwordField.getPassword());
+            String confirmPassword = new String(confirmPasswordField.getPassword());
+
+            if (!password.equals(confirmPassword)) {
+                JOptionPane.showMessageDialog(this, "Passwords do not match.", "Registration Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                // Create a new User object
+                User newUser = new User(ThreadLocalRandom.current().nextInt(4,1000)); // ID will be auto-generated
+                newUser.setTable(new Table(Config.USER_TABLE));
+                newUser.setFirstName(firstName);
+                newUser.setLastName(lastName);
+                newUser.setEmail(email);
+                newUser.setBirthday(birthday);
+                newUser.setUsername(username);
+
+                Authentication auth = new Authentication(newUser.getID());
+                
+
+                 
+                
+                if (auth.Register(username, password, newUser)) {
+                    JOptionPane.showMessageDialog(this, "Registration successful! Please log in.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    mainFrame.showPanel("LoginPanel");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Registration failed. Username may already exist.", "Registration Error", JOptionPane.ERROR_MESSAGE);
+                }
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "An error occurred during registration: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+            
+        });
+
         backButton.addActionListener(e -> mainFrame.showPanel("LoginPanel"));
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Draw the background image, scaled to fit the panel
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
     }
 }

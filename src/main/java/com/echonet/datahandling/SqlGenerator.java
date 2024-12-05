@@ -34,9 +34,12 @@ class SqlGenerator {
     }
 
     public String queryStatement(final Table table, final Domain u, final String tableColumnName, final Object value) {
-        return "SELECT * FROM " + table.getTableName() + " WHERE " + tableColumnName + " = " + "\"" + value.toString() + "\"";
+        if(value instanceof String string) {
+            return "SELECT * FROM " + table.getTableName() + " WHERE " + tableColumnName + " = " + "\"" + string + "\"";
+        }
+        return "SELECT * FROM " + table.getTableName() + " WHERE " + tableColumnName + " = " + value.toString();
     }
-
+    
     public String insertStatement(final Table table) {
         return "INSERT INTO " + table.getTableName() + " VALUES " + this.generateValues(table);
     }
