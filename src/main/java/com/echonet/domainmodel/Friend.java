@@ -3,7 +3,7 @@ package com.echonet.domainmodel;
 /**
  * Represents a friendship between two users in the system.
  * This class extends {@code User} to encapsulate a relationship between two users.
- * The friendship is bidirectional, meaning the order of users does not matter.
+ * The order of users does not matter.
  * @Author Caleb Blair
  */
 public class Friend extends User{
@@ -44,7 +44,7 @@ public class Friend extends User{
 
     /**
      * Checks if this {@code Friend} object is equal to another object.
-     * Two {@code Friend} objects are considered equal if they involve the same users,
+     * Two {@code Friend} objects are considered equal if they are the same users,
      * regardless of the order of the users.
      * 
      * @param obj the object to compare
