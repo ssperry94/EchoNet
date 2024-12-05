@@ -55,7 +55,7 @@ public class Authentication extends Domain {
     
 
     // Registering a new user
-    public boolean Register(String username , String password){
+    public boolean Register(String username , String password, User user){
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             System.out.println("Username and password cannot be empty.");
             return false;
@@ -70,8 +70,7 @@ public class Authentication extends Domain {
             this.users.put("password", password);
             if(read.write(this)) { //try writing authenticator first 
                 try {
-                    User newUser = this.createUser(); //if successful, try writing the user
-                    return read.write(newUser);
+                    return read.write(user);
                     
                 } catch (Exception e) {
                     return false;

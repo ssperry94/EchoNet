@@ -97,7 +97,7 @@ public class LoginPanel extends JPanel {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
             try {
-                Authentication auth = new Authentication(0); // 0 is a placeholder for userID
+                Authentication auth = new Authentication(0); 
                 if (auth.login(username, password)) {
                     mainFrame.showPanel("HomePanel");
                 } else {
