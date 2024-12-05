@@ -14,7 +14,7 @@ import com.echonet.utilities.Config;
 /**
  * Parent class that establishes connection to database. 
  * 
- * @author Sam Perry - all methods
+// * @author Sam Perry - all methods
  */
 class DataHandler implements AutoCloseable {
     private final static String driver = Config.DATABASE_DRIVER;     //JDBC driver - do not change

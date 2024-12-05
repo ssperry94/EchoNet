@@ -10,7 +10,6 @@ import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 
 /*TODO: erase all attributes once RegistrationPanel can give them over.
-
 */
 public class Authentication extends Domain {
     

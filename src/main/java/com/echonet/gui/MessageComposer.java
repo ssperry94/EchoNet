@@ -22,7 +22,12 @@ import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
+import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MessageComposer {
 
@@ -37,9 +42,40 @@ public class MessageComposer {
     private JLabel contentsLabel;
     private JScrollPane contentsScrollBar;
 
-    /*TODO: change recipiant box to a drop box that will look at a user's friends first
-     */
-    private void sendMessage() { //change when user class has table field set in all constructors
+    private boolean botIDCheck(final int recipiantID) {
+        boolean isUserBot;
+        switch(this.currentUser.getID()) {
+            case 1: isUserBot = (recipiantID == 2 || recipiantID == 3); break;
+            case 2: isUserBot = (recipiantID == 1 || recipiantID == 3); break;
+            case 3: isUserBot = (recipiantID == 1 || recipiantID == 2); break;
+            default: isUserBot = false; break;
+        }
+        
+        return isUserBot;
+    }
+ 
+    private void botRespond(final int recipiantID, final DataPipe pipe) {
+        List <String> responses = new ArrayList<>(List.of("Hello!", "How are you?", "I'm good!", "Glad to hear it!", "Tell me more.", "I'm not sure"));
+        Message m;
+        if(this.botIDCheck(recipiantID)) {
+            //send a response back 
+            try {
+                m = new Message(this.currentUser.getID());
+                m.setAutomaticMessageID();
+                m.setContents(responses.get(ThreadLocalRandom.current().nextInt(0, responses.size() -1)));
+                m.setTimeStamp();
+                m.setRecipiantID(recipiantID);
+                pipe.write(m);
+            } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+                return; //error occured, bot won't respond
+            }
+        }
+        else {
+            return; //do nothing if message wasn't sent to a bot
+        }
+    }
+    
+    private void sendMessage() {
         DataPipe dataPipe = new DataPipe();
         User u;
         Message message;
@@ -75,9 +111,15 @@ public class MessageComposer {
             message.setTimeStamp();
             message.setRecipiantID(this.currentUser.getID());
 
-            dataPipe.write(message);
-            this.messageBox.setText("");
-            JOptionPane.showMessageDialog(mainWindow, "Message Sent!", "MESSAGESUCCESS", JOptionPane.INFORMATION_MESSAGE);
+            if(dataPipe.write(message)) {
+                this.messageBox.setText("");
+                this.botRespond((int) userMap.get("userID"), dataPipe); 
+                JOptionPane.showMessageDialog(mainWindow, "Message Sent!", "MESSAGESUCCESS", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+                JOptionPane.showMessageDialog(this.mainWindow, "Message could not be send.", "UKNOWNMESSAGEERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow, "Unknown Error occured. Message failed to send", "UNKOWNERROR", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
