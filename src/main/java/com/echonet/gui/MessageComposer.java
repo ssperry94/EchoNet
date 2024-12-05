@@ -48,7 +48,7 @@ public class MessageComposer {
             case 1: isUserBot = (recipiantID == 2 || recipiantID == 3); break;
             case 2: isUserBot = (recipiantID == 1 || recipiantID == 3); break;
             case 3: isUserBot = (recipiantID == 1 || recipiantID == 2); break;
-            default: isUserBot = false; break;
+            default: isUserBot = true; break; //user is not a bot
         }
         
         return isUserBot;
