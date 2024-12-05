@@ -97,8 +97,8 @@ public class LoginPanel extends JPanel {
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
             try {
-                Authentication auth = new Authentication(0); 
-                if (auth.login(username, password)) {
+                Authentication auth = new Authentication(0); // 0 is a placeholder for userID
+                if (auth.login(username, password) != null) {
                     mainFrame.showPanel("HomePanel");
                 } else {
                     JOptionPane.showMessageDialog(this, "Login failed. Please check your credentials.", "Login Error", JOptionPane.ERROR_MESSAGE);

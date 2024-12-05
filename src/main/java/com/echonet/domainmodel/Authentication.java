@@ -8,6 +8,7 @@ import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
+import java.util.HashSet;
 
 /*TODO: erase all attributes once RegistrationPanel can give them over.
 */
@@ -91,24 +92,37 @@ public class Authentication extends Domain {
     }
 
     // log in an existing user
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
         if(username == null || password == null) {
             System.out.println("Username not found.");
-            return false;
+            return null;
         }
         this.setUsers(username);
         
         if (this.users == null) {
             System.out.println("Username not found.");
-            return false;
+            return null;
         }
         
         if (this.users.get("username").toString().equals(username) && this.users.get("password").toString().equals(password)) {
-            System.out.println("Login successful.");
-            return true;
+            try {
+                User currentUser = new User((int) this.users.get("userID"));
+                currentUser.setTable(new Table(Config.USER_TABLE));
+                currentUser.setUsername((String) this.users.get("username"));
+                currentUser.setFirstName((String) this.users.get("first_name"));
+                currentUser.setLastName((String) this.users.get("last_name"));
+                currentUser.setBirthday((String) this.users.get("birthday"));
+                currentUser.setEmail((String) this.users.get("email"));
+                
+                System.out.println("Login successful.");
+                return currentUser; 
+            } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+                return null;
+            }
+
         } else {
             System.out.println("Incorrect login credentials.");
-            return false;
+            return null;
         }
     }
 
