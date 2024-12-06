@@ -14,7 +14,9 @@ import org.junit.Test;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
-
+/**
+ * @author Caleb Blair
+ */
 public class UserTest2 {
 
     private User user1;

@@ -16,6 +16,9 @@ import com.echonet.datahandling.Table;
 import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
+/**
+ * @author Sam Perry
+ */
 public class UserTest {
 
     private User user;

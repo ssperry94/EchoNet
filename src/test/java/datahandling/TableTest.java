@@ -12,6 +12,9 @@ import org.junit.Test;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
 
+/**
+ * @author Sam Perry
+ */
 public class TableTest {
     private Table table;
     private final String tableName = "\"TestTable1\"";

@@ -18,6 +18,9 @@ import com.echonet.domainmodel.User;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
 
+/**
+ * @author Sam Perry
+ */
 public class AuthenticationTest {
 
     private Authentication authentication;
