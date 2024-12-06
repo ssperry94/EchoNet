@@ -25,7 +25,11 @@ Echonet is a simple social media platform where you can send messages, make post
 ### How to Build 
 
 **Using the Jar File**
-- navigate to the <insert path here> and click the <insert name of JAR here>
+- in a command line or bash shell, use the following commands:
+    -`java -jar target/EchoNet-1.0-SNAPSHOT.jar`
+- if that build fails, try: 
+    - `mvn clean install && mvn clean package`
+    - `java -jar target/EchoNet-1.0-SNAPSHOT.jar`
 
 **Using Netbeans** 
 - Download NetBeans (see dependancy section)
@@ -42,7 +46,7 @@ Echonet is a simple social media platform where you can send messages, make post
 
 ## How To Use
 
-To get started with Echonet, you can either use the pre-compiled JAR file located in <insert JAR dir here>, or build the project yourself using the instruction in the Build section. 
+To get started with Echonet, you can either use the pre-compiled JAR file located in target directory, or build the project yourself using the instruction in the Build section. 
 
 ### Logging In 
 Upon opening Echonet, you are greeted with an login page. You can either register as a new user, or use one of the following logins:
