@@ -8,6 +8,7 @@ import com.echonet.datahandling.DataPipe;
 import com.echonet.datahandling.Table;
 import com.echonet.exceptions.DataBaseNotFoundException;
 import com.echonet.utilities.Config;
+import java.util.HashSet;
 
 /*TODO: erase all attributes once RegistrationPanel can give them over.
 */
@@ -91,24 +92,40 @@ public class Authentication extends Domain {
     }
 
     // log in an existing user
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
         if(username == null || password == null) {
             System.out.println("Username not found.");
-            return false;
+            return null;
         }
         this.setUsers(username);
         
         if (this.users == null) {
             System.out.println("Username not found.");
-            return false;
+            return null;
         }
         
         if (this.users.get("username").toString().equals(username) && this.users.get("password").toString().equals(password)) {
-            System.out.println("Login successful.");
-            return true;
+            try {
+                
+                User currentUser = new User(1);
+                currentUser.setTable(new Table(Config.USER_TABLE));
+                Map <String, Object> currentUserInfo = read.read(currentUser, "username", this.users.get("username"));
+                currentUser.setID(((int) currentUserInfo.get("userID")));
+                currentUser.setUsername((String) currentUserInfo.get("username"));
+                currentUser.setFirstName((String) currentUserInfo.get("first_name"));
+                currentUser.setLastName((String) currentUserInfo.get("last_name"));
+                currentUser.setBirthday((String) currentUserInfo.get("birthday"));
+                currentUser.setEmail((String) currentUserInfo.get("email"));
+                
+                System.out.println("Login successful.");
+                return currentUser; 
+            } catch (SQLException | ClassNotFoundException | DataBaseNotFoundException e) {
+                return null;
+            }
+
         } else {
             System.out.println("Incorrect login credentials.");
-            return false;
+            return null;
         }
     }
 

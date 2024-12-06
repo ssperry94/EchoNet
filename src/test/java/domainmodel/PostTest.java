@@ -18,10 +18,19 @@ import com.echonet.datahandling.DataPipe;
 import com.echonet.domainmodel.Post;
 
 
+/**
+* unit tests for {@link Post} class
+* ensures Post runs as expected
+*/
 public class PostTest {
 
 
-   @Test //ensures Post constructor initializes correctly
+   /**
+    * tests the constructor of Post with a user ID to ensure it initializes correctly
+    *
+    * @throws Exception if error occurs
+    */
+   @Test
    public void testPostConstructorWithUserId() throws Exception {
        // set up testing environment
        int userID = 1;
@@ -37,9 +46,14 @@ public class PostTest {
    }
 
 
-   @Test //ensures construct initializes all correct fields (uiserId, postId, content, timestamp, imagePath)
+   /**
+    * Tests the constructor of Post with detailed parameters to ensure it initializes all fields correctly.
+    *
+    * @throws Exception If any exception occurs during the test.
+    */
+   @Test
    public void testPostConstructorWithDetails() throws Exception {
-       // Arrange
+       // set up testing environment
        int userID = 1;
        int postID = 101;
        String content = "This is a test post.";
@@ -47,11 +61,11 @@ public class PostTest {
        String imagePath = "/images/test.png";
 
 
-       // Act
+       // carry out the test
        Post post = new Post(userID, postID, content, timestamp, imagePath);
 
 
-       // Assert
+       // verify if test passed or failed
        assertEquals("User ID should match", userID, post.getID());
        assertEquals("Post ID should match", postID, post.getPostID());
        assertEquals("Content should match", content, post.getContent());
@@ -60,7 +74,12 @@ public class PostTest {
    }
 
 
-   @Test  //should verify that setters are correctly updated
+   /**
+    * tests the setter methods of Post to ensure they correctly update fields
+    *
+    * @throws Exception
+    */
+   @Test
    public void testSetters() throws Exception {
        // set up
        int userID = 1;
@@ -70,7 +89,7 @@ public class PostTest {
        String newImagePath = "/images/updated.png";
 
 
-       // deploy test
+       // carry out the test
        post.setPostID(newPostID);
        post.setContent(newContent);
        post.setImagePath(newImagePath);
@@ -83,9 +102,14 @@ public class PostTest {
    }
 
 
-   @Test //ensures backend map is correctly set up with all correct fields
+   /**
+    * tests backend map to ensure all required fields are filled.
+    *
+    * @throws Exception if error occurs
+    */
+   @Test
    public void testCreateMapForBackEnd() throws Exception {
-       //
+       // set up
        int userID = 1;
        int postID = 101;
        String content = "Test content";
@@ -96,11 +120,11 @@ public class PostTest {
        Post post = new Post(userID, postID, content, timestamp, imagePath);
 
 
-       // Act
+       //carry out the test
        Map<Integer, Object> dataMap = post.createMapForBackEnd();
 
 
-       // Assert
+       // verify if test passed or failed
        assertEquals("Data map should contain user ID", userID, dataMap.get(0));
        assertEquals("Data map should contain post ID", postID, dataMap.get(1));
        assertEquals("Data map should contain content", content, dataMap.get(2));
@@ -109,26 +133,36 @@ public class PostTest {
    }
 
 
-   @Test //ensures timestamp is set properly with an appropriate range
+   /**
+    * tests timestamp and ensures it is made within valid range.
+    *
+    * @throws Exception
+    */
+   @Test
    public void testSetTimestamp() throws Exception {
-       // Arrange
+       // set up
        long tolerance = 5000; // Allowable time difference in milliseconds
        long currentTime = System.currentTimeMillis();
        Post post = new Post(1);
 
 
-       // Act
+       // carry out
        post.setTimestamp();
        Timestamp actualTimestamp = post.getTimestampObject();
 
 
-       // Assert
+       // verify if test passed or failed
        assertTrue("Timestamp should be within the tolerance range",
                Math.abs(currentTime - actualTimestamp.getTime()) <= tolerance);
    }
 
 
-   @Test //tests that setAutomaticPostId generatives valid postID in allowed range
+   /**
+    * tests that the Post ID generator creates a valid Post ID
+    *
+    * @throws Exception
+    */
+   @Test
    public void testAutomaticPostID() throws Exception {
        Post post = new Post(1);
        post.setAutomaticPostID();
@@ -141,7 +175,12 @@ public class PostTest {
    }
 
 
-   @Test //tests that datapipe can correctly read write and remove data from database for post
+   /**
+    * tests functionality of the DataPipe class for reading, writing, and removing Post objects from the database.
+    *
+    * @throws Exception if error occurs
+    */
+   @Test
    public void testDataPipeWithPost() throws Exception {
        int userID = 1;
        int postID = 102;
@@ -175,4 +214,3 @@ public class PostTest {
        assertTrue("Post should be removed successfully", removeSuccess);
    }
 }
-

@@ -1,12 +1,12 @@
 package com.echonet.gui;
 
-import java.awt.CardLayout; // Import User class
+import java.awt.CardLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.echonet.domainmodel.User;
+import com.echonet.utilities.Config;
 
 public class MainFrame extends JFrame {
 
@@ -24,36 +24,43 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Initialize all panels
-        LoginPanel loginPanel = new LoginPanel(this);
-        RegistrationPanel registrationPanel = new RegistrationPanel(this);
-        HomePanel homePanel = new HomePanel(this);
-
-        try {
-            User dummyUser = new User(1); // Create a dummy user for testing
-            MessageWindow messageWindow = new MessageWindow(dummyUser, this); // Pass MainFrame to MessageWindow
-            ProfilePanel profilePanel = new ProfilePanel(this, dummyUser); //adding profile panel
-            // Add all panels to the main panel
-            mainPanel.add(loginPanel, "LoginPanel");
-            mainPanel.add(registrationPanel, "RegistrationPanel");
-            mainPanel.add(homePanel, "HomePanel");
-            mainPanel.add(messageWindow, "MessagePanel");
-            mainPanel.add(profilePanel, "ProfilePanel");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Initialize only non-user-dependent panels
+        mainPanel.add(new LoginPanel(this), "LoginPanel");
+        mainPanel.add(new RegistrationPanel(this), "RegistrationPanel");
+        mainPanel.add(new HomePanel(this), "HomePanel");
 
         // Add the main panel to the frame
         add(mainPanel);
         showPanel("LoginPanel"); // Start with the LoginPanel
     }
 
-    // Method to switch between panels
+    /**
+     * Dynamically adds user-dependent panels after login.
+     * This method should be called after the user logs in.
+     */
+    public void initializeUserPanels() {
+        try {
+            // Add panels that require a logged-in user
+            mainPanel.add(new MessageWindow(Config.LOGGED_IN_USER, this), "MessagePanel");
+            mainPanel.add(new ProfilePanel(this, Config.LOGGED_IN_USER), "ProfilePanel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Switches to a specified panel in the card layout.
+     *
+     * @param panelName the name of the panel to display
+     */
     public void showPanel(String panelName) {
+        System.out.println("Switching to: " + panelName); // Debugging log
         cardLayout.show(mainPanel, panelName);
     }
 
-    // Main method to launch the application
+    /**
+     * Main method to run the application.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MainFrame mainFrame = new MainFrame();
