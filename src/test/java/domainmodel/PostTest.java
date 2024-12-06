@@ -1,3 +1,4 @@
+// author - Joshua Johnson
 package domainmodel;
 
 

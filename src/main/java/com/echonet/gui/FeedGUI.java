@@ -102,7 +102,7 @@ postButton.addActionListener(new ActionListener() {
 
         if (!enteredText.isEmpty() || selectedImagePath != null) {
             try {
-                // Create a new Post object
+                // create a new Post object
                 Post post = new Post(1); // Assuming userID = 1 for now (replace with dynamic userID)
                 post.setContent(enteredText);
                 post.setTimestamp(); // Set current timestamp
@@ -110,7 +110,7 @@ postButton.addActionListener(new ActionListener() {
                 if (selectedImagePath != null) {
                     post.setImagePath(selectedImagePath);
                 }
-
+                
                 // Save the Post object to the database
                 DataPipe dataPipe = new DataPipe();
                 boolean success = dataPipe.write(post);
