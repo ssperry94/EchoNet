@@ -18,6 +18,18 @@ import javax.swing.JTextField;
 import com.echonet.domainmodel.Authentication;
 import com.echonet.utilities.Config;
 
+/**
+ * LoginPanel provides the user interface for logging into the EchoNet application.
+ * It allows users to enter their username and password to authenticate or navigate to the registration panel.
+ * The panel includes a background image for visual appeal.
+ * 
+ * Features:
+ * - Username and password fields for user authentication.
+ * - Buttons for logging in and navigating to the registration panel.
+ * - Dynamic loading of user-specific panels upon successful login.
+ * 
+ * @author Sidney Howard
+ */
 public class LoginPanel extends JPanel {
 
     private MainFrame mainFrame;
@@ -25,7 +37,7 @@ public class LoginPanel extends JPanel {
 
     /**
      * Constructs a LoginPanel and initializes its layout and components.
-     * This panel includes username and password fields, along with login and register buttons.
+     * The panel includes fields for username and password, and buttons for login and registration.
      * 
      * @param mainFrame the main application frame that controls panel transitions
      */
@@ -108,7 +120,7 @@ public class LoginPanel extends JPanel {
                 Config.LOGGED_IN_USER = auth.login(username, password); 
                 if (Config.LOGGED_IN_USER != null) {
                     mainFrame.initializeUserPanels(); // Dynamically add user-dependent panels
-                    mainFrame.showPanel("HomePanel"); // Redirect to the HomePanel;
+                    mainFrame.showPanel("HomePanel"); // Redirect to the HomePanel
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid login. Please try again.", "Login Error", JOptionPane.ERROR_MESSAGE);
                 }
