@@ -206,8 +206,8 @@ public class PostTest {
        assertNotNull("Data map should not be null", dataMap);
        assertEquals("User ID should match", userID, dataMap.get("user_id"));
        assertEquals("Post ID should match", postID, dataMap.get("postID"));
-       assertEquals("Content should match", content, dataMap.get("content"));
-       assertEquals("Image path should match", imagePath, dataMap.get("image_path"));
+       assertEquals("Content should match", content, dataMap.get("contents"));
+       assertEquals("Image path should match", imagePath, dataMap.get("imagePath"));
 
 
        // Remove the post
