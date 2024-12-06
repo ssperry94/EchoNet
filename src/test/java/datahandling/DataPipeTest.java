@@ -105,7 +105,7 @@ public class DataPipeTest {
         assertEquals("Contents should match", testMessage.getContents(), dataMap.get("contents"));
         assertEquals("Timestamp should match", testMessage.getTimeStampString(), dataMap.get("timestamp").toString());
 
-        boolean removeSuccess = dataPipe.remove(testMessage);
+        boolean removeSuccess = dataPipe.remove(testMessage, "messageID", testMessage.getMessageID());
         assertTrue(removeSuccess);
     }
 
@@ -165,9 +165,9 @@ public class DataPipeTest {
     @Test
     public void testMultiRead() throws Exception {
         boolean success1, success2, success3;
-        Message message1 = new Message(1, 101, "First test message", Timestamp.valueOf("2023-01-01 10:00:00"),2);
-        Message message2 = new Message(1, 102, "Second test message", Timestamp.valueOf("2023-01-02 11:00:00"),2);
-        Message message3 = new Message(1, 103, "Third test message", Timestamp.valueOf("2023-01-03 12:00:00"),2);
+        Message message1 = new Message(6, 101, "First test message", Timestamp.valueOf("2023-01-01 10:00:00"),2);
+        Message message2 = new Message(6, 102, "Second test message", Timestamp.valueOf("2023-01-02 11:00:00"),2);
+        Message message3 = new Message(6, 103, "Third test message", Timestamp.valueOf("2023-01-03 12:00:00"),2);
 
         success1 = dataPipe.write(message1);
         assertTrue(success1);
@@ -199,11 +199,11 @@ public class DataPipeTest {
         assertEquals("Third message content should match", "Third test message", thirdMessage.get("contents"));
         assertEquals("Third message timestamp should match", Timestamp.valueOf("2023-01-03 12:00:00").toString(), thirdMessage.get("timestamp"));
 
-        success1 = dataPipe.remove(message1);
+        success1 = dataPipe.remove(message1, "messageID", message1.getMessageID());
         assertTrue(success1);
-        success2 = dataPipe.remove(message2);
+        success2 = dataPipe.remove(message2, "messageID", message2.getMessageID());
         assertTrue(success2);
-        success3 = dataPipe.remove(message3);
+        success3 = dataPipe.remove(message3, "messageID", message3.getMessageID());
         assertTrue(success3);
     }
 
@@ -244,11 +244,11 @@ public class DataPipeTest {
         assertEquals("Third message content should match", "testing.", thirdMessage.get("contents"));
         assertEquals("Third message timestamp should match", Timestamp.valueOf("2023-01-03 12:00:00").toString(), thirdMessage.get("timestamp"));
 
-        success1 = dataPipe.remove(message1);
+        success1 = dataPipe.remove(message1, "messageID", message1.getMessageID());
         assertTrue(success1);
-        success2 = dataPipe.remove(message2);
+        success2 = dataPipe.remove(message2, "messageID", message2.getMessageID());
         assertTrue(success2);
-        success3 = dataPipe.remove(message3);
+        success3 = dataPipe.remove(message3, "messageID", message3.getMessageID());
         assertTrue(success3);
     }
 
