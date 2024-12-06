@@ -22,6 +22,9 @@ import com.echonet.domainmodel.Message;
 import com.echonet.domainmodel.User;
 import com.echonet.utilities.Config;
 
+/**
+ * @author Sam Perry
+ */
 public class DataPipeTest {
 
     private DataPipe dataPipe;

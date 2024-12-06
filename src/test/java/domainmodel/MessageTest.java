@@ -13,6 +13,9 @@ import org.junit.Test;
 import com.echonet.datahandling.DataPipe;
 import com.echonet.domainmodel.Message;
 
+/**
+ * @author Sam Perry
+ */
 public class MessageTest {
 
     @Test
