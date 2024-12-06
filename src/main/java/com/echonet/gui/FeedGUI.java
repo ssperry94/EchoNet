@@ -24,6 +24,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import com.echonet.datahandling.DataPipe;
+import com.echonet.domainmodel.Post;
+
 public class FeedGUI {
 
     private JPanel mainPanel; // Expose this panel for integration
@@ -91,59 +94,81 @@ public class FeedGUI {
         buttonPanel.add(uploadButton);
 
         // Post button
-        JButton postButton = new JButton("POST");
-        postButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String enteredText = textField.getText().trim();
+JButton postButton = new JButton("POST");
+postButton.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String enteredText = textField.getText().trim();
 
-                if (!enteredText.isEmpty() || selectedImagePath != null) {
-                    // Add post to feed
-                    feed.uploadNewPost(enteredText);
-
-                    // Create a container panel for the post
-                    JPanel postContainer = new JPanel();
-                    postContainer.setLayout(new BoxLayout(postContainer, BoxLayout.Y_AXIS)); // Vertical layout for all elements
-                    postContainer.setBackground(mainBackground);
-                    postContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-                    // Add user and timestamp label
-                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                    JLabel userTimeLabel = new JLabel("<html><b>" + currentUser + "</b> • " + timestamp + "</html>");
-                    userTimeLabel.setForeground(secondaryColor);
-                    userTimeLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align to the left
-                    postContainer.add(userTimeLabel);
-                    postContainer.add(Box.createRigidArea(new Dimension(0, 5))); // Spacing below user and time
-
-                    // Add image to the post (if selected)
-                    if (selectedImagePath != null) {
-                        ImageIcon imageIcon = new ImageIcon(new ImageIcon(selectedImagePath).getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH)); // Enlarged image
-                        JLabel imageLabel = new JLabel(imageIcon);
-                        imageLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align to the left
-                        postContainer.add(imageLabel);
-                        postContainer.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing between image and caption
-                    }
-
-                    // Add caption to the post (if entered)
-                    if (!enteredText.isEmpty()) {
-                        JLabel captionLabel = new JLabel("<html><div style='width:400px;'>" + enteredText + "</div></html>");
-                        captionLabel.setForeground(secondaryColor);
-                        captionLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align to the left
-                        postContainer.add(captionLabel);
-                    }
-
-                    // Add the post container to the feed
-                    postPanel.add(postContainer);
-                    postPanel.revalidate();
-                    postPanel.repaint();
-
-                    // Clear input fields
-                    textField.setText("");
-                    selectedImagePath = null;
+        if (!enteredText.isEmpty() || selectedImagePath != null) {
+            try {
+                // Create a new Post object
+                Post post = new Post(1); // Assuming userID = 1 for now (replace with dynamic userID)
+                post.setContent(enteredText);
+                post.setTimestamp(); // Set current timestamp
+                post.setAutomaticPostID(); // Generate a random post ID
+                if (selectedImagePath != null) {
+                    post.setImagePath(selectedImagePath);
                 }
+
+                // Save the Post object to the database
+                DataPipe dataPipe = new DataPipe();
+                boolean success = dataPipe.write(post);
+
+                if (success) {
+                    JOptionPane.showMessageDialog(mainPanel, "Post saved successfully!");
+                } else {
+                    JOptionPane.showMessageDialog(mainPanel, "Failed to save post.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                // Create a container panel for the post
+                JPanel postContainer = new JPanel();
+                postContainer.setLayout(new BoxLayout(postContainer, BoxLayout.Y_AXIS)); // Vertical layout for all elements
+                postContainer.setBackground(mainBackground);
+                postContainer.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                // Add user and timestamp label
+                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                JLabel userTimeLabel = new JLabel("<html><b>" + currentUser + "</b> • " + timestamp + "</html>");
+                userTimeLabel.setForeground(secondaryColor);
+                userTimeLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align to the left
+                postContainer.add(userTimeLabel);
+                postContainer.add(Box.createRigidArea(new Dimension(0, 5))); // Spacing below user and time
+
+                // Add image to the post (if selected)
+                if (selectedImagePath != null) {
+                    ImageIcon imageIcon = new ImageIcon(new ImageIcon(selectedImagePath).getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH)); // Enlarged image
+                    JLabel imageLabel = new JLabel(imageIcon);
+                    imageLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align to the left
+                    postContainer.add(imageLabel);
+                    postContainer.add(Box.createRigidArea(new Dimension(0, 10))); // Add spacing between image and caption
+                }
+
+                // Add caption to the post (if entered)
+                if (!enteredText.isEmpty()) {
+                    JLabel captionLabel = new JLabel("<html><div style='width:400px;'>" + enteredText + "</div></html>");
+                    captionLabel.setForeground(secondaryColor);
+                    captionLabel.setAlignmentX(Component.LEFT_ALIGNMENT); // Align to the left
+                    postContainer.add(captionLabel);
+                }
+
+                // Add the post container to the feed
+                postPanel.add(postContainer);
+                postPanel.revalidate();
+                postPanel.repaint();
+
+                // Clear input fields
+                textField.setText("");
+                selectedImagePath = null;
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(mainPanel, "Error saving the post to the database.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        });
-        buttonPanel.add(postButton);
+        }
+    }
+});
+buttonPanel.add(postButton);
 
         inputPanel.add(buttonPanel, BorderLayout.EAST);
         mainPanel.add(inputPanel, BorderLayout.SOUTH);
