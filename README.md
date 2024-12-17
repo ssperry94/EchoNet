@@ -13,6 +13,9 @@ Team 7's CS-321 Group Project. EchoNet is a simple social media platform where y
 - **Josh Johnson**
 - **Sidney Howard**
 
+## Final Grade
+- **100/100**
+
 ## Description 
 Echonet is a simple social media platform where you can send messages, make posts, and view your profile. This is only a sample, and as such has no network capabilities. All interactions are had with bots, who give automatic responses where appropriate. 
 ## Build
